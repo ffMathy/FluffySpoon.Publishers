@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Octokit;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,10 +10,14 @@ namespace FluffySpoon.Publishers
   class GitHubSourceControlRepository : IRemoteSourceControlRepository
   {
     public string Name { get; set; }
+    public string Owner { get; set; }
 
-    public Task DownloadToDirectoryAsync(string folderPath)
+    public async Task DownloadToDirectoryAsync(string folderPath)
     {
-      throw new NotImplementedException();
+      var client = new GitHubClient(new ProductHeaderValue("FluffySpoon.Publishers"));
+      var repository = await client.Repository.Get(Owner, Name);
+
+      GitHelper.Clone(folderPath, repository);
     }
   }
 }
