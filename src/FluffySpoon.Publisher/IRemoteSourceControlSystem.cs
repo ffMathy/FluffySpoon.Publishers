@@ -7,6 +7,6 @@ namespace FluffySpoon.Publisher
 {
   public interface IRemoteSourceControlSystem
   {
-    Task<IReadOnlyCollection<IRemoteSourceControlRepository>> GetAllRepositoriesAsync();
+    Task<IReadOnlyCollection<IRemoteSourceControlRepository>> GetCurrentUserRepositoriesAsync();
   }
 }

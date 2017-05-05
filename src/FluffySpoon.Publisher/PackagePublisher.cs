@@ -21,7 +21,7 @@ namespace FluffySpoon.Publisher
     {
       foreach(var sourceControlSystem in _sourceControlSystems)
       {
-        var allRepositories = await sourceControlSystem.GetAllRepositoriesAsync();
+        var allRepositories = await sourceControlSystem.GetCurrentUserRepositoriesAsync();
         var fluffySpoonRepositories = allRepositories
           .Where(x => x
             .Name

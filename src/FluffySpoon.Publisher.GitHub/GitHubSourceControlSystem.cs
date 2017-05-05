@@ -17,9 +17,9 @@ namespace FluffySpoon.Publisher.GitHub
       _client = client;
     }
 
-    public async Task<IReadOnlyCollection<IRemoteSourceControlRepository>> GetAllRepositoriesAsync()
+    public async Task<IReadOnlyCollection<IRemoteSourceControlRepository>> GetCurrentUserRepositoriesAsync()
     {
-      var repositories = await _client.Repository.GetAllPublic();
+      var repositories = await _client.Repository.GetAllForUser(_client.Connection.Credentials.Login);
       return repositories
         .Select(x => new GitHubSourceControlRepository()
         {
