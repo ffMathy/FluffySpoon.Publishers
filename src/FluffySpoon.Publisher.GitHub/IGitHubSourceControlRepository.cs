@@ -1,4 +1,6 @@
-﻿namespace FluffySpoon.Publisher.GitHub
+﻿using FluffySpoon.Publisher.Remote;
+
+namespace FluffySpoon.Publisher.GitHub
 {
   internal interface IGitHubSourceControlRepository : IRemoteSourceControlRepository
   {

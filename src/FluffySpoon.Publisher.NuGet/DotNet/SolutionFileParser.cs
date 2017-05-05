@@ -8,7 +8,7 @@ namespace FluffySpoon.Publisher.NuGet.DotNet
   {
     public IReadOnlyCollection<Project> GetProjectsFromSolutionFile(string solutionFile)
     {
-
+      throw new NotImplementedException();
     }
   }
 }
