@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace FluffySpoon.Publisher
 {
-  interface IRemotePackageSystem
+  public interface IRemotePackageSystem
   {
     Task<bool> DoesPackageExistAsync(ILocalPackage package);
 
-    Task UpdatePackage(ILocalPackage package);
+    Task UpdatePackageAsync(ILocalPackage package);
 
-    Task AddPackage(ILocalPackage package);
+    Task AddPackageAsync(ILocalPackage package);
   }
 }

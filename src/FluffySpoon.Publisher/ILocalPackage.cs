@@ -1,6 +1,6 @@
 ﻿namespace FluffySpoon.Publisher
 {
-  interface ILocalPackage
+  public interface ILocalPackage
   {
     string PublishName { get; }
     string FolderPath { get; }
