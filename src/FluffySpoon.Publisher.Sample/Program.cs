@@ -9,6 +9,11 @@ namespace FluffySpoon.Publishers.Sample
     {
       var services = new ServiceCollection();
       services.AddPublishers();
+
+      var provider = services.BuildServiceProvider();
+
+      var publisher = provider.GetRequiredService<IPackagePublisher>();
+      publisher.RefreshAllPackagesFromAllRepositoriesAsync();
     }
   }
 }

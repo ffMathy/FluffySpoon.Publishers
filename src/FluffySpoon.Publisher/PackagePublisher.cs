@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FluffySpoon.Publishers
 {
-  class Publisher : IPublisher
+  class PackagePublisher : IPackagePublisher
   {
     private readonly IEnumerable<IRemoteSourceControlSystem> _sourceControlSystems;
 

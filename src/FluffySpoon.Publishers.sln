@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluffySpoon.Publishers.Sample", "FluffySpoon.Publishers.Sample\FluffySpoon.Publishers.Sample.csproj", "{BEC32F4F-0528-44FF-8209-0D5CC9C3CAA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluffySpoon.Publisher.Sample", "FluffySpoon.Publisher.Sample\FluffySpoon.Publisher.Sample.csproj", "{BEC32F4F-0528-44FF-8209-0D5CC9C3CAA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluffySpoon.Publishers", "FluffySpoon.Publishers\FluffySpoon.Publishers.csproj", "{05AD76ED-0D0F-4D40-9DD3-325F2E93FF50}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluffySpoon.Publisher", "FluffySpoon.Publisher\FluffySpoon.Publisher.csproj", "{05AD76ED-0D0F-4D40-9DD3-325F2E93FF50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

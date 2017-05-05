@@ -2,7 +2,7 @@
 
 namespace FluffySpoon.Publishers
 {
-  public interface IPublisher
+  public interface IPackagePublisher
   {
     Task RefreshAllPackagesFromAllRepositoriesAsync();
   }
