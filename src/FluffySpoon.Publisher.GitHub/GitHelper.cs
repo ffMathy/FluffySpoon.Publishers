@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace FluffySpoon.Publishers
+namespace FluffySpoon.Publishers.GitHub
 {
   static class GitHelper
   {

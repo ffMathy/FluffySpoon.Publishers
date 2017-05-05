@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluffySpoon.Publishers
+namespace FluffySpoon.Publisher
 {
   interface ILocalPackageScanner
   {

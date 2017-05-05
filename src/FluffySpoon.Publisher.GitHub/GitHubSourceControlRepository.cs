@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluffySpoon.Publishers
+namespace FluffySpoon.Publisher.GitHub
 {
   class GitHubSourceControlRepository : IRemoteSourceControlRepository
   {

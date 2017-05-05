@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FluffySpoon.Publishers
+namespace FluffySpoon.Publisher
 {
   public interface IPackagePublisher
   {

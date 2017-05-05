@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluffySpoon.Publishers
+namespace FluffySpoon.Publisher
 {
   class PackagePublisher : IPackagePublisher
   {
     private readonly IEnumerable<IRemoteSourceControlSystem> _sourceControlSystems;
 
-    public Publisher(
+    public PackagePublisher(
       IEnumerable<IRemoteSourceControlSystem> sourceControlSystems)
     {
       _sourceControlSystems = sourceControlSystems;
@@ -21,7 +22,12 @@ namespace FluffySpoon.Publishers
       foreach(var sourceControlSystem in _sourceControlSystems)
       {
         var allRepositories = await sourceControlSystem.GetAllRepositoriesAsync();
-        await RefreshAllPackagesFromRepositories(allRepositories);
+        var fluffySpoonRepositories = allRepositories
+          .Where(x => x
+            .Name
+            .StartsWith("FluffySpoon."))
+          .ToArray();
+        await RefreshAllPackagesFromRepositories(fluffySpoonRepositories);
       }
     }
 

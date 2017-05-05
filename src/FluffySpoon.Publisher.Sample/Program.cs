@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluffySpoon.Publisher;
+using FluffySpoon.Publisher.GitHub;
+using Microsoft.Extensions.DependencyInjection;
+using Octokit;
 using System;
 
 namespace FluffySpoon.Publishers.Sample
@@ -9,6 +12,7 @@ namespace FluffySpoon.Publishers.Sample
     {
       var services = new ServiceCollection();
       services.AddPublishers();
+      services.AddGitHubProvider();
 
       var provider = services.BuildServiceProvider();
 

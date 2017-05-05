@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluffySpoon.Publishers
+namespace FluffySpoon.Publisher
 {
-  interface IRemoteSourceControlSystem
+  public interface IRemoteSourceControlSystem
   {
     Task<IReadOnlyCollection<IRemoteSourceControlRepository>> GetAllRepositoriesAsync();
   }

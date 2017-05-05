@@ -10,7 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FluffySpoon.Publishers\FluffySpoon.Publishers.csproj" />
+    <ProjectReference Include="..\FluffySpoon.Publisher.GitHub\FluffySpoon.Publisher.GitHub.csproj" />
+    <ProjectReference Include="..\FluffySpoon.Publisher\FluffySpoon.Publisher.csproj" />
   </ItemGroup>
 
 </Project>

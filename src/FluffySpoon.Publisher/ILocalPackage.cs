@@ -1,4 +1,4 @@
-﻿namespace FluffySpoon.Publishers
+﻿namespace FluffySpoon.Publisher
 {
   interface ILocalPackage
   {
