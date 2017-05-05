@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluffySpoon.Publisher
+namespace FluffySpoon.Publisher.Local
 {
-  public interface ILocalPackageScanner
+  public interface ILocalPackageProcessor
   {
     Task<IReadOnlyCollection<ILocalPackage>> ScanForPackagesInDirectoryAsync(string folderPath);
+    Task BuildPackageAsync(ILocalPackage package);
   }
 }

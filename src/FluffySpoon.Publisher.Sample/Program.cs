@@ -11,12 +11,12 @@ namespace FluffySpoon.Publishers.Sample
     static void Main(string[] args)
     {
       var services = new ServiceCollection();
-      services.AddPublishers();
+      services.AddRepositoryToPackagePublisher();
       services.AddGitHubProvider();
 
       var provider = services.BuildServiceProvider();
 
-      var publisher = provider.GetRequiredService<IPackagePublisher>();
+      var publisher = provider.GetRequiredService<IRepositoryToPackagePublisher>();
       publisher.RefreshAllPackagesFromAllRepositoriesAsync();
     }
   }

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using FluffySpoon.Publisher.Local;
 
-namespace FluffySpoon.Publisher
+namespace FluffySpoon.Publisher.Remote
 {
   public interface IRemotePackageSystem
   {

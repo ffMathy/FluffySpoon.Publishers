@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluffySpoon.Publisher.Remote;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,9 +20,9 @@ namespace FluffySpoon.Publisher
       SourceControlSystemTypes.Add(typeof(TSourceControlSystem));
     }
 
-    public static void AddPublishers(this ServiceCollection services)
+    public static void AddRepositoryToPackagePublisher(this ServiceCollection services)
     {
-      services.AddTransient<IPackagePublisher, PackagePublisher>();
+      services.AddTransient<IRepositoryToPackagePublisher, RepositoryToPackagePublisher>();
       services.AddTransient<IEnumerable<IRemoteSourceControlSystem>>(provider =>
       {
         var sourceControlSystems = new HashSet<IRemoteSourceControlSystem>();

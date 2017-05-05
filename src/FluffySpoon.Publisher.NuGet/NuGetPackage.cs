@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluffySpoon.Publisher.Local;
+using System;
 
 namespace FluffySpoon.Publisher.NuGet
 {
@@ -6,6 +7,7 @@ namespace FluffySpoon.Publisher.NuGet
   {
     public string PublishName { get; set; }
     public string FolderPath { get; set; }
+    public string ProjectFilePath { get; set; }
 
     public int Version { get; set; }
   }

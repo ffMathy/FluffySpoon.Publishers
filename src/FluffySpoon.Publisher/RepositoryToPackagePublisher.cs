@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace FluffySpoon.Publisher
 {
-  class PackagePublisher : IPackagePublisher
+  class RepositoryToPackagePublisher : IRepositoryToPackagePublisher
   {
     private readonly IEnumerable<IRemoteSourceControlSystem> _sourceControlSystems;
-    private readonly IEnumerable<ILocalPackageScanner> _localPackageScanners;
+    private readonly IEnumerable<ILocalPackageProcessor> _localPackageScanners;
     private readonly IEnumerable<IRemotePackageSystem> _remotePackageSystems;
 
-    public PackagePublisher(
+    public RepositoryToPackagePublisher(
       IEnumerable<IRemoteSourceControlSystem> sourceControlSystems,
-      IEnumerable<ILocalPackageScanner> localPackageScanners,
+      IEnumerable<ILocalPackageProcessor> localPackageScanners,
       IEnumerable<IRemotePackageSystem> remotePackageSystems)
     {
       _sourceControlSystems = sourceControlSystems;
@@ -70,15 +70,15 @@ namespace FluffySpoon.Publisher
 
     private async Task RefreshPackageAsync(ILocalPackage package)
     {
-      foreach (var packageSystem in _remotePackageSystems)
+      foreach (var remotePackageSystem in _remotePackageSystems)
       {
-        if (!packageSystem.CanPublishPackage(package))
+        if (!remotePackageSystem.CanPublishPackage(package))
           continue;
 
-        if (await packageSystem.DoesPackageWithVersionExistAsync(package))
+        if (await remotePackageSystem.DoesPackageWithVersionExistAsync(package))
           continue;
 
-        await packageSystem.UpsertPackageAsync(package);
+        await remotePackageSystem.UpsertPackageAsync(package);
       }
     }
   }

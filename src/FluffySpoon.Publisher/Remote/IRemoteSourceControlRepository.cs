@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FluffySpoon.Publisher
+namespace FluffySpoon.Publisher.Remote
 {
   public interface IRemoteSourceControlRepository
   {
