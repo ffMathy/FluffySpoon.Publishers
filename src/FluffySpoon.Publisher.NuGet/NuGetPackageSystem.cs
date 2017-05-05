@@ -7,15 +7,18 @@ namespace FluffySpoon.Publisher.NuGet
 {
   class NuGetPackageSystem : IRemotePackageSystem
   {
-    public Task AddPackageAsync(ILocalPackage package)
+    public bool CanPublishPackage(ILocalPackage package)
     {
+      return package is NuGetPackage;
     }
 
-    public Task<bool> DoesPackageExistAsync(ILocalPackage package)
+    public async Task<bool> DoesPackageWithVersionExistAsync(ILocalPackage package)
     {
+      var nugetPackage = (NuGetPackage)package;
+      return false;
     }
 
-    public Task UpdatePackageAsync(ILocalPackage package)
+    public async Task UpsertPackageAsync(ILocalPackage package)
     {
     }
   }

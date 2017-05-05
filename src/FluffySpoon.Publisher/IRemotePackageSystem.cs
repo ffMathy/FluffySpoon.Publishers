@@ -7,10 +7,10 @@ namespace FluffySpoon.Publisher
 {
   public interface IRemotePackageSystem
   {
-    Task<bool> DoesPackageExistAsync(ILocalPackage package);
+    bool CanPublishPackage(ILocalPackage package);
 
-    Task UpdatePackageAsync(ILocalPackage package);
+    Task<bool> DoesPackageWithVersionExistAsync(ILocalPackage package);
 
-    Task AddPackageAsync(ILocalPackage package);
+    Task UpsertPackageAsync(ILocalPackage package);
   }
 }

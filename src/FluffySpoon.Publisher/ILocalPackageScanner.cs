@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FluffySpoon.Publisher
 {
-  interface ILocalPackageScanner
+  public interface ILocalPackageScanner
   {
     Task<IReadOnlyCollection<ILocalPackage>> ScanForPackagesInDirectoryAsync(string folderPath);
   }

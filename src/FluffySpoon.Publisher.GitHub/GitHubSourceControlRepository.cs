@@ -1,4 +1,5 @@
-﻿using Octokit;
+﻿using FluffySpoon.Publishers.GitHub;
+using Octokit;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,16 +8,22 @@ using System.Threading.Tasks;
 
 namespace FluffySpoon.Publisher.GitHub
 {
-  class GitHubSourceControlRepository : IRemoteSourceControlRepository
+  class GitHubSourceControlRepository : IGitHubSourceControlRepository
   {
+    private readonly IGitHubClient _client;
+
     public string Name { get; set; }
     public string Owner { get; set; }
 
+    public GitHubSourceControlRepository(
+      IGitHubClient client)
+    {
+      _client = client;
+    }
+
     public async Task DownloadToDirectoryAsync(string folderPath)
     {
-      var client = new GitHubClient(new ProductHeaderValue("FluffySpoon.Publishers"));
-      var repository = await client.Repository.Get(Owner, Name);
-
+      var repository = await _client.Repository.Get(Owner, Name);
       GitHelper.Clone(folderPath, repository);
     }
   }

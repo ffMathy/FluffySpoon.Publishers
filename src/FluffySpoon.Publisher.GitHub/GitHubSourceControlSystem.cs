@@ -10,23 +10,32 @@ namespace FluffySpoon.Publisher.GitHub
   class GitHubSourceControlSystem : IRemoteSourceControlSystem
   {
     private readonly IGitHubClient _client;
+    private readonly IGitHubSourceControlRepositoryFactory _repositoryFactory;
 
     public GitHubSourceControlSystem(
-      IGitHubClient client)
+      IGitHubClient client,
+      IGitHubSourceControlRepositoryFactory repositoryFactory)
     {
       _client = client;
+      _repositoryFactory = repositoryFactory;
     }
 
     public async Task<IReadOnlyCollection<IRemoteSourceControlRepository>> GetCurrentUserRepositoriesAsync()
     {
       var repositories = await _client.Repository.GetAllForUser(_client.Connection.Credentials.Login);
       return repositories
-        .Select(x => new GitHubSourceControlRepository()
-        {
-          Name = x.Name,
-          Owner = x.Owner.Login
-        })
+        .Select(Map)
         .ToArray();
+    }
+
+    private IGitHubSourceControlRepository Map(
+      Repository githubClientRepository)
+    {
+      var repository = _repositoryFactory.Create();
+      repository.Name = githubClientRepository.Name;
+      repository.Owner = githubClientRepository.Owner.Login;
+
+      return repository;
     }
   }
 }

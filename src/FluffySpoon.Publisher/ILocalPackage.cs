@@ -4,5 +4,7 @@
   {
     string PublishName { get; }
     string FolderPath { get; }
+
+    int Version { get; }
   }
 }
