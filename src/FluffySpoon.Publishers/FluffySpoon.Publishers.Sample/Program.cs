@@ -3,12 +3,12 @@ using System;
 
 namespace FluffySpoon.Publishers.Sample
 {
-    class Program
+  class Program
+  {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
       var services = new ServiceCollection();
-      services.AddTransient<IPublisher, Publisher>()
-        }
+      services.AddPublishers();
     }
+  }
 }
