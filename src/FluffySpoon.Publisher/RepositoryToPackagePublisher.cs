@@ -12,7 +12,7 @@ namespace FluffySpoon.Publisher
   class RepositoryToPackagePublisher : IRepositoryToPackagePublisher
   {
     private readonly IEnumerable<IRemoteSourceControlSystem> _sourceControlSystems;
-    private readonly IEnumerable<ILocalPackageProcessor> _localPackageScanners;
+    private readonly IEnumerable<ILocalPackageProcessor> _localPackageProcessors;
     private readonly IEnumerable<IRemotePackageSystem> _remotePackageSystems;
 
     public RepositoryToPackagePublisher(
@@ -21,7 +21,7 @@ namespace FluffySpoon.Publisher
       IEnumerable<IRemotePackageSystem> remotePackageSystems)
     {
       _sourceControlSystems = sourceControlSystems;
-      _localPackageScanners = localPackageScanners;
+      _localPackageProcessors = localPackageScanners;
       _remotePackageSystems = remotePackageSystems;
     }
 
@@ -33,7 +33,7 @@ namespace FluffySpoon.Publisher
         var fluffySpoonRepositories = allRepositories
           .Where(x => x
             .Name
-            .StartsWith("FluffySpoon."))
+            .StartsWith($"{nameof(FluffySpoon)}."))
           .ToArray();
         await RefreshAllPackagesFromRepositoriesAsync(fluffySpoonRepositories);
       }
@@ -55,15 +55,19 @@ namespace FluffySpoon.Publisher
 
     private async Task RefreshAllPackagesInDirectoryAsync(string folderPath)
     {
-      foreach (var localPackageScanner in _localPackageScanners)
+      foreach (var localPackageProcessor in _localPackageProcessors)
       {
-        var packages = await localPackageScanner.ScanForPackagesInDirectoryAsync(folderPath);
-        await RefreshPackagesAsync(packages);
+        await RefreshPackagesAsync(
+          localPackageProcessor,
+          folderPath);
       }
     }
 
-    private async Task RefreshPackagesAsync(IReadOnlyCollection<ILocalPackage> packages)
+    private async Task RefreshPackagesAsync(
+      ILocalPackageProcessor processor,
+      string folderPath)
     {
+      var packages = await processor.ScanForPackagesInDirectoryAsync(folderPath);
       foreach (var package in packages)
       {
         await RefreshPackageAsync(package);
@@ -79,6 +83,13 @@ namespace FluffySpoon.Publisher
 
         if (await remotePackageSystem.DoesPackageWithVersionExistAsync(package))
           continue;
+
+        var processor = package.Processor;
+        
+        //TODO: hmmm... how to bump version number, and who should be responsible?
+        //TODO: parse repository in as well, and use its system to fetch the revision. then parse that revision to the BuildPackageAsync method!
+        wqdkqwd
+        await processor.BuildPackageAsync(package);
 
         await remotePackageSystem.UpsertPackageAsync(package);
       }

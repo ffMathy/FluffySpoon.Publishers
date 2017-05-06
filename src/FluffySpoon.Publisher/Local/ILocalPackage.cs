@@ -4,7 +4,8 @@
   {
     string PublishName { get; }
     string FolderPath { get; }
+    string Version { get; }
 
-    int Version { get; }
+    ILocalPackageProcessor Processor { get; }
   }
 }

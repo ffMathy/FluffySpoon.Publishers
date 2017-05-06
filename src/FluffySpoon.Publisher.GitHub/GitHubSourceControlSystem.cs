@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FluffySpoon.Publisher.GitHub
 {
-  class GitHubSourceControlSystem : IRemoteSourceControlSystem
+  class GitHubSourceControlSystem : IGitHubSourceControlSystem
   {
     private readonly IGitHubClient _client;
     private readonly IGitHubSourceControlRepositoryFactory _repositoryFactory;
@@ -33,6 +33,7 @@ namespace FluffySpoon.Publisher.GitHub
       Repository githubClientRepository)
     {
       var repository = _repositoryFactory.Create();
+      repository.System = this;
       repository.Name = githubClientRepository.Name;
       repository.Owner = githubClientRepository.Owner.Login;
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using FluffySpoon.Publisher.Remote;
 
 namespace FluffySpoon.Publisher.GitHub
 {
@@ -14,6 +15,8 @@ namespace FluffySpoon.Publisher.GitHub
 
     public string Name { get; set; }
     public string Owner { get; set; }
+
+    public IRemoteSourceControlSystem System { get; set; }
 
     public GitHubSourceControlRepository(
       IGitHubClient client)

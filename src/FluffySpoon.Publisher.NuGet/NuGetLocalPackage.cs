@@ -3,12 +3,13 @@ using System;
 
 namespace FluffySpoon.Publisher.NuGet
 {
-  class NuGetPackage : ILocalPackage
+  class NuGetLocalPackage : ILocalPackage
   {
     public string PublishName { get; set; }
     public string FolderPath { get; set; }
     public string ProjectFilePath { get; set; }
+    public string Version { get; set; }
 
-    public int Version { get; set; }
+    public ILocalPackageProcessor Processor { get; set; }
   }
 }

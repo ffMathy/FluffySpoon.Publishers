@@ -6,6 +6,8 @@ namespace FluffySpoon.Publisher.Remote
   {
     string Name { get; }
 
+    IRemoteSourceControlSystem System { get; }
+
     Task DownloadToDirectoryAsync(string folderPath);
   }
 }
