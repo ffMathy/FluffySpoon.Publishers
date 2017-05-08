@@ -33,6 +33,7 @@ namespace FluffySpoon.Publisher.DotNet
     private static IEnumerable<XElement> GetPropertyGroups(XDocument projectFile)
     {
       return projectFile
+        .Root
         .Elements()
         .Where(x => x.Name.LocalName == "PropertyGroup");
     }

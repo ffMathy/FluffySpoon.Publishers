@@ -53,7 +53,7 @@ namespace FluffySpoon.Publisher
         Console.WriteLine("Downloading " + repository.Name);
 
         var timestamp = DateTime.Now - new DateTime(2016, 1, 1);
-        var folderPath = Path.Combine("Repositories", timestamp.TotalSeconds + "", repository.Name);
+        var folderPath = Path.Combine("Repositories", (long)timestamp.TotalSeconds + "", repository.Name);
         await repository.DownloadToDirectoryAsync(folderPath);
 
         await RefreshAllPackagesInDirectoryAsync(
