@@ -20,11 +20,15 @@ namespace FluffySpoon.Publisher.GitHub
       var targetPath = Path.Combine(
           AppContext.BaseDirectory,
           relativePath);
+      if(Directory.Exists(targetPath))
+      {
+        Directory.Delete(targetPath, true);
+      }
       Directory.CreateDirectory(targetPath);
       var information = new ProcessStartInfo(gitPath)
       {
         Arguments = "clone " + repository.CloneUrl,
-        WorkingDirectory = targetPath
+        WorkingDirectory = Path.GetDirectoryName(targetPath)
       };
       using (var process = Process.Start(information))
       {

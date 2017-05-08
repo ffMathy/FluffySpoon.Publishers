@@ -57,13 +57,14 @@ namespace FluffySpoon.Publisher.DotNet
               _projectFileParser.CreateVersionElement(projectFileXml);
     }
 
-    public async Task<IReadOnlyCollection<ILocalPackage>> ScanForPackagesInDirectoryAsync(string folderPath)
+    public async Task<IReadOnlyCollection<ILocalPackage>> ScanForPackagesInDirectoryAsync(string relativePath)
     {
       var packages = new HashSet<ILocalPackage>();
 
       var sourceDirectory = new DirectoryInfo(
         Path.Combine(
-          folderPath,
+          AppContext.BaseDirectory,
+          relativePath,
           "src"));
       if (!sourceDirectory.Exists)
         return packages;

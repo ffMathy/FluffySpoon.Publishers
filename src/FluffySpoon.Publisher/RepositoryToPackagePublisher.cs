@@ -61,6 +61,8 @@ namespace FluffySpoon.Publisher
     {
       foreach (var localPackageProcessor in _localPackageProcessors)
       {
+        Console.WriteLine("Scanning for local packages to refresh using " + localPackageProcessor.GetType().Name);
+
         await RefreshPackagesAsync(
           localPackageProcessor,
           repository,
@@ -76,6 +78,8 @@ namespace FluffySpoon.Publisher
       var packages = await processor.ScanForPackagesInDirectoryAsync(folderPath);
       foreach (var package in packages)
       {
+        Console.WriteLine("Refreshing package " + package.PublishName);
+
         await RefreshPackageAsync(
           package,
           repository);
@@ -92,11 +96,11 @@ namespace FluffySpoon.Publisher
         var system = repository.System;
 
         var revision = await system.GetRevisionOfRepository(repository);
+        Console.WriteLine("Updating revision " + revision + " of package " + package.PublishName);
+
         await processor.BuildPackageAsync(
           package,
           revision);
-
-        Console.WriteLine("Updating revision " + revision + " of package " + package.PublishName);
 
         if (!remotePackageSystem.CanPublishPackage(package))
           continue;
