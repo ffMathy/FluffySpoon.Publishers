@@ -45,7 +45,7 @@ namespace FluffySpoon.Publisher.NuGet
       var versionElement = GetProjectFileVersionElement(projectFileXml);
 
       var existingVersion = new Version(versionElement.Value);
-      versionElement.Value = $"{existingVersion.Major}.{existingVersion.Minor}.{revision}";
+      versionElement.Value = nugetPackage.Version = $"{existingVersion.Major}.{existingVersion.Minor}.{revision}";
 
       using (var stream = File.OpenWrite(nugetPackage.ProjectFilePath))
       {

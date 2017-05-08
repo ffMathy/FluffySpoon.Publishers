@@ -88,12 +88,6 @@ namespace FluffySpoon.Publisher
     {
       foreach (var remotePackageSystem in _remotePackageSystems)
       {
-        if (!remotePackageSystem.CanPublishPackage(package))
-          continue;
-
-        if (await remotePackageSystem.DoesPackageWithVersionExistAsync(package))
-          continue;
-
         var processor = package.Processor;
         var system = repository.System;
 
@@ -101,6 +95,12 @@ namespace FluffySpoon.Publisher
         await processor.BuildPackageAsync(
           package,
           revision);
+
+        if (!remotePackageSystem.CanPublishPackage(package))
+          continue;
+
+        if (await remotePackageSystem.DoesPackageWithVersionExistAsync(package))
+          continue;
 
         await remotePackageSystem.UpsertPackageAsync(package);
       }
