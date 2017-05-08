@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FluffySpoon.Publisher.DotNet\FluffySpoon.Publisher.DotNet.csproj" />
+    <PackageReference Include="system.diagnostics.process" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FluffySpoon.Publisher\FluffySpoon.Publisher.csproj" />
   </ItemGroup>
 

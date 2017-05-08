@@ -2,15 +2,26 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 
-namespace FluffySpoon.Publishers.GitHub
+namespace FluffySpoon.Publisher.GitHub
 {
   static class GitHelper
   {
-    public static void Clone(string targetPath, Repository repository)
+    public static void Clone(string relativePath, Repository repository)
     {
-      var information = new ProcessStartInfo("git.exe")
+      var programFilesPath = @"C:\Program Files";
+      var gitPath = Path.Combine(
+        programFilesPath,
+        "Git",
+        "bin",
+        "git.exe");
+      var targetPath = Path.Combine(
+          AppContext.BaseDirectory,
+          relativePath);
+      Directory.CreateDirectory(targetPath);
+      var information = new ProcessStartInfo(gitPath)
       {
         Arguments = "clone " + repository.CloneUrl,
         WorkingDirectory = targetPath

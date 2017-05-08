@@ -1,9 +1,9 @@
 ﻿using FluffySpoon.Publisher.Local;
 using System;
 
-namespace FluffySpoon.Publisher.NuGet
+namespace FluffySpoon.Publisher.DotNet
 {
-  class NuGetLocalPackage : ILocalPackage
+  class DotNetLocalPackage : IDotNetLocalPackage
   {
     public string PublishName { get; set; }
     public string FolderPath { get; set; }

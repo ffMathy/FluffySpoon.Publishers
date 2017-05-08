@@ -7,10 +7,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.0" />
+    <PackageReference Include="system.valuetuple" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FluffySpoon.Publisher.DotNet\FluffySpoon.Publisher.DotNet.csproj" />
     <ProjectReference Include="..\FluffySpoon.Publisher.GitHub\FluffySpoon.Publisher.GitHub.csproj" />
+    <ProjectReference Include="..\FluffySpoon.Publisher.NuGet\FluffySpoon.Publisher.NuGet.csproj" />
     <ProjectReference Include="..\FluffySpoon.Publisher\FluffySpoon.Publisher.csproj" />
   </ItemGroup>
 

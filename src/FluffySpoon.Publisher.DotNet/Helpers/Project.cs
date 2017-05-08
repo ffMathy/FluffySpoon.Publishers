@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FluffySpoon.Publisher.NuGet.DotNet
+namespace FluffySpoon.Publisher.DotNet
 {
   class Project
   {

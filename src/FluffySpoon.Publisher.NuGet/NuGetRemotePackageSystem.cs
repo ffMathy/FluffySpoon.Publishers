@@ -1,5 +1,5 @@
-﻿using FluffySpoon.Publisher.Local;
-using FluffySpoon.Publisher.NuGet.DotNet;
+﻿using FluffySpoon.Publisher.DotNet;
+using FluffySpoon.Publisher.Local;
 using FluffySpoon.Publisher.Remote;
 using System;
 using System.Collections.Generic;
@@ -15,12 +15,12 @@ namespace FluffySpoon.Publisher.NuGet
 
     public bool CanPublishPackage(ILocalPackage package)
     {
-      return package is NuGetLocalPackage;
+      return package is IDotNetLocalPackage;
     }
 
     public async Task<bool> DoesPackageWithVersionExistAsync(ILocalPackage package)
     {
-      var nugetPackage = (NuGetLocalPackage)package;
+      var nugetPackage = package;
       using (var client = new HttpClient())
       {
         var response = await client.GetAsync($"https://www.nuget.org/packages/{package.PublishName}/{package.Version}");

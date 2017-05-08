@@ -1,5 +1,4 @@
-﻿using FluffySpoon.Publishers.GitHub;
-using Octokit;
+﻿using Octokit;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

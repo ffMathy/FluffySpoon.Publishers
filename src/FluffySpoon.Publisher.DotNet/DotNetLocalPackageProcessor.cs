@@ -1,6 +1,4 @@
 ﻿using FluffySpoon.Publisher.Local;
-using FluffySpoon.Publisher.NuGet.DotNet;
-using FluffySpoon.Publishers.GitHub;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace FluffySpoon.Publisher.NuGet
+namespace FluffySpoon.Publisher.DotNet
 {
-  class NuGetLocalPackageProcessor : ILocalPackageProcessor
+  class DotNetLocalPackageProcessor : ILocalPackageProcessor
   {
     private readonly ISolutionFileParser _solutionFileParser;
     private readonly IProjectFileParser _projectFileParser;
 
-    public NuGetLocalPackageProcessor(
+    public DotNetLocalPackageProcessor(
       ISolutionFileParser solutionFileParser,
       IProjectFileParser projectFileParser)
     {
@@ -28,7 +26,7 @@ namespace FluffySpoon.Publisher.NuGet
       ILocalPackage package,
       int revision)
     {
-      var nugetPackage = (NuGetLocalPackage)package;
+      var nugetPackage = (IDotNetLocalPackage)package;
       BumpVersionOfProject(
         nugetPackage, 
         revision);
@@ -37,7 +35,7 @@ namespace FluffySpoon.Publisher.NuGet
     }
 
     private void BumpVersionOfProject(
-      NuGetLocalPackage nugetPackage,
+      IDotNetLocalPackage nugetPackage,
       int revision)
     {
       var projectFileXml = XDocument.Load(nugetPackage.ProjectFilePath);
@@ -63,7 +61,10 @@ namespace FluffySpoon.Publisher.NuGet
     {
       var packages = new HashSet<ILocalPackage>();
 
-      var sourceDirectory = new DirectoryInfo(folderPath);
+      var sourceDirectory = new DirectoryInfo(
+        Path.Combine(
+          folderPath,
+          "src"));
       if (!sourceDirectory.Exists)
         return packages;
 
@@ -72,7 +73,9 @@ namespace FluffySpoon.Publisher.NuGet
         .Where(x => x
           .Name
           .StartsWith($"{nameof(FluffySpoon)}."))
-        .Single();
+        .SingleOrDefault();
+      if (solutionFile == null)
+        return packages;
 
       var projects = _solutionFileParser.GetProjectsFromSolutionFile(solutionFile.FullName);
       return projects
@@ -80,11 +83,11 @@ namespace FluffySpoon.Publisher.NuGet
         .ToArray();
     }
 
-    private NuGetLocalPackage MapProjectToNuGetPackage(Project project)
+    private IDotNetLocalPackage MapProjectToNuGetPackage(Project project)
     {
       var projectFileXml = XDocument.Load(project.FilePath);
       var versionElement = GetProjectFileVersionElement(projectFileXml);
-      return new NuGetLocalPackage()
+      return new DotNetLocalPackage()
       {
         FolderPath = Path.GetDirectoryName(project.FilePath),
         PublishName = project.Name,

@@ -96,6 +96,8 @@ namespace FluffySpoon.Publisher
           package,
           revision);
 
+        Console.WriteLine("Updating revision " + revision + " of package " + package.PublishName);
+
         if (!remotePackageSystem.CanPublishPackage(package))
           continue;
 

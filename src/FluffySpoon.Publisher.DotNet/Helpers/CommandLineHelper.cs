@@ -1,10 +1,9 @@
-﻿using Octokit;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace FluffySpoon.Publishers.GitHub
+namespace FluffySpoon.Publisher.DotNet
 {
   static class CommandLineHelper
   {
@@ -13,7 +12,10 @@ namespace FluffySpoon.Publishers.GitHub
       var information = new ProcessStartInfo("dotnet.exe")
       {
         Arguments = "pack --output \"" + targetDirectory + "\"",
-        WorkingDirectory = targetDirectory
+        WorkingDirectory = targetDirectory,
+        RedirectStandardOutput = true,
+        RedirectStandardError = true,
+        RedirectStandardInput = true
       };
       using (var process = Process.Start(information))
       {

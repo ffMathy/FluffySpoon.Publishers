@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace FluffySpoon.Publisher.NuGet.DotNet
+namespace FluffySpoon.Publisher.DotNet
 {
   class ProjectFileParser : IProjectFileParser
   {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FluffySpoon.Publisher.NuGet.DotNet
+namespace FluffySpoon.Publisher.DotNet
 {
   interface ISolutionFileParser
   {

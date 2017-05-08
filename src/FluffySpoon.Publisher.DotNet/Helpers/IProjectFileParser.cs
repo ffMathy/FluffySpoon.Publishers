@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace FluffySpoon.Publisher.NuGet.DotNet
+namespace FluffySpoon.Publisher.DotNet
 {
   interface IProjectFileParser
   {
