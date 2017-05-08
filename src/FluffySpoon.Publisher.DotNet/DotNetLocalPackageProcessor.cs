@@ -84,7 +84,7 @@ namespace FluffySpoon.Publisher.DotNet
         .ToArray();
     }
 
-    private IDotNetLocalPackage MapProjectToNuGetPackage(Project project)
+    private IDotNetLocalPackage MapProjectToNuGetPackage(SolutionFileProject project)
     {
       var projectFileXml = XDocument.Load(project.FilePath);
       var versionElement = GetProjectFileVersionElement(projectFileXml);

@@ -27,15 +27,21 @@ namespace FluffySpoon.Publisher
 
     public async Task RefreshAllPackagesFromAllRepositoriesAsync()
     {
-      foreach (var sourceControlSystem in _sourceControlSystems)
+      try
       {
-        var allRepositories = await sourceControlSystem.GetCurrentUserRepositoriesAsync();
-        var fluffySpoonRepositories = allRepositories
-          .Where(x => x
-            .Name
-            .StartsWith($"{nameof(FluffySpoon)}."))
-          .ToArray();
-        await RefreshAllPackagesFromRepositoriesAsync(fluffySpoonRepositories);
+        foreach (var sourceControlSystem in _sourceControlSystems)
+        {
+          var allRepositories = await sourceControlSystem.GetCurrentUserRepositoriesAsync();
+          var fluffySpoonRepositories = allRepositories
+            .Where(x => x
+              .Name
+              .StartsWith($"{nameof(FluffySpoon)}."))
+            .ToArray();
+          await RefreshAllPackagesFromRepositoriesAsync(fluffySpoonRepositories);
+        }
+      } catch(Exception ex)
+      {
+        Console.Error.WriteLine(ex.ToString());
       }
     }
 
@@ -46,7 +52,8 @@ namespace FluffySpoon.Publisher
       {
         Console.WriteLine("Downloading " + repository.Name);
 
-        var folderPath = Path.Combine("Repositories", repository.Name);
+        var timestamp = DateTime.Now - new DateTime(2016, 1, 1);
+        var folderPath = Path.Combine("Repositories", timestamp.TotalSeconds + "", repository.Name);
         await repository.DownloadToDirectoryAsync(folderPath);
 
         await RefreshAllPackagesInDirectoryAsync(

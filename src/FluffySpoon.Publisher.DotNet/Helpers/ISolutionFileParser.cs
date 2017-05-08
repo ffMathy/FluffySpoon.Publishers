@@ -4,6 +4,6 @@ namespace FluffySpoon.Publisher.DotNet
 {
   interface ISolutionFileParser
   {
-    IReadOnlyCollection<Project> GetProjectsFromSolutionFile(string solutionFile);
+    IReadOnlyCollection<SolutionFileProject> GetProjectsFromSolutionFile(string solutionFile);
   }
 }

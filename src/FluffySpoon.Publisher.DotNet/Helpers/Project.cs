@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FluffySpoon.Publisher.DotNet
 {
-  class Project
+  class SolutionFileProject
   {
     public string Name { get; set; }
     public string FilePath { get; set; }
