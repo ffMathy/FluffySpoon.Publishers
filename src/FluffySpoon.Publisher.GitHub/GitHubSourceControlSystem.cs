@@ -21,6 +21,16 @@ namespace FluffySpoon.Publisher.GitHub
       _repositoryFactory = repositoryFactory;
     }
 
+    public async Task<int> GetRevisionOfRepository(IRemoteSourceControlRepository repository)
+    {
+      var githubRepository = (GitHubSourceControlRepository)repository;
+      var commits = await _client.Repository.Commit.GetAll(
+        githubRepository.Owner, 
+        githubRepository.Name);
+
+      return commits.Count;
+    }
+
     public async Task<IReadOnlyCollection<IRemoteSourceControlRepository>> GetCurrentUserRepositoriesAsync()
     {
       var repositories = await _client.Repository.GetAllForUser(_client.Connection.Credentials.Login);
@@ -29,13 +39,14 @@ namespace FluffySpoon.Publisher.GitHub
         .ToArray();
     }
 
-    private IGitHubSourceControlRepository Map(
+    private GitHubSourceControlRepository Map(
       Repository githubClientRepository)
     {
       var repository = _repositoryFactory.Create();
       repository.System = this;
       repository.Name = githubClientRepository.Name;
       repository.Owner = githubClientRepository.Owner.Login;
+      repository.GitHubClientRepository = githubClientRepository;
 
       return repository;
     }

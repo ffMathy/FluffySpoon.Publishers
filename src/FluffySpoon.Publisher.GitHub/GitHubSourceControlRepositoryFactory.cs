@@ -16,7 +16,7 @@ namespace FluffySpoon.Publisher.GitHub
       _client = client;
     }
 
-    public IGitHubSourceControlRepository Create()
+    public GitHubSourceControlRepository Create()
     {
       return new GitHubSourceControlRepository(_client);
     }

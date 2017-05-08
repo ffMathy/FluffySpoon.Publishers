@@ -18,6 +18,8 @@ namespace FluffySpoon.Publisher.GitHub
 
     public IRemoteSourceControlSystem System { get; set; }
 
+    internal Repository GitHubClientRepository { get; set; }
+
     public GitHubSourceControlRepository(
       IGitHubClient client)
     {

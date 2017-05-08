@@ -49,32 +49,42 @@ namespace FluffySpoon.Publisher
         var folderPath = Path.Combine("Repositories", repository.Name);
         await repository.DownloadToDirectoryAsync(folderPath);
 
-        await RefreshAllPackagesInDirectoryAsync(folderPath);
+        await RefreshAllPackagesInDirectoryAsync(
+          repository,
+          folderPath);
       }
     }
 
-    private async Task RefreshAllPackagesInDirectoryAsync(string folderPath)
+    private async Task RefreshAllPackagesInDirectoryAsync(
+      IRemoteSourceControlRepository repository,
+      string folderPath)
     {
       foreach (var localPackageProcessor in _localPackageProcessors)
       {
         await RefreshPackagesAsync(
           localPackageProcessor,
+          repository,
           folderPath);
       }
     }
 
     private async Task RefreshPackagesAsync(
       ILocalPackageProcessor processor,
+      IRemoteSourceControlRepository repository,
       string folderPath)
     {
       var packages = await processor.ScanForPackagesInDirectoryAsync(folderPath);
       foreach (var package in packages)
       {
-        await RefreshPackageAsync(package);
+        await RefreshPackageAsync(
+          package,
+          repository);
       }
     }
 
-    private async Task RefreshPackageAsync(ILocalPackage package)
+    private async Task RefreshPackageAsync(
+      ILocalPackage package,
+      IRemoteSourceControlRepository repository)
     {
       foreach (var remotePackageSystem in _remotePackageSystems)
       {
@@ -85,11 +95,12 @@ namespace FluffySpoon.Publisher
           continue;
 
         var processor = package.Processor;
-        
-        //TODO: hmmm... how to bump version number, and who should be responsible?
-        //TODO: parse repository in as well, and use its system to fetch the revision. then parse that revision to the BuildPackageAsync method!
-        wqdkqwd
-        await processor.BuildPackageAsync(package);
+        var system = repository.System;
+
+        var revision = await system.GetRevisionOfRepository(repository);
+        await processor.BuildPackageAsync(
+          package,
+          revision);
 
         await remotePackageSystem.UpsertPackageAsync(package);
       }

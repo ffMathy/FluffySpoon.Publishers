@@ -2,6 +2,6 @@
 {
   interface IGitHubSourceControlRepositoryFactory
   {
-    IGitHubSourceControlRepository Create();
+    GitHubSourceControlRepository Create();
   }
 }

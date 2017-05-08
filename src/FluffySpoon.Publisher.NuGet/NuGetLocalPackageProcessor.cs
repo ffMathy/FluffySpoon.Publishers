@@ -24,22 +24,28 @@ namespace FluffySpoon.Publisher.NuGet
       _projectFileParser = projectFileParser;
     }
 
-    public async Task BuildPackageAsync(ILocalPackage package)
+    public async Task BuildPackageAsync(
+      ILocalPackage package,
+      int revision)
     {
       var nugetPackage = (NuGetLocalPackage)package;
-      BumpVersionOfProject(nugetPackage);
+      BumpVersionOfProject(
+        nugetPackage, 
+        revision);
 
       CommandLineHelper.Build(nugetPackage.FolderPath);
     }
 
-    private void BumpVersionOfProject(NuGetLocalPackage nugetPackage)
+    private void BumpVersionOfProject(
+      NuGetLocalPackage nugetPackage,
+      int revision)
     {
       var projectFileXml = XDocument.Load(nugetPackage.ProjectFilePath);
 
       var versionElement = GetProjectFileVersionElement(projectFileXml);
 
       var existingVersion = new Version(versionElement.Value);
-      versionElement.Value = $"{existingVersion.Major}.{existingVersion.Minor}.{nugetPackage.Revision}";
+      versionElement.Value = $"{existingVersion.Major}.{existingVersion.Minor}.{revision}";
 
       using (var stream = File.OpenWrite(nugetPackage.ProjectFilePath))
       {
