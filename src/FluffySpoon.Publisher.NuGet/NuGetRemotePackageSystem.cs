@@ -13,6 +13,12 @@ namespace FluffySpoon.Publisher.NuGet
 {
   class NuGetRemotePackageSystem : IRemotePackageSystem
   {
+    private readonly string _apiKey;
+
+    public NuGetRemotePackageSystem(string apiKey)
+    {
+      _apiKey = apiKey;
+    }
 
     public bool CanPublishPackage(ILocalPackage package)
     {
@@ -25,7 +31,7 @@ namespace FluffySpoon.Publisher.NuGet
       using (var client = new HttpClient())
       {
         var response = await client.GetAsync($"https://www.nuget.org/packages/{package.PublishName}/{package.Version}");
-        if(response.StatusCode != HttpStatusCode.NotFound && response.IsSuccessStatusCode)
+        if (response.StatusCode != HttpStatusCode.NotFound && response.IsSuccessStatusCode)
         {
           return true;
         }
@@ -42,12 +48,12 @@ namespace FluffySpoon.Publisher.NuGet
         Path.Combine(
           package.FolderPath,
           package.PublishName + "." + package.Version + ".nupkg"));
-      if(!packageFile.Exists)
+      if (!packageFile.Exists)
       {
         throw new InvalidOperationException("Can't find compiled package at " + packageFile);
       }
 
-      qwdqwddwq
+      NuGetHelper.Publish(packageFile.FullName, _apiKey);
     }
   }
 }

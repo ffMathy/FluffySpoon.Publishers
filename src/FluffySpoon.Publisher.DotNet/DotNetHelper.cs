@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FluffySpoon.Publisher.DotNet
 {
-  static class CommandLineHelper
+  static class DotNetHelper
   {
     public static void RestorePackages(string targetDirectory)
     {

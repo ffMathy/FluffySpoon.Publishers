@@ -9,11 +9,13 @@ namespace FluffySpoon.Publisher.NuGet
 {
   public static class NuGetRegistrationExtensions
   {
-    public static void AddNuGetProvider(this ServiceCollection services)
+    public static void AddNuGetProvider(
+      this ServiceCollection services,
+      string apiKey)
     {
       RegistrationExtensions.AddPackageSystem<NuGetRemotePackageSystem>();
       
-      services.AddTransient<NuGetRemotePackageSystem>();
+      services.AddTransient<IRemotePackageSystem>(provider => new NuGetRemotePackageSystem(apiKey));
     }
   }
 }

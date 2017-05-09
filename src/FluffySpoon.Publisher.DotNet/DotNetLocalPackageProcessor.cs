@@ -31,8 +31,8 @@ namespace FluffySpoon.Publisher.DotNet
         nugetPackage, 
         revision);
 
-      CommandLineHelper.RestorePackages(package.FolderPath);
-      CommandLineHelper.Build(nugetPackage.FolderPath);
+      DotNetHelper.RestorePackages(package.FolderPath);
+      DotNetHelper.Build(nugetPackage.FolderPath);
     }
 
     private void BumpVersionOfProject(
