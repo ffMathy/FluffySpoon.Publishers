@@ -48,12 +48,17 @@ namespace FluffySpoon.Publisher
     private async Task RefreshAllPackagesFromRepositoriesAsync(
       IReadOnlyCollection<IRemoteSourceControlRepository> repositories)
     {
+      var timestamp = DateTime.Now - new DateTime(2016, 1, 1);
       foreach (var repository in repositories)
       {
         Console.WriteLine("Downloading " + repository.Name);
 
-        var timestamp = DateTime.Now - new DateTime(2016, 1, 1);
-        var folderPath = Path.Combine("Repositories", (long)timestamp.TotalSeconds + "", repository.Name);
+        var drive = DriveInfo.GetDrives().First(x => x.DriveType == DriveType.Fixed && x.IsReady);
+        var folderPath = Path.Combine(
+          drive.RootDirectory.FullName, 
+          "FluffySpoon", 
+          (long)timestamp.TotalSeconds + "", 
+          repository.Name);
         await repository.DownloadToDirectoryAsync(folderPath);
 
         await RefreshAllPackagesInDirectoryAsync(

@@ -25,10 +25,10 @@ namespace FluffySpoon.Publisher.GitHub
       _client = client;
     }
 
-    public async Task DownloadToDirectoryAsync(string folderPath)
+    public async Task DownloadToDirectoryAsync(string targetPath)
     {
       var repository = await _client.Repository.Get(Owner, Name);
-      GitHelper.Clone(folderPath, repository);
+      GitHelper.Clone(targetPath, repository);
     }
   }
 }

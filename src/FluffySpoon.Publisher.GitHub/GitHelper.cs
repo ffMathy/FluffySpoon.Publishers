@@ -9,7 +9,7 @@ namespace FluffySpoon.Publisher.GitHub
 {
   static class GitHelper
   {
-    public static void Clone(string relativePath, Repository repository)
+    public static void Clone(string targetPath, Repository repository)
     {
       var programFilesPath = @"C:\Program Files";
       var gitPath = Path.Combine(
@@ -17,9 +17,6 @@ namespace FluffySpoon.Publisher.GitHub
         "Git",
         "bin",
         "git.exe");
-      var targetPath = Path.Combine(
-          AppContext.BaseDirectory,
-          relativePath);
       if(Directory.Exists(targetPath))
       {
         Directory.Delete(targetPath, true);
