@@ -46,6 +46,8 @@ namespace FluffySpoon.Publisher.NuGet
       {
         throw new InvalidOperationException("Can't find compiled package at " + packageFile);
       }
+
+      qwdqwddwq
     }
   }
 }
