@@ -3,6 +3,7 @@ using FluffySpoon.Publisher.Local;
 using FluffySpoon.Publisher.Remote;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -35,6 +36,16 @@ namespace FluffySpoon.Publisher.NuGet
 
     public async Task UpsertPackageAsync(ILocalPackage package)
     {
+      Console.WriteLine("Upserting package " + package.PublishName + " version " + package.Version + " to remote package repository.");
+
+      var packageFile = new FileInfo(
+        Path.Combine(
+          package.FolderPath,
+          package.PublishName + "." + package.Version + ".nupkg"));
+      if(!packageFile.Exists)
+      {
+        throw new InvalidOperationException("Can't find compiled package at " + packageFile);
+      }
     }
   }
 }
