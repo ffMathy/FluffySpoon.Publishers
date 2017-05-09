@@ -253,3 +253,4 @@ paket-files/
 
 **/bin/**
 /src/FluffySpoon.Publisher.Sample/bin/Debug/
+/src/FluffySpoon.Publisher.Sample/bin/Debug/netcoreapp1.1/Repositories

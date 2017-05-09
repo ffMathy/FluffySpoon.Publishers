@@ -31,6 +31,7 @@ namespace FluffySpoon.Publisher.DotNet
         nugetPackage, 
         revision);
 
+      CommandLineHelper.RestorePackages(package.FolderPath);
       CommandLineHelper.Build(nugetPackage.FolderPath);
     }
 
@@ -42,7 +43,9 @@ namespace FluffySpoon.Publisher.DotNet
 
       var versionElement = GetProjectFileVersionElement(projectFileXml);
 
-      var existingVersion = new Version(versionElement.Value);
+      if (!Version.TryParse(versionElement.Value, out Version existingVersion))
+        existingVersion = new Version(1, 0, 0, 0);
+
       versionElement.Value = nugetPackage.Version = $"{existingVersion.Major}.{existingVersion.Minor}.{revision}";
 
       using (var stream = File.OpenWrite(nugetPackage.ProjectFilePath))
