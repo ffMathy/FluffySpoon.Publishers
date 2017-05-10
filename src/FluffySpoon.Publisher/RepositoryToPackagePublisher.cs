@@ -57,11 +57,9 @@ namespace FluffySpoon.Publisher
       foreach (var repository in repositories)
       {
         Console.WriteLine("Downloading " + repository.Name);
-
-        var drive = DriveInfo.GetDrives().First(x => x.DriveType == DriveType.Fixed && x.IsReady);
+        
         var folderPath = Path.Combine(
-          drive.RootDirectory.FullName, 
-          "FluffySpoon", 
+          PathHelper.GetFluffySpoonWorkingDirectory(), 
           (long)timestamp.TotalSeconds + "", 
           repository.Name);
         await repository.DownloadToDirectoryAsync(folderPath);

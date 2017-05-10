@@ -17,20 +17,12 @@ namespace FluffySpoon.Publisher.GitHub
         "Git",
         "bin",
         "git.exe");
-      if(Directory.Exists(targetPath))
-      {
-        Directory.Delete(targetPath, true);
-      }
       Directory.CreateDirectory(targetPath);
-      var information = new ProcessStartInfo(gitPath)
+      CommandLineHelper.LaunchAndWait(new ProcessStartInfo(gitPath)
       {
         Arguments = "clone " + repository.CloneUrl,
         WorkingDirectory = Path.GetDirectoryName(targetPath)
-      };
-      using (var process = Process.Start(information))
-      {
-        process.WaitForExit();
-      }
+      });
     }
   }
 }

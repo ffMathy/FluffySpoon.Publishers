@@ -18,7 +18,6 @@ namespace FluffySpoon.Publisher.GitHub
       RegistrationExtensions.AddSourceControlSystem<GitHubSourceControlSystem>();
       
       services.AddTransient<GitHubSourceControlSystem>();
-
       services.AddTransient<IGitHubSourceControlRepositoryFactory, GitHubSourceControlRepositoryFactory>();
 
       services.AddSingleton<IGitHubClient>(

@@ -9,28 +9,20 @@ namespace FluffySpoon.Publisher.DotNet
   {
     public static void RestorePackages(string targetDirectory)
     {
-      var information = new ProcessStartInfo("dotnet.exe")
+      CommandLineHelper.LaunchAndWait(new ProcessStartInfo("dotnet.exe")
       {
         Arguments = "restore",
         WorkingDirectory = targetDirectory
-      };
-      using (var process = Process.Start(information))
-      {
-        process.WaitForExit();
-      }
+      });
     }
 
     public static void Build(string targetDirectory)
     {
-      var information = new ProcessStartInfo("dotnet.exe")
+      CommandLineHelper.LaunchAndWait(new ProcessStartInfo("dotnet.exe")
       {
         Arguments = "pack --output \"" + targetDirectory + "\"",
         WorkingDirectory = targetDirectory
-      };
-      using (var process = Process.Start(information))
-      {
-        process.WaitForExit();
-      }
+      });
     }
   }
 }

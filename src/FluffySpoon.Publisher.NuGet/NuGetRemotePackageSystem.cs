@@ -53,7 +53,7 @@ namespace FluffySpoon.Publisher.NuGet
         throw new InvalidOperationException("Can't find compiled package at " + packageFile);
       }
 
-      NuGetHelper.Publish(packageFile.FullName, _apiKey);
+      await NuGetHelper.PublishAsync(packageFile.FullName, _apiKey);
     }
   }
 }

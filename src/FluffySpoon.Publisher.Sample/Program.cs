@@ -13,13 +13,14 @@ namespace FluffySpoon.Publishers.Sample
     static void Main(string[] args)
     {
       var githubCredentials = AskForGitHubCredentials();
+      var nugetKey = AskFor("NuGet API key");
 
       var services = new ServiceCollection();
       services.AddRepositoryToPackagePublisher();
       services.AddGitHubProvider(
         githubCredentials.username,
         githubCredentials.password);
-      services.AddNuGetProvider();
+      services.AddNuGetProvider(nugetKey);
       services.AddDotNetProvider();
 
       var provider = services.BuildServiceProvider();
@@ -33,17 +34,35 @@ namespace FluffySpoon.Publishers.Sample
 
     private static (string username, string password) AskForGitHubCredentials()
     {
-      string githubUsername = AskFor("GitHub username");
+      string githubUsername = AskFor("GitHub username", "ffMathy");
       string githubPassword = AskFor("GitHub password");
 
       return (githubUsername, githubPassword);
     }
 
-    private static string AskFor(string phrase)
+    private static string AskFor(string phrase, string defaultValue = null)
     {
-      Console.WriteLine(phrase + ":");
+      var oldConsoleColor = Console.ForegroundColor;
+
+      Console.ForegroundColor = ConsoleColor.Green;
+
+      Console.Write(phrase);
+      if(defaultValue != null)
+      {
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.Write(" (" + defaultValue + ")");
+        Console.ForegroundColor = ConsoleColor.Green;
+      }
+      Console.Write(": ");
+
+      Console.ForegroundColor = oldConsoleColor;
+
       var result = Console.ReadLine();
       Console.Clear();
+
+      if (string.IsNullOrWhiteSpace(result))
+        return defaultValue;
+
       return result;
     }
   }
