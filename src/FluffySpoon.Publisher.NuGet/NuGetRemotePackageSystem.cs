@@ -22,7 +22,10 @@ namespace FluffySpoon.Publisher.NuGet
 
     public bool CanPublishPackage(ILocalPackage package)
     {
-      return package is IDotNetLocalPackage;
+      return package is IDotNetLocalPackage &&
+        package.PublishName.StartsWith($"{nameof(FluffySpoon)}.") &&
+        !package.PublishName.EndsWith(".Sample") &&
+        !package.PublishName.EndsWith(".Tests");
     }
 
     public async Task<bool> DoesPackageWithVersionExistAsync(ILocalPackage package)

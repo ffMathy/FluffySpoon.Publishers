@@ -33,7 +33,7 @@ namespace FluffySpoon.Publisher
         {
           var allRepositories = await sourceControlSystem.GetCurrentUserRepositoriesAsync();
           var fluffySpoonRepositories = allRepositories
-            .Where(ShouldPublishRepository)
+            .Where(x => x.Name.StartsWith($"{nameof(FluffySpoon)}."))
             .ToArray();
           await RefreshAllPackagesFromRepositoriesAsync(fluffySpoonRepositories);
         }
@@ -41,13 +41,6 @@ namespace FluffySpoon.Publisher
       {
         Console.Error.WriteLine(ex.ToString());
       }
-    }
-
-    private static bool ShouldPublishRepository(IRemoteSourceControlRepository x)
-    {
-      return x.Name.StartsWith($"{nameof(FluffySpoon)}.") &&
-        !x.Name.EndsWith(".Sample") &&
-        !x.Name.EndsWith(".Tests");
     }
 
     private async Task RefreshAllPackagesFromRepositoriesAsync(
