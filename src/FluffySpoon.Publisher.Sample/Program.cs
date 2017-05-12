@@ -47,14 +47,16 @@ namespace FluffySpoon.Publishers.Sample
         {
             var oldConsoleColor = Console.ForegroundColor;
 
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Blue;
 
             Console.Write(phrase);
             if (defaultValue != null)
             {
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.Write(" (" + defaultValue + ")");
+                Console.Write(" (");
                 Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(defaultValue);
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write(")");
             }
             Console.Write(": ");
 
