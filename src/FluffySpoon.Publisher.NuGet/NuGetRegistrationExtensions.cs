@@ -13,7 +13,7 @@ namespace FluffySpoon.Publisher.NuGet
           this ServiceCollection services,
           string apiKey)
         {
-            services.AddTransient<IRemotePackageSystem, NuGetRemotePackageSystem>();
+            services.AddTransient<NuGetRemotePackageSystem>();
             services.AddTransient<INuGetSettings>(provider => new NuGetSettings(apiKey));
 
             RegistrationExtensions.AddPackageSystem<NuGetRemotePackageSystem>();
