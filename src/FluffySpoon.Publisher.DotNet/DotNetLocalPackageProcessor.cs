@@ -25,7 +25,7 @@ namespace FluffySpoon.Publisher.DotNet
             _repositoryFilter = repositoryFilter;
         }
 
-        public async Task BuildPackageAsync(
+        public Task BuildPackageAsync(
           ILocalPackage package,
           int revision)
         {
@@ -36,6 +36,8 @@ namespace FluffySpoon.Publisher.DotNet
 
             DotNetHelper.RestorePackages(package.FolderPath);
             DotNetHelper.Build(nugetPackage.FolderPath);
+
+            return Task.CompletedTask;
         }
 
         private void BumpVersionOfProject(
@@ -63,7 +65,7 @@ namespace FluffySpoon.Publisher.DotNet
                     _projectFileParser.CreateVersionElement(projectFileXml);
         }
 
-        public async Task<IReadOnlyCollection<ILocalPackage>> ScanForPackagesInDirectoryAsync(string relativePath)
+        public Task<IReadOnlyCollection<ILocalPackage>> ScanForPackagesInDirectoryAsync(string relativePath)
         {
             var packages = new HashSet<ILocalPackage>();
 
@@ -73,7 +75,7 @@ namespace FluffySpoon.Publisher.DotNet
                 relativePath,
                 "src"));
             if (!sourceDirectory.Exists)
-                return packages;
+                return Task.FromResult<IReadOnlyCollection<ILocalPackage>>(packages);
 
             var solutionFile = sourceDirectory
               .GetFiles("*.sln")
@@ -82,15 +84,17 @@ namespace FluffySpoon.Publisher.DotNet
                 .StartsWith(_repositoryFilter.ProjectPrefix))
               .SingleOrDefault();
             if (solutionFile == null)
-                return packages;
+                return Task.FromResult<IReadOnlyCollection<ILocalPackage>>(packages);
 
             var projects = _solutionFileParser.GetProjectsFromSolutionFile(solutionFile.FullName);
-            return projects
+            var result = projects
               .Select(MapProjectToNuGetPackage)
               .ToArray();
+
+            return Task.FromResult<IReadOnlyCollection<ILocalPackage>>(result);
         }
 
-        private IDotNetLocalPackage MapProjectToNuGetPackage(SolutionFileProject project)
+        private ILocalPackage MapProjectToNuGetPackage(SolutionFileProject project)
         {
             var projectFileXml = XDocument.Load(project.FilePath);
             var versionElement = GetProjectFileVersionElement(projectFileXml);

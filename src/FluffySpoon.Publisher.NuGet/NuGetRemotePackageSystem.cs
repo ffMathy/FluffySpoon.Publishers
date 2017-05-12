@@ -13,15 +13,14 @@ namespace FluffySpoon.Publisher.NuGet
 {
     class NuGetRemotePackageSystem : IRemotePackageSystem
     {
-        private readonly string _apiKey;
-
         private readonly ISettings _repositoryFilter;
+        private readonly INuGetSettings _nuGetSettings;
 
         public NuGetRemotePackageSystem(
-            string apiKey,
+            INuGetSettings nuGetSettings,
             ISettings repositoryFilter)
         {
-            _apiKey = apiKey;
+            _nuGetSettings = nuGetSettings;
             _repositoryFilter = repositoryFilter;
         }
 
@@ -61,7 +60,9 @@ namespace FluffySpoon.Publisher.NuGet
                 throw new InvalidOperationException("Can't find compiled package at " + packageFile);
             }
 
-            await NuGetHelper.PublishAsync(packageFile.FullName, _apiKey);
+            await NuGetHelper.PublishAsync(
+                packageFile.FullName, 
+                _nuGetSettings.ApiKey);
         }
     }
 }

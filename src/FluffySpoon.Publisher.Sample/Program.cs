@@ -8,62 +8,65 @@ using System;
 
 namespace FluffySpoon.Publishers.Sample
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      var githubCredentials = AskForGitHubCredentials();
-      var nugetKey = AskFor("NuGet API key");
+        static void Main(string[] args)
+        {
+            var projectPrefix = AskFor("Project prefix", "FluffySpoon.");
+            var githubCredentials = AskForGitHubCredentials();
+            var nugetKey = AskFor("NuGet API key");
 
-      var services = new ServiceCollection();
-      services.AddRepositoryToPackagePublisher();
-      services.AddGitHubProvider(
-        githubCredentials.username,
-        githubCredentials.password);
-      services.AddNuGetProvider(nugetKey);
-      services.AddDotNetProvider();
+            var services = new ServiceCollection();
+            services.AddRepositoryToPackagePublisher(
+                projectPrefix);
+            services.AddGitHubProvider(
+                githubCredentials.username,
+                githubCredentials.password);
+            services.AddNuGetProvider(
+                nugetKey);
+            services.AddDotNetProvider();
 
-      var provider = services.BuildServiceProvider();
+            var provider = services.BuildServiceProvider();
 
-      var publisher = provider.GetRequiredService<IRepositoryToPackagePublisher>();
-      publisher.RefreshAllPackagesFromAllRepositoriesAsync().Wait();
+            var publisher = provider.GetRequiredService<IRepositoryToPackagePublisher>();
+            publisher.RefreshAllPackagesFromAllRepositoriesAsync().Wait();
 
-      Console.WriteLine("All done!");
-      Console.ReadLine();
+            Console.WriteLine("All done!");
+            Console.ReadLine();
+        }
+
+        private static (string username, string password) AskForGitHubCredentials()
+        {
+            string githubUsername = AskFor("GitHub username", "ffMathy");
+            string githubPassword = AskFor("GitHub password");
+
+            return (githubUsername, githubPassword);
+        }
+
+        private static string AskFor(string phrase, string defaultValue = null)
+        {
+            var oldConsoleColor = Console.ForegroundColor;
+
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            Console.Write(phrase);
+            if (defaultValue != null)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.Write(" (" + defaultValue + ")");
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            Console.Write(": ");
+
+            Console.ForegroundColor = oldConsoleColor;
+
+            var result = Console.ReadLine();
+            Console.Clear();
+
+            if (string.IsNullOrWhiteSpace(result))
+                return defaultValue;
+
+            return result;
+        }
     }
-
-    private static (string username, string password) AskForGitHubCredentials()
-    {
-      string githubUsername = AskFor("GitHub username", "ffMathy");
-      string githubPassword = AskFor("GitHub password");
-
-      return (githubUsername, githubPassword);
-    }
-
-    private static string AskFor(string phrase, string defaultValue = null)
-    {
-      var oldConsoleColor = Console.ForegroundColor;
-
-      Console.ForegroundColor = ConsoleColor.Green;
-
-      Console.Write(phrase);
-      if(defaultValue != null)
-      {
-        Console.ForegroundColor = ConsoleColor.DarkGreen;
-        Console.Write(" (" + defaultValue + ")");
-        Console.ForegroundColor = ConsoleColor.Green;
-      }
-      Console.Write(": ");
-
-      Console.ForegroundColor = oldConsoleColor;
-
-      var result = Console.ReadLine();
-      Console.Clear();
-
-      if (string.IsNullOrWhiteSpace(result))
-        return defaultValue;
-
-      return result;
-    }
-  }
 }

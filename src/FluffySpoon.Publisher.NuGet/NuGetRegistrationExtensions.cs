@@ -7,15 +7,16 @@ using System.Text;
 
 namespace FluffySpoon.Publisher.NuGet
 {
-  public static class NuGetRegistrationExtensions
-  {
-    public static void AddNuGetProvider(
-      this ServiceCollection services,
-      string apiKey)
+    public static class NuGetRegistrationExtensions
     {
-      services.AddTransient<NuGetRemotePackageSystem>(provider => new NuGetRemotePackageSystem(apiKey));
+        public static void AddNuGetProvider(
+          this ServiceCollection services,
+          string apiKey)
+        {
+            services.AddTransient<IRemotePackageSystem, NuGetRemotePackageSystem>();
+            services.AddTransient<INuGetSettings>(provider => new NuGetSettings(apiKey));
 
-      RegistrationExtensions.AddPackageSystem<NuGetRemotePackageSystem>();
+            RegistrationExtensions.AddPackageSystem<NuGetRemotePackageSystem>();
+        }
     }
-  }
 }
