@@ -32,7 +32,6 @@ namespace FluffySpoon.Publishers.Sample
       publisher.RefreshAllPackagesFromAllRepositoriesAsync().Wait();
 
       Console.WriteLine("All done!");
-      Console.ReadLine();
     }
 
     private static (string username, string password) AskForGitHubCredentials(string[] args)
