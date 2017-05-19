@@ -12,9 +12,9 @@ namespace FluffySpoon.Publishers.Sample
   {
     static void Main(string[] args)
     {
-      var projectPrefix = AskFor("Project prefix", "FluffySpoon.", args, 0);
+      var projectPrefix = AskFor("Project prefix", "FluffySpoon.", "ProjectNamePrefix");
       var githubCredentials = AskForGitHubCredentials(args);
-      var nugetKey = AskFor("NuGet API key", null, args, 3);
+      var nugetKey = AskFor("NuGet API key", null, "NuGetKey");
 
       var services = new ServiceCollection();
       services.AddRepositoryToPackagePublisher(
@@ -37,17 +37,18 @@ namespace FluffySpoon.Publishers.Sample
 
     private static (string username, string password) AskForGitHubCredentials(string[] args)
     {
-      string githubUsername = AskFor("GitHub username", "ffMathy", args, 1);
-      string githubPassword = AskFor("GitHub password", null, args, 2);
+      string githubUsername = AskFor("GitHub username", "ffMathy", "GitHubUsername");
+      string githubPassword = AskFor("GitHub password", null, "GitHubPassword");
 
       return (githubUsername, githubPassword);
     }
 
-    private static string AskFor(string phrase, string defaultValue, string[] args, int argumentOffset)
+    private static string AskFor(string phrase, string defaultValue, string environmentVariableKey)
     {
-      if (argumentOffset < args.Length)
+      var environmentValue = Environment.GetEnvironmentVariable(environmentVariableKey);
+      if (environmentValue != null)
       {
-        return args[argumentOffset];
+        return environmentValue;
       }
 
       var oldConsoleColor = Console.ForegroundColor;
