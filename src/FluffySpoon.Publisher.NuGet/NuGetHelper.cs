@@ -19,7 +19,8 @@ namespace FluffySpoon.Publisher.DotNet
 
       CommandLineHelper.LaunchAndWait(new ProcessStartInfo(nugetExePath)
       {
-        Arguments = "setApiKey " + apiKey + " -source https://www.nuget.org"
+        Arguments = "setApiKey " + apiKey + " -source https://www.nuget.org",
+        RedirectStandardOutput = true
       });
       
       CommandLineHelper.LaunchAndWait(new ProcessStartInfo(nugetExePath)
