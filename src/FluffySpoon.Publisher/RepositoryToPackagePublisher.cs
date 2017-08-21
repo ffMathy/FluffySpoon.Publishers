@@ -115,11 +115,15 @@ namespace FluffySpoon.Publisher
                   package,
                   revision);
 
-                if (!remotePackageSystem.CanPublishPackage(package))
+                if (!remotePackageSystem.CanPublishPackage(package)) {
+                    Console.WriteLine("Can't publish " + revision + " of package " + package.PublishName + " according to the remote package system");
                     continue;
+                }
 
-                if (await remotePackageSystem.DoesPackageWithVersionExistAsync(package))
+                if (await remotePackageSystem.DoesPackageWithVersionExistAsync(package)) {
+                    Console.WriteLine("Can't publish " + revision + " of package " + package.PublishName + " because it already exists");
                     continue;
+                }
 
                 await remotePackageSystem.UpsertPackageAsync(package);
             }
