@@ -37,7 +37,7 @@ namespace FluffySpoon.Publisher.NuGet
             var nugetPackage = package;
             using (var client = new HttpClient())
             {
-                var response = await client.GetAsync($"https://www.nuget.org/packages/{package.PublishName}/{package.Version}");
+                var response = await client.GetAsync($"https://api.nuget.org/packages/{package.PublishName.ToLowerInvariant()}.{package.Version}.nupkg");
                 if (response.StatusCode != HttpStatusCode.NotFound && response.IsSuccessStatusCode)
                 {
                     return true;
