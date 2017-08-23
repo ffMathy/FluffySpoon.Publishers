@@ -1,8 +1,4 @@
-﻿using FluffySpoon.Publisher.Remote;
-using Octokit;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Octokit;
 
 namespace FluffySpoon.Publisher.GitHub
 {

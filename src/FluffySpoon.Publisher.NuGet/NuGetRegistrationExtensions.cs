@@ -1,11 +1,8 @@
-﻿using FluffySpoon.Publisher.Remote;
+﻿using FluffySpoon.Publisher.NuGet;
 using Microsoft.Extensions.DependencyInjection;
-using Octokit;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FluffySpoon.Publisher.NuGet
+// ReSharper disable once CheckNamespace
+namespace FluffySpoon
 {
     public static class NuGetRegistrationExtensions
     {

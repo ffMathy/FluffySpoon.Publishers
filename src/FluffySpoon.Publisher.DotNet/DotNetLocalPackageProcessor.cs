@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using FluffySpoon.Publisher.DotNet.Helpers;
+using FluffySpoon.Publisher.Remote;
 
 namespace FluffySpoon.Publisher.DotNet
 {
@@ -25,38 +26,69 @@ namespace FluffySpoon.Publisher.DotNet
             _repositoryFilter = repositoryFilter;
         }
 
-        public Task BuildPackageAsync(
-          ILocalPackage package,
-          int revision)
+        public async Task BuildPackageAsync(
+            ILocalPackage package,
+            IRemoteSourceControlRepository repository)
         {
             var nugetPackage = (IDotNetLocalPackage)package;
-            BumpVersionOfProject(
+            await UpdateProjectFileAsync(
               nugetPackage,
-              revision);
+              repository);
 
             DotNetHelper.RestorePackages(package.FolderPath);
             DotNetHelper.Build(nugetPackage.FolderPath);
-
-            return Task.CompletedTask;
         }
 
-        private void BumpVersionOfProject(
-          IDotNetLocalPackage nugetPackage,
-          int revision)
+        private async Task UpdateProjectFileAsync(
+            IDotNetLocalPackage nugetPackage,
+            IRemoteSourceControlRepository repository)
         {
             var projectFileXml = XDocument.Load(nugetPackage.ProjectFilePath);
+            await BumpProjectFileVersionAsync(
+                nugetPackage, 
+                repository, 
+                projectFileXml);
+
+            var projectUrlElement = GetPackageProjectUrlElement(projectFileXml);
+            projectUrlElement.Value = repository.PublicUrl;
+
+            var descriptionElement = GetDescriptionElement(projectFileXml);
+            descriptionElement.Value = repository.Summary;
+
+            using (var stream = File.OpenWrite(nugetPackage.ProjectFilePath))
+            {
+                projectFileXml.Save(stream);
+            }
+        }
+
+        private async Task BumpProjectFileVersionAsync(
+            ILocalPackage package,
+            IRemoteSourceControlRepository repository, 
+            XDocument projectFileXml)
+        {
+            var system = repository.System;
+
+            var revision = await system.GetRevisionOfRepository(repository);
+            Console.WriteLine("Updating project revision " + revision + " of project file for package " + package.PublishName);
 
             var versionElement = GetProjectFileVersionElement(projectFileXml);
 
             if (!Version.TryParse(versionElement.Value, out Version existingVersion))
                 existingVersion = new Version(1, 0, 0, 0);
 
-            versionElement.Value = nugetPackage.Version = $"{existingVersion.Major}.{existingVersion.Minor}.{revision}";
+            versionElement.Value = package.Version = $"{existingVersion.Major}.{existingVersion.Minor}.{revision}";
+        }
 
-            using (var stream = File.OpenWrite(nugetPackage.ProjectFilePath))
-            {
-                projectFileXml.Save(stream);
-            }
+        private XElement GetDescriptionElement(XDocument projectFileXml)
+        {
+            return _projectFileParser.GetDescriptionElement(projectFileXml) ??
+                   _projectFileParser.CreateDescriptionElement(projectFileXml);
+        }
+
+        private XElement GetPackageProjectUrlElement(XDocument projectFileXml)
+        {
+            return _projectFileParser.GetPackageProjectUrlElement(projectFileXml) ??
+                   _projectFileParser.CreatePackageProjectUrlElement(projectFileXml);
         }
 
         private XElement GetProjectFileVersionElement(XDocument projectFileXml)
@@ -67,24 +99,21 @@ namespace FluffySpoon.Publisher.DotNet
 
         public Task<IReadOnlyCollection<ILocalPackage>> ScanForPackagesInDirectoryAsync(string relativePath)
         {
-            var packages = new HashSet<ILocalPackage>();
-
             var sourceDirectory = new DirectoryInfo(
               Path.Combine(
                 AppContext.BaseDirectory,
                 relativePath,
                 "src"));
             if (!sourceDirectory.Exists)
-                return Task.FromResult<IReadOnlyCollection<ILocalPackage>>(packages);
+                return Task.FromResult<IReadOnlyCollection<ILocalPackage>>(new HashSet<ILocalPackage>());
 
             var solutionFile = sourceDirectory
               .GetFiles("*.sln")
-              .Where(x => x
+              .SingleOrDefault(x => x
                 .Name
-                .StartsWith(_repositoryFilter.ProjectPrefix))
-              .SingleOrDefault();
+                .StartsWith(_repositoryFilter.ProjectPrefix));
             if (solutionFile == null)
-                return Task.FromResult<IReadOnlyCollection<ILocalPackage>>(packages);
+                return Task.FromResult<IReadOnlyCollection<ILocalPackage>>(new HashSet<ILocalPackage>());
 
             var projects = _solutionFileParser.GetProjectsFromSolutionFile(solutionFile.FullName);
             var result = projects

@@ -3,9 +3,10 @@ using FluffySpoon.Publisher.Remote;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using FluffySpoon.Publisher;
 
-namespace FluffySpoon.Publisher
+// ReSharper disable once CheckNamespace
+namespace FluffySpoon
 {
     public static class RegistrationExtensions
     {

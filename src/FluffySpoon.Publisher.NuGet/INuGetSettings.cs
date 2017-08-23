@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FluffySpoon.Publisher.NuGet
+﻿namespace FluffySpoon.Publisher.NuGet
 {
     interface INuGetSettings
     {

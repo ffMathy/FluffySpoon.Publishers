@@ -1,41 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
-namespace FluffySpoon.Publisher.DotNet
+namespace FluffySpoon.Publisher.DotNet.Helpers
 {
-  class ProjectFileParser : IProjectFileParser
-  {
-    public XElement CreateVersionElement(XDocument projectFile)
+    class ProjectFileParser : IProjectFileParser
     {
-      var propertyGroups = GetPropertyGroups(projectFile);
-      var firstGroup = GetPropertyGroups(projectFile).First();
-      var version = new XElement(
-        XName.Get(
-          "Version",
-          projectFile
-            .Root
-            .GetDefaultNamespace()
-            .NamespaceName));
-      firstGroup.Add(version);
-      return version;
-    }
+        private static XElement CreateElement(XDocument projectFile, string name)
+        {
+            var firstGroup = GetPropertyGroups(projectFile).First();
+            var element = new XElement(
+                XName.Get(
+                    name,
+                    projectFile
+                        .Root
+                        .GetDefaultNamespace()
+                        .NamespaceName));
+            firstGroup.Add(element);
+            return element;
+        }
 
-    public XElement GetVersionElement(XDocument projectFile)
-    {
-      return GetPropertyGroups(projectFile)
-        .SelectMany(x => x.Elements())
-        .SingleOrDefault(x => x.Name.LocalName == "Version");
-    }
+        public XElement CreateVersionElement(XDocument projectFile)
+        {
+            return CreateElement(projectFile, "Version");
+        }
 
-    private static IEnumerable<XElement> GetPropertyGroups(XDocument projectFile)
-    {
-      return projectFile
-        .Root
-        .Elements()
-        .Where(x => x.Name.LocalName == "PropertyGroup");
+        public XElement GetPackageProjectUrlElement(XDocument projectFile)
+        {
+            return GetElement(projectFile, "PackageProjectUrl");
+        }
+
+        public XElement CreatePackageProjectUrlElement(XDocument projectFile)
+        {
+            return CreateElement(projectFile, "PackageProjectUrl");
+        }
+
+        public XElement GetDescriptionElement(XDocument projectFile)
+        {
+            return GetElement(projectFile, "Description");
+        }
+
+        public XElement CreateDescriptionElement(XDocument projectFile)
+        {
+            return CreateElement(projectFile, "Description");
+        }
+
+        private static XElement GetElement(XDocument projectFile, string name)
+        {
+            return GetPropertyGroups(projectFile)
+                .SelectMany(x => x.Elements())
+                .SingleOrDefault(x => x.Name.LocalName == name);
+        }
+
+        public XElement GetVersionElement(XDocument projectFile)
+        {
+            return GetElement(projectFile, "Version");
+        }
+
+        private static IEnumerable<XElement> GetPropertyGroups(XDocument projectFile)
+        {
+            return projectFile
+              .Root
+              .Elements()
+              .Where(x => x.Name.LocalName == "PropertyGroup");
+        }
     }
-  }
 }

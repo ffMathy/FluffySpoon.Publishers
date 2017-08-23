@@ -1,19 +1,15 @@
-﻿using FluffySpoon.Publisher;
-using FluffySpoon.Publisher.DotNet;
-using FluffySpoon.Publisher.GitHub;
-using FluffySpoon.Publisher.NuGet;
+﻿using System;
+using FluffySpoon;
 using Microsoft.Extensions.DependencyInjection;
-using Octokit;
-using System;
 
-namespace FluffySpoon.Publishers.Sample
+namespace FluffySpoon.Publisher.Sample
 {
   class Program
   {
-    static void Main(string[] args)
+    static void Main()
     {
       var projectPrefix = AskFor("Project prefix", "FluffySpoon.", "ProjectNamePrefix");
-      var githubCredentials = AskForGitHubCredentials(args);
+      var githubCredentials = AskForGitHubCredentials();
       var nugetKey = AskFor("NuGet API key", null, "NuGetKey");
 
       var services = new ServiceCollection();
@@ -34,7 +30,7 @@ namespace FluffySpoon.Publishers.Sample
       Console.WriteLine("All done!");
     }
 
-    private static (string username, string password) AskForGitHubCredentials(string[] args)
+    private static (string username, string password) AskForGitHubCredentials()
     {
       string githubUsername = AskFor("GitHub username", "ffMathy", "GitHubUsername");
       string githubPassword = AskFor("GitHub password", null, "GitHubPassword");

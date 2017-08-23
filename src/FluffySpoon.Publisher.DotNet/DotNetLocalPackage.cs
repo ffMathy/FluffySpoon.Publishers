@@ -1,5 +1,4 @@
 ﻿using FluffySpoon.Publisher.Local;
-using System;
 
 namespace FluffySpoon.Publisher.DotNet
 {

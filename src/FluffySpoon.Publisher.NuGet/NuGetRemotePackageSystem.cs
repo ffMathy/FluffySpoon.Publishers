@@ -2,11 +2,9 @@
 using FluffySpoon.Publisher.Local;
 using FluffySpoon.Publisher.Remote;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FluffySpoon.Publisher.NuGet
@@ -34,7 +32,6 @@ namespace FluffySpoon.Publisher.NuGet
 
         public async Task<bool> DoesPackageWithVersionExistAsync(ILocalPackage package)
         {
-            var nugetPackage = package;
             using (var client = new HttpClient())
             {
                 var response = await client.GetAsync($"https://api.nuget.org/packages/{package.PublishName.ToLowerInvariant()}.{package.Version}.nupkg");

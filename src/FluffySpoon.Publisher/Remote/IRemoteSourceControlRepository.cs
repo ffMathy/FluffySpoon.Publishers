@@ -2,12 +2,14 @@
 
 namespace FluffySpoon.Publisher.Remote
 {
-  public interface IRemoteSourceControlRepository
-  {
-    string Name { get; }
+    public interface IRemoteSourceControlRepository
+    {
+        string Name { get; }
+        string PublicUrl { get; }
+        string Summary { get; }
 
-    IRemoteSourceControlSystem System { get; }
+        IRemoteSourceControlSystem System { get; }
 
-    Task DownloadToDirectoryAsync(string folderPath);
-  }
+        Task DownloadToDirectoryAsync(string folderPath);
+    }
 }

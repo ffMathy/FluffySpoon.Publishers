@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FluffySpoon.Publisher
@@ -106,22 +105,18 @@ namespace FluffySpoon.Publisher
             foreach (var remotePackageSystem in _remotePackageSystems)
             {
                 var processor = package.Processor;
-                var system = repository.System;
-
-                var revision = await system.GetRevisionOfRepository(repository);
-                Console.WriteLine("Updating revision " + revision + " of package " + package.PublishName);
 
                 await processor.BuildPackageAsync(
                   package,
-                  revision);
+                  repository);
 
                 if (!remotePackageSystem.CanPublishPackage(package)) {
-                    Console.WriteLine("Can't publish " + revision + " of package " + package.PublishName + " according to the remote package system");
+                    Console.WriteLine("Can't publish package " + package.PublishName + " according to the remote package system");
                     continue;
                 }
 
                 if (await remotePackageSystem.DoesPackageWithVersionExistAsync(package)) {
-                    Console.WriteLine("Can't publish " + revision + " of package " + package.PublishName + " because it already exists");
+                    Console.WriteLine("Can't publish package " + package.PublishName + " because it already exists");
                     continue;
                 }
 

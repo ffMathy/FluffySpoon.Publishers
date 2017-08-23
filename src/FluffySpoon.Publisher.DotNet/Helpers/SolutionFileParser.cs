@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace FluffySpoon.Publisher.DotNet
+namespace FluffySpoon.Publisher.DotNet.Helpers
 {
   class SolutionFileParser : ISolutionFileParser
   {
