@@ -50,10 +50,10 @@ namespace FluffySpoon.Publisher.DotNet
                 projectFileXml);
 
             var projectUrlElement = GetPackageProjectUrlElement(projectFileXml);
-            projectUrlElement.Value = repository.PublicUrl;
+            projectUrlElement.Value = repository.PublicUrl ?? string.Empty;
 
             var descriptionElement = GetDescriptionElement(projectFileXml);
-            descriptionElement.Value = repository.Summary;
+            descriptionElement.Value = repository.Summary ?? string.Empty;
 
             using (var stream = File.OpenWrite(nugetPackage.ProjectFilePath))
             {
