@@ -44,7 +44,7 @@ namespace FluffySpoon.Publisher.GitHub
             repository.System = this;
             repository.Name = githubClientRepository.Name;
             repository.Owner = githubClientRepository.Owner.Login;
-            repository.PublicUrl = githubClientRepository.Url;
+            repository.PublicUrl = githubClientRepository.HtmlUrl;
             repository.Summary = githubClientRepository.Description;
             repository.GitHubClientRepository = githubClientRepository;
 
