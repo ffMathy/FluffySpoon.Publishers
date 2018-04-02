@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluffySpoon.Publisher.Remote;
 using Newtonsoft.Json;
+using System.Dynamic;
 
 namespace FluffySpoon.Publisher.DotNet
 {
@@ -37,7 +38,7 @@ namespace FluffySpoon.Publisher.DotNet
             INodeJsLocalPackage package,
             IRemoteSourceControlRepository repository)
         {
-			var packageJson = GetPackageJson(package.PackageJsonFilePath);
+			dynamic packageJson = GetPackageJson(package.PackageJsonFilePath);
 
 			packageJson.homepage = repository.PublicUrl ?? string.Empty;
 			packageJson.description = repository.Summary ?? string.Empty;
@@ -65,7 +66,7 @@ namespace FluffySpoon.Publisher.DotNet
 			if (!File.Exists(packageJsonFilePath))
 				return Task.FromResult<IReadOnlyCollection<ILocalPackage>>(new HashSet<ILocalPackage>());
 
-			var packageJson = GetPackageJson(packageJsonFilePath);
+			dynamic packageJson = GetPackageJson(packageJsonFilePath);
 
 			return Task.FromResult<IReadOnlyCollection<ILocalPackage>>(new[] {
 				new NodeJsLocalPackage() {
@@ -78,9 +79,9 @@ namespace FluffySpoon.Publisher.DotNet
 			});
 		}
 
-		private static dynamic GetPackageJson(string packageJsonFilePath)
+		private static ExpandoObject GetPackageJson(string packageJsonFilePath)
 		{
-			return JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(packageJsonFilePath));
+			return JsonConvert.DeserializeObject<ExpandoObject>(File.ReadAllText(packageJsonFilePath));
 		}
 	}
 }

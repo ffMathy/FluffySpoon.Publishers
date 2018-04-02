@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FluffySpoon.Publisher.NodeJs\FluffySpoon.Publisher.NodeJs.csproj" />
     <ProjectReference Include="..\FluffySpoon.Publisher\FluffySpoon.Publisher.csproj" />
   </ItemGroup>
 

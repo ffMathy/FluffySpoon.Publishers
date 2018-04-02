@@ -30,7 +30,7 @@ namespace FluffySpoon.Publisher.NuGet
               !package.PublishName.EndsWith(".Tests");
         }
 
-        public async Task<bool> DoesPackageWithVersionExistAsync(ILocalPackage package)
+        public async Task<bool?> DoesPackageWithVersionExistAsync(ILocalPackage package)
         {
             using (var client = new HttpClient())
             {

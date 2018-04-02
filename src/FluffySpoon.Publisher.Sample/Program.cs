@@ -1,75 +1,86 @@
 ﻿using System;
+using System.IO;
 using FluffySpoon;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FluffySpoon.Publisher.Sample
 {
-  class Program
-  {
-    static void Main()
-    {
-      var projectPrefix = AskFor("Project prefix", "FluffySpoon.", "ProjectNamePrefix");
-      var githubCredentials = AskForGitHubCredentials();
-      var nugetKey = AskFor("NuGet API key", null, "NuGetKey");
+	class Program
+	{
+		static void Main()
+		{
+			var projectPrefix = AskFor("Project prefix", "FluffySpoon.", "ProjectNamePrefix");
+			var githubCredentials = AskForGitHubCredentials();
+			var nugetKey = AskFor("NuGet API key", null, "NuGetKey");
+			var npmKey = AskFor("NPM auth token", null, "NpmAuthToken");
 
-      var services = new ServiceCollection();
-      services.AddRepositoryToPackagePublisher(
-          projectPrefix);
-      services.AddGitHubProvider(
-          githubCredentials.username,
-          githubCredentials.password);
-      services.AddNuGetProvider(
-          nugetKey);
-      services.AddDotNetProvider();
+			var services = new ServiceCollection();
+			services.AddRepositoryToPackagePublisher(
+				projectPrefix);
+			services.AddGitHubProvider(
+				githubCredentials.username,
+				githubCredentials.password);
+			services.AddNuGetProvider(
+				nugetKey);
+			services.AddDotNetProvider();
+			services.AddNodeJsProvider();
+			services.AddNpmProvider(
+				npmKey);
 
-      var provider = services.BuildServiceProvider();
+			var provider = services.BuildServiceProvider();
 
-      var publisher = provider.GetRequiredService<IRepositoryToPackagePublisher>();
-      publisher.RefreshAllPackagesFromAllRepositoriesAsync().Wait();
+			var publisher = provider.GetRequiredService<IRepositoryToPackagePublisher>();
+			publisher.RefreshAllPackagesFromAllRepositoriesAsync().Wait();
 
-      Console.WriteLine("All done!");
-    }
+			Console.WriteLine("All done!");
+		}
 
-    private static (string username, string password) AskForGitHubCredentials()
-    {
-      string githubUsername = AskFor("GitHub username", "ffMathy", "GitHubUsername");
-      string githubPassword = AskFor("GitHub password", null, "GitHubPassword");
+		private static (string username, string password) AskForGitHubCredentials()
+		{
+			string githubUsername = AskFor("GitHub username", "ffMathy", "GitHubUsername");
+			string githubPassword = AskFor("GitHub password", null, "GitHubPassword");
 
-      return (githubUsername, githubPassword);
-    }
+			return (githubUsername, githubPassword);
+		}
 
-    private static string AskFor(string phrase, string defaultValue, string environmentVariableKey)
-    {
-      var environmentValue = Environment.GetEnvironmentVariable(environmentVariableKey);
-      if (environmentValue != null)
-      {
-        return environmentValue;
-      }
+		private static string AskFor(string phrase, string defaultValue, string environmentVariableKey)
+		{
+			var environmentValue = Environment.GetEnvironmentVariable(environmentVariableKey);
+			if (environmentValue != null)
+			{
+				return environmentValue;
+			}
 
-      var oldConsoleColor = Console.ForegroundColor;
+			var fileLocation = Path.Combine(
+				Environment.CurrentDirectory,
+				environmentVariableKey + ".secret");
+			if (File.Exists(fileLocation))
+				return File.ReadAllText(fileLocation);
 
-      Console.ForegroundColor = ConsoleColor.Blue;
+			var oldConsoleColor = Console.ForegroundColor;
 
-      Console.Write(phrase);
-      if (defaultValue != null)
-      {
-        Console.Write(" (");
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write(defaultValue);
-        Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write(")");
-      }
-      Console.Write(": ");
+			Console.ForegroundColor = ConsoleColor.Blue;
 
-      Console.ForegroundColor = oldConsoleColor;
+			Console.Write(phrase);
+			if (defaultValue != null)
+			{
+				Console.Write(" (");
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.Write(defaultValue);
+				Console.ForegroundColor = ConsoleColor.Blue;
+				Console.Write(")");
+			}
+			Console.Write(": ");
 
-      var result = Console.ReadLine();
-      Console.Clear();
+			Console.ForegroundColor = oldConsoleColor;
 
-      if (string.IsNullOrWhiteSpace(result))
-        return defaultValue;
+			var result = Console.ReadLine();
+			Console.Clear();
 
-      return result;
-    }
-  }
+			if (string.IsNullOrWhiteSpace(result))
+				return defaultValue;
+
+			return result;
+		}
+	}
 }
