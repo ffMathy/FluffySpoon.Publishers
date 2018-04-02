@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluffySpoon.Publisher.Sample", "FluffySpoon.Publisher.Sample\FluffySpoon.Publisher.Sample.csproj", "{BEC32F4F-0528-44FF-8209-0D5CC9C3CAA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluffySpoon.Publisher.Sample", "FluffySpoon.Publisher.Sample\FluffySpoon.Publisher.Sample.csproj", "{BEC32F4F-0528-44FF-8209-0D5CC9C3CAA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluffySpoon.Publisher", "FluffySpoon.Publisher\FluffySpoon.Publisher.csproj", "{05AD76ED-0D0F-4D40-9DD3-325F2E93FF50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluffySpoon.Publisher", "FluffySpoon.Publisher\FluffySpoon.Publisher.csproj", "{05AD76ED-0D0F-4D40-9DD3-325F2E93FF50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluffySpoon.Publisher.GitHub", "FluffySpoon.Publisher.GitHub\FluffySpoon.Publisher.GitHub.csproj", "{28D59CBE-392C-40DB-9EC2-627F4EE1AF7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluffySpoon.Publisher.GitHub", "FluffySpoon.Publisher.GitHub\FluffySpoon.Publisher.GitHub.csproj", "{28D59CBE-392C-40DB-9EC2-627F4EE1AF7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluffySpoon.Publisher.NuGet", "FluffySpoon.Publisher.NuGet\FluffySpoon.Publisher.NuGet.csproj", "{25121CC1-1B9F-4A58-ADB9-07AE520FDE01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluffySpoon.Publisher.NuGet", "FluffySpoon.Publisher.NuGet\FluffySpoon.Publisher.NuGet.csproj", "{25121CC1-1B9F-4A58-ADB9-07AE520FDE01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluffySpoon.Publisher.DotNet", "FluffySpoon.Publisher.DotNet\FluffySpoon.Publisher.DotNet.csproj", "{C4A24F28-9F58-4F8B-8C15-F31028865603}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluffySpoon.Publisher.DotNet", "FluffySpoon.Publisher.DotNet\FluffySpoon.Publisher.DotNet.csproj", "{C4A24F28-9F58-4F8B-8C15-F31028865603}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluffySpoon.Publisher.Npm", "FluffySpoon.Publisher.Npm\FluffySpoon.Publisher.Npm.csproj", "{2A88E23E-3028-4922-8C97-B45100238623}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluffySpoon.Publisher.NodeJs", "FluffySpoon.Publisher.NodeJs\FluffySpoon.Publisher.NodeJs.csproj", "{30FD63B4-3ACE-447C-BEE4-263FA57FEDD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,8 +43,19 @@ Global
 		{C4A24F28-9F58-4F8B-8C15-F31028865603}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4A24F28-9F58-4F8B-8C15-F31028865603}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4A24F28-9F58-4F8B-8C15-F31028865603}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A88E23E-3028-4922-8C97-B45100238623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A88E23E-3028-4922-8C97-B45100238623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A88E23E-3028-4922-8C97-B45100238623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A88E23E-3028-4922-8C97-B45100238623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30FD63B4-3ACE-447C-BEE4-263FA57FEDD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30FD63B4-3ACE-447C-BEE4-263FA57FEDD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30FD63B4-3ACE-447C-BEE4-263FA57FEDD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30FD63B4-3ACE-447C-BEE4-263FA57FEDD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {36363CF8-B4E4-4E80-8D24-F86E6739EBD6}
 	EndGlobalSection
 EndGlobal

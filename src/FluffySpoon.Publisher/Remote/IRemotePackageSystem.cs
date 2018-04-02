@@ -7,7 +7,7 @@ namespace FluffySpoon.Publisher.Remote
   {
     bool CanPublishPackage(ILocalPackage package);
 
-    Task<bool> DoesPackageWithVersionExistAsync(ILocalPackage package);
+    Task<bool?> DoesPackageWithVersionExistAsync(ILocalPackage package);
 
     Task UpsertPackageAsync(ILocalPackage package);
   }
