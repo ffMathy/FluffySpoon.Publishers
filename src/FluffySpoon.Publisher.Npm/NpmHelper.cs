@@ -21,7 +21,7 @@ namespace FluffySpoon.Publisher.NuGet
 			});
 
 			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath) {
-				Arguments = "publish",
+				Arguments = "publish --access public",
 				WorkingDirectory = projectPath
 			});
 		}
