@@ -12,8 +12,7 @@ namespace FluffySpoon.Publisher.NuGet
 		{
 			var projectDirectory = new DirectoryInfo(projectPath);
 			foreach(var directory in projectDirectory.GetDirectories()) {
-				var directoryName = Path.GetFileName(directory);
-				if(!directoryName.StartsWith("."))
+				if(!directory.Name.StartsWith("."))
 					continue;
 				
 				Console.WriteLine("Purging invalid NPM directory " + directoryName + " before publishing.");
@@ -21,6 +20,11 @@ namespace FluffySpoon.Publisher.NuGet
 				var allFiles = directory.GetFiles("*", SearchOption.AllDirectories);
 				foreach(var file in allFiles) {
 					file.Attributes = FileAttributes.Normal;
+				}
+				
+				var allDirectories = directory.GetDirectories("*", SearchOption.AllDirectories);
+				foreach(var subDirectory in allDirectories) {
+					subDirectory.Attributes = FileAttributes.Normal;
 				}
 				
 				Directory.Delete(directory, true);
