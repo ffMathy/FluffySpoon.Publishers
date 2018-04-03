@@ -10,13 +10,19 @@ namespace FluffySpoon.Publisher.NuGet
 	{
 		public static async Task PublishAsync(string projectPath, string authToken)
 		{
-			var directories = Directory.GetDirectories(projectPath);
-			foreach(var directory in directories) {
+			var projectDirectory = new DirectoryInfo(projectPath);
+			foreach(var directory in projectDirectory.GetDirectories()) {
 				var directoryName = Path.GetFileName(directory);
 				if(!directoryName.StartsWith("."))
 					continue;
 				
 				Console.WriteLine("Purging invalid NPM directory " + directoryName + " before publishing.");
+				
+				var allFiles = directory.GetFiles("*", SearchOption.AllDirectories);
+				foreach(var file in allFiles) {
+					file.Attributes = FileAttributes.Normal;
+				}
+				
 				Directory.Delete(directory, true);
 			}
 			
