@@ -10,6 +10,16 @@ namespace FluffySpoon.Publisher.NuGet
 	{
 		public static async Task PublishAsync(string projectPath, string authToken)
 		{
+			var directories = Directory.GetDirectories(projectPath);
+			foreach(var directory in directories) {
+				var directoryName = Path.GetFileName(directory);
+				if(!directoryName.startsWith("."))
+					continue;
+				
+				Console.WriteLine("Purging invalid NPM directory " + directoryName + " before publishing.");
+				Directory.Delete(directory, true);
+			}
+			
 			var npmPath = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
 				"nodejs",
