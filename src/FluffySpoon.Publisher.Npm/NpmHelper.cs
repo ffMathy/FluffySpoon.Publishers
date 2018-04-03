@@ -27,7 +27,7 @@ namespace FluffySpoon.Publisher.NuGet
 					subDirectory.Attributes = FileAttributes.Normal;
 				}
 				
-				Directory.Delete(directory, true);
+				directory.Delete(true);
 			}
 			
 			var npmPath = Path.Combine(
