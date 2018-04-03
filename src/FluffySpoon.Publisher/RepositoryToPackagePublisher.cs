@@ -106,16 +106,16 @@ namespace FluffySpoon.Publisher
             {
                 var processor = package.Processor;
 
-                await processor.BuildPackageAsync(
-                  package,
-                  repository);
-
                 if (!remotePackageSystem.CanPublishPackage(package)) {
                     continue;
                 }
 
-				var doesPackageExist = await remotePackageSystem.DoesPackageWithVersionExistAsync(package);
-				if (doesPackageExist.HasValue && doesPackageExist.Value) {
+                await processor.BuildPackageAsync(
+                  package,
+                  repository);
+
+		var doesPackageExist = await remotePackageSystem.DoesPackageWithVersionExistAsync(package);
+		if (doesPackageExist.HasValue && doesPackageExist.Value) {
                     Console.WriteLine("Can't publish package " + package.PublishName + " because it already exists");
                     continue;
                 }
