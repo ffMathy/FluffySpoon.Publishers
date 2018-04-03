@@ -50,6 +50,7 @@ namespace FluffySpoon.Publisher.DotNet
 			if (!Version.TryParse(packageJson.version, out Version existingVersion))
 				existingVersion = new Version(1, 0, 0, 0);
 
+			package.Version = new Version($"{existingVersion.Major}.{existingVersion.Minor}.{revision}");
 			packageJson.version = $"{existingVersion.Major}.{existingVersion.Minor}.{revision}";
 			
 			File.WriteAllText(package.PackageJsonFilePath, JsonConvert.SerializeObject(packageJson));
