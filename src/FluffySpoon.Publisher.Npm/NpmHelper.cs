@@ -15,7 +15,7 @@ namespace FluffySpoon.Publisher.NuGet
 				if(!directory.Name.StartsWith("."))
 					continue;
 				
-				Console.WriteLine("Purging invalid NPM directory " + directoryName + " before publishing.");
+				Console.WriteLine("Purging invalid NPM directory " + directory.Name + " before publishing.");
 				
 				var allFiles = directory.GetFiles("*", SearchOption.AllDirectories);
 				foreach(var file in allFiles) {
