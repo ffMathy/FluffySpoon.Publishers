@@ -16,6 +16,10 @@ namespace FluffySpoon.Publisher.DotNet
 				Arguments = "install",
 				WorkingDirectory = targetDirectory
 			});
+			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath) {
+				Arguments = "upgrade",
+				WorkingDirectory = targetDirectory
+			});
 		}
 
 		public static void Build(string targetDirectory)
