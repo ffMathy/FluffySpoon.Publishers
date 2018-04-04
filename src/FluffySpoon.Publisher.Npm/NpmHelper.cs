@@ -12,7 +12,7 @@ namespace FluffySpoon.Publisher.NuGet
 		{
 			var projectDirectory = new DirectoryInfo(projectPath);
 			foreach(var directory in projectDirectory.GetDirectories()) {
-				if(!directory.Name.StartsWith("."))
+				if(!directory.Name.StartsWith(".") && directory.Name != "node_modules")
 					continue;
 				
 				Console.WriteLine("Purging invalid NPM directory " + directory.Name + " before publishing.");
