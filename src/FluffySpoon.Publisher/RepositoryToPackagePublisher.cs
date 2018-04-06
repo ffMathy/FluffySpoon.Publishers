@@ -51,23 +51,42 @@ namespace FluffySpoon.Publisher
           IReadOnlyCollection<IRemoteSourceControlRepository> repositories)
         {
             var timestamp = DateTime.Now - new DateTime(2016, 1, 1);
+
+			var downloadTasks = new List<Task>();
+            foreach (var repository in repositories)
+			{
+				Console.WriteLine("Downloading " + repository.Name);
+				downloadTasks.Add(repository
+					.DownloadToDirectoryAsync(
+						GetRepositoryDownloadLocation(
+							timestamp, 
+							repository)));
+			}
+
+			await Task.WhenAll(downloadTasks);
+
+			var refreshTasks = new List<Task>();
             foreach (var repository in repositories)
             {
-                Console.WriteLine("Downloading " + repository.Name);
-
-                var folderPath = Path.Combine(
-                  PathHelper.GetFluffySpoonWorkingDirectory(),
-                  (long)timestamp.TotalSeconds + "",
-                  repository.Name);
-                await repository.DownloadToDirectoryAsync(folderPath);
-
-                await RefreshAllPackagesInDirectoryAsync(
-                  repository,
-                  folderPath);
+                refreshTasks.Add(RefreshAllPackagesInDirectoryAsync(
+					repository,
+					GetRepositoryDownloadLocation(
+						timestamp, 
+						repository)));
             }
+
+			await Task.WhenAll(refreshTasks);
         }
 
-        private async Task RefreshAllPackagesInDirectoryAsync(
+		private static string GetRepositoryDownloadLocation(TimeSpan timestamp, IRemoteSourceControlRepository repository)
+		{
+			return Path.Combine(
+			  PathHelper.GetFluffySpoonWorkingDirectory(),
+			  (long)timestamp.TotalSeconds + "",
+			  repository.Name);
+		}
+
+		private async Task RefreshAllPackagesInDirectoryAsync(
           IRemoteSourceControlRepository repository,
           string folderPath)
         {
@@ -88,14 +107,18 @@ namespace FluffySpoon.Publisher
           string folderPath)
         {
             var packages = await processor.ScanForPackagesInDirectoryAsync(folderPath);
+
+			var refreshTasks = new List<Task>();
             foreach (var package in packages)
             {
                 Console.WriteLine("Refreshing package " + package.PublishName);
 
-                await RefreshPackageAsync(
+                refreshTasks.Add(RefreshPackageAsync(
                   package,
-                  repository);
+                  repository));
             }
+
+			await Task.WhenAll(refreshTasks);
         }
 
         private async Task RefreshPackageAsync(
@@ -114,8 +137,8 @@ namespace FluffySpoon.Publisher
                   package,
                   repository);
 
-		var doesPackageExist = await remotePackageSystem.DoesPackageWithVersionExistAsync(package);
-		if (doesPackageExist.HasValue && doesPackageExist.Value) {
+				var doesPackageExist = await remotePackageSystem.DoesPackageWithVersionExistAsync(package);
+				if (doesPackageExist.HasValue && doesPackageExist.Value) {
                     Console.WriteLine("Can't publish package " + package.PublishName + " because it already exists");
                     continue;
                 }
