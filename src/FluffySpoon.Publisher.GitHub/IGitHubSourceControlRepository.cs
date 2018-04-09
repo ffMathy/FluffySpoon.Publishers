@@ -6,7 +6,6 @@ namespace FluffySpoon.Publisher.GitHub
     {
         string Owner { get; set; }
         new string Name { get; set; }
-        string Summary { get; set; }
 
         new IRemoteSourceControlSystem System { get; set; }
     }
