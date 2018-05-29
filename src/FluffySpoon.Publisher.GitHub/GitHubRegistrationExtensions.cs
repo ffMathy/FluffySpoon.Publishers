@@ -14,6 +14,7 @@ namespace FluffySpoon
             string accessToken)
         {
             Setup(services,
+                username,
                 new Credentials(
                     accessToken));
         }
@@ -24,16 +25,21 @@ namespace FluffySpoon
           string password)
         {
             Setup(services,
+                username,
                 new Credentials(
                     username,
                     password));
         }
 
-        private static void Setup(ServiceCollection services, Credentials credentials)
+        private static void Setup(ServiceCollection services, string username, Credentials credentials)
         {
             RegistrationExtensions.AddSourceControlSystem<GitHubSourceControlSystem>();
 
-            services.AddTransient<GitHubSourceControlSystem>();
+            services.AddTransient(provider => new GitHubSourceControlSystem(
+                username,
+                provider.GetService<IGitHubClient>(),
+                provider.GetService<IGitHubSourceControlRepositoryFactory>()));
+
             services.AddTransient<IGitHubSourceControlRepositoryFactory, GitHubSourceControlRepositoryFactory>();
 
             services.AddSingleton<IGitHubClient>(
