@@ -10,7 +10,7 @@ namespace FluffySpoon.Publisher.Sample
 		static void Main()
 		{
 			var projectPrefix = AskFor("Project prefix", "FluffySpoon.", "ProjectNamePrefix");
-			var githubCredentials = AskForGitHubCredentials();
+			var githubAccessToken = AskFor("GitHub personal access token", null, "GitHubPersonalAccessToken");
 			var nugetKey = AskFor("NuGet API key", null, "NuGetKey");
 			var npmKey = AskFor("NPM auth token", null, "NpmAuthToken");
 
@@ -18,8 +18,7 @@ namespace FluffySpoon.Publisher.Sample
 			services.AddRepositoryToPackagePublisher(
 				projectPrefix);
 			services.AddGitHubProvider(
-				githubCredentials.username,
-				githubCredentials.password);
+				githubAccessToken);
 			services.AddNuGetProvider(
 				nugetKey);
 			services.AddDotNetProvider();
@@ -33,14 +32,6 @@ namespace FluffySpoon.Publisher.Sample
 			publisher.RefreshAllPackagesFromAllRepositoriesAsync().Wait();
 
 			Console.WriteLine("All done!");
-		}
-
-		private static (string username, string password) AskForGitHubCredentials()
-		{
-			string githubUsername = AskFor("GitHub username", "ffMathy", "GitHubUsername");
-			string githubPassword = AskFor("GitHub password", null, "GitHubPassword");
-
-			return (githubUsername, githubPassword);
 		}
 
 		private static string AskFor(string phrase, string defaultValue, string environmentVariableKey)

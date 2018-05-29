@@ -9,9 +9,26 @@ namespace FluffySpoon
     public static class GitHubRegistrationExtensions
     {
         public static void AddGitHubProvider(
+            this ServiceCollection services,
+            string accessToken)
+        {
+            Setup(services,
+                new Credentials(
+                    accessToken));
+        }
+
+        public static void AddGitHubProvider(
           this ServiceCollection services,
           string username,
           string password)
+        {
+            Setup(services,
+                new Credentials(
+                    username,
+                    password));
+        }
+
+        private static void Setup(ServiceCollection services, Credentials credentials)
         {
             RegistrationExtensions.AddSourceControlSystem<GitHubSourceControlSystem>();
 
@@ -19,12 +36,10 @@ namespace FluffySpoon
             services.AddTransient<IGitHubSourceControlRepositoryFactory, GitHubSourceControlRepositoryFactory>();
 
             services.AddSingleton<IGitHubClient>(
-              new GitHubClient(
-                new ProductHeaderValue("FluffySpoon.Publisher.GitHub"),
-                new InMemoryCredentialStore(
-                  new Credentials(
-                    username,
-                    password))));
+                new GitHubClient(
+                    new ProductHeaderValue("FluffySpoon.Publisher.GitHub"),
+                    new InMemoryCredentialStore(
+                        credentials)));
         }
     }
 }
