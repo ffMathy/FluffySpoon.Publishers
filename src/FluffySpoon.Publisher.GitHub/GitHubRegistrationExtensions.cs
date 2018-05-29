@@ -8,8 +8,9 @@ namespace FluffySpoon
 {
     public static class GitHubRegistrationExtensions
     {
-        public static void AddGitHubProvider(
+        public static void AddGitHubProviderForAccessToken(
             this ServiceCollection services,
+            string username,
             string accessToken)
         {
             Setup(services,
@@ -17,7 +18,7 @@ namespace FluffySpoon
                     accessToken));
         }
 
-        public static void AddGitHubProvider(
+        public static void AddGitHubProviderUsingCredentials(
           this ServiceCollection services,
           string username,
           string password)

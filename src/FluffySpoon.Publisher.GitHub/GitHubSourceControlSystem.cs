@@ -8,13 +8,17 @@ namespace FluffySpoon.Publisher.GitHub
 {
     class GitHubSourceControlSystem : IGitHubSourceControlSystem
     {
+        private readonly string _username;
+
         private readonly IGitHubClient _client;
         private readonly IGitHubSourceControlRepositoryFactory _repositoryFactory;
 
         public GitHubSourceControlSystem(
-          IGitHubClient client,
-          IGitHubSourceControlRepositoryFactory repositoryFactory)
+            string username,
+            IGitHubClient client,
+            IGitHubSourceControlRepositoryFactory repositoryFactory)
         {
+            _username = username;
             _client = client;
             _repositoryFactory = repositoryFactory;
         }
@@ -31,7 +35,7 @@ namespace FluffySpoon.Publisher.GitHub
 
         public async Task<IReadOnlyCollection<IRemoteSourceControlRepository>> GetCurrentUserRepositoriesAsync()
         {
-            var repositories = await _client.Repository.GetAllForUser(_client.Connection.Credentials.Login);
+            var repositories = await _client.Repository.GetAllForUser(_username);
             return repositories
               .Select(Map)
               .ToArray();
