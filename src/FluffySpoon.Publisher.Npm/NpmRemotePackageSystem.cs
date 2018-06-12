@@ -29,9 +29,9 @@ namespace FluffySpoon.Publisher.NuGet
 			  folderPathName.StartsWith(_repositoryFilter.ProjectPrefix);
         }
 
-        public async Task<bool?> DoesPackageWithVersionExistAsync(ILocalPackage package)
+        public Task<bool?> DoesPackageWithVersionExistAsync(ILocalPackage package)
         {
-			return null;
+			return Task.FromResult<bool?>(null);
         }
 
         public async Task UpsertPackageAsync(ILocalPackage package)
