@@ -8,7 +8,7 @@ namespace FluffySpoon.Publisher.NuGet
 {
 	static class NpmHelper
 	{
-		public static async Task PublishAsync(string projectPath, string authToken)
+		public static Task PublishAsync(string projectPath, string authToken)
 		{
 			var projectDirectory = new DirectoryInfo(projectPath);
 			foreach(var directory in projectDirectory.GetDirectories()) {
@@ -44,6 +44,8 @@ namespace FluffySpoon.Publisher.NuGet
 				Arguments = "publish --access public",
 				WorkingDirectory = projectPath
 			});
+
+			return Task.CompletedTask;
 		}
 	}
 }
