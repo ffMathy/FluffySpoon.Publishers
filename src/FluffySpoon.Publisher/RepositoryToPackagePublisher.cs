@@ -64,18 +64,15 @@ namespace FluffySpoon.Publisher
 			}
 
 			await Task.WhenAll(downloadTasks);
-
-			var refreshTasks = new List<Task>();
+			
             foreach (var repository in repositories)
             {
-                refreshTasks.Add(RefreshAllPackagesInDirectoryAsync(
+                await RefreshAllPackagesInDirectoryAsync(
 					repository,
 					GetRepositoryDownloadLocation(
 						timestamp, 
-						repository)));
+						repository));
             }
-
-			await Task.WhenAll(refreshTasks);
         }
 
 		private static string GetRepositoryDownloadLocation(TimeSpan timestamp, IRemoteSourceControlRepository repository)
