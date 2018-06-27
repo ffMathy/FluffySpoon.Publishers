@@ -8,12 +8,16 @@ namespace FluffySpoon.Publisher.DotNet
 	{
 		public static void RestorePackages(string targetDirectory)
 		{
-			var npmPath = Path.Combine(
+			var basePath = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-				"nodejs",
-				"npm.cmd");
-			CommandLineHelper.LaunchAndWait(new ProcessStartInfo("npm-install-peers")
+				"nodejs");
+				
+			var nodePath = Path.Combine(basePath, "node.exe");
+			var npmPath = Path.Combine(basePath, "npm.cmd");
+
+			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(nodePath)
 			{
+				Arguments = "npm-install-peers",
 				WorkingDirectory = targetDirectory
 			});
 			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath) {
