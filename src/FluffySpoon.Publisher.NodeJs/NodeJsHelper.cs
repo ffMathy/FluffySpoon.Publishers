@@ -13,6 +13,15 @@ namespace FluffySpoon.Publisher.DotNet
 				"nodejs");
 			var npmPath = Path.Combine(basePath, "npm.cmd");
 
+			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath) {
+				Arguments = "install",
+				WorkingDirectory = targetDirectory
+			});
+			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath) {
+				Arguments = "upgrade",
+				WorkingDirectory = targetDirectory
+			});
+
 			var installPeersPath = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
 				"npm",
@@ -20,15 +29,6 @@ namespace FluffySpoon.Publisher.DotNet
 			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(installPeersPath)
 			{
 				Arguments = "",
-				WorkingDirectory = targetDirectory
-			});
-
-			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath) {
-				Arguments = "install",
-				WorkingDirectory = targetDirectory
-			});
-			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath) {
-				Arguments = "upgrade",
 				WorkingDirectory = targetDirectory
 			});
 		}
