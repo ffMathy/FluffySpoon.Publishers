@@ -11,15 +11,18 @@ namespace FluffySpoon.Publisher.DotNet
 			var basePath = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
 				"nodejs");
-				
-			var nodePath = Path.Combine(basePath, "node.exe");
 			var npmPath = Path.Combine(basePath, "npm.cmd");
 
-			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(nodePath)
+			var installPeersPath = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				"npm",
+				"npm-install-peers.cmd");
+			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(installPeersPath)
 			{
-				Arguments = "npm-install-peers",
+				Arguments = "",
 				WorkingDirectory = targetDirectory
 			});
+
 			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath) {
 				Arguments = "install",
 				WorkingDirectory = targetDirectory
