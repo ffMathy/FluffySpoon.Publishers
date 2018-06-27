@@ -12,11 +12,6 @@ namespace FluffySpoon.Publisher.DotNet
 				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
 				"nodejs",
 				"npm.cmd");
-			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath)
-			{
-				Arguments = "install -g npm-install-peers",
-				WorkingDirectory = targetDirectory
-			});
 			CommandLineHelper.LaunchAndWait(new ProcessStartInfo("npm-install-peers")
 			{
 				WorkingDirectory = targetDirectory
