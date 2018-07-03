@@ -8,10 +8,7 @@ namespace FluffySpoon.Publisher.DotNet
 	{
 		public static void RestorePackages(string targetDirectory)
 		{
-			var basePath = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-				"nodejs");
-			var npmPath = Path.Combine(basePath, "npm.cmd");
+			string npmPath = GetNpmPath();
 
 			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath) {
 				Arguments = "install",
@@ -35,14 +32,21 @@ namespace FluffySpoon.Publisher.DotNet
 
 		public static void Build(string targetDirectory)
 		{
-			var tscPath = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				"npm",
-				"tsc.cmd");
-			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(tscPath) {
-				Arguments = "",
+			string npmPath = GetNpmPath();
+			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath)
+			{
+				Arguments = "run build",
 				WorkingDirectory = targetDirectory
 			});
+		}
+
+		private static string GetNpmPath()
+		{
+			var basePath = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+				"nodejs");
+			var npmPath = Path.Combine(basePath, "npm.cmd");
+			return npmPath;
 		}
 	}
 }
