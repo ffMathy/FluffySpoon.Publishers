@@ -43,9 +43,29 @@ namespace FluffySpoon.Publisher.DotNet.Helpers
         public XElement CreateDescriptionElement(XDocument projectFile)
         {
             return CreateElement(projectFile, "Description");
-        }
+		}
 
-        private static XElement GetElement(XDocument projectFile, string name)
+		public XElement GetPackageRepositoryTypeElement(XDocument projectFile)
+		{
+			return GetElement(projectFile, "RepositoryType");
+		}
+
+		public XElement CreatePackageRepositoryTypeElement(XDocument projectFile)
+		{
+			return CreateElement(projectFile, "RepositoryType");
+		}
+
+		public XElement GetPackageRepositoryUrlElement(XDocument projectFile)
+		{
+			return GetElement(projectFile, "RepositoryUrl");
+		}
+
+		public XElement CreatePackageRepositoryUrlElement(XDocument projectFile)
+		{
+			return CreateElement(projectFile, "RepositoryUrl");
+		}
+
+		private static XElement GetElement(XDocument projectFile, string name)
         {
             return GetPropertyGroups(projectFile)
                 .SelectMany(x => x.Elements())
@@ -64,5 +84,5 @@ namespace FluffySpoon.Publisher.DotNet.Helpers
               .Elements()
               .Where(x => x.Name.LocalName == "PropertyGroup");
         }
-    }
+	}
 }

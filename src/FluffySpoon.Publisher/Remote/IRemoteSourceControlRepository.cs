@@ -6,7 +6,8 @@ namespace FluffySpoon.Publisher.Remote
     {
         string Name { get; }
         string PublicUrl { get; }
-        string Summary { get; }
+		string ContributeUrl { get; }
+		string Summary { get; }
 
         IRemoteSourceControlSystem System { get; }
 

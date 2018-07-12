@@ -10,14 +10,15 @@ namespace FluffySpoon.Publisher.GitHub
 
         public string Name { get; set; }
         public string PublicUrl { get; set; }
-        public string Owner { get; set; }
+		public string ContributeUrl { get; set; }
+		public string Owner { get; set; }
         public string Summary { get; set; }
 
         public IRemoteSourceControlSystem System { get; set; }
 
         internal Repository GitHubClientRepository { get; set; }
 
-        public GitHubSourceControlRepository(
+		public GitHubSourceControlRepository(
           IGitHubClient client)
         {
             _client = client;

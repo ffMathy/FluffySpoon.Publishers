@@ -72,11 +72,17 @@ namespace FluffySpoon.Publisher.DotNet
             Console.WriteLine("Updating project revision " + revision + " of project file for package " + package.PublishName);
 
             var versionElement = GetProjectFileVersionElement(projectFileXml);
+			var repositoryUrlElement = GetPackageRepositoryUrlElement(projectFileXml);
+			var repositoryTypeElement = GetPackageRepositoryTypeElement(projectFileXml);
 
-            if (!Version.TryParse(versionElement.Value, out Version existingVersion))
+			if (!Version.TryParse(versionElement.Value, out Version existingVersion))
                 existingVersion = new Version(1, 0, 0, 0);
 
             versionElement.Value = package.Version = $"{existingVersion.Major}.{existingVersion.Minor}.{revision}";
+			repositoryUrlElement.Value = repository.ContributeUrl;
+
+			//TODO: support other types as well when they arrive.
+			repositoryTypeElement.Value = "git";
         }
 
         private XElement GetDescriptionElement(XDocument projectFileXml)
@@ -89,9 +95,21 @@ namespace FluffySpoon.Publisher.DotNet
         {
             return _projectFileParser.GetPackageProjectUrlElement(projectFileXml) ??
                    _projectFileParser.CreatePackageProjectUrlElement(projectFileXml);
-        }
+		}
 
-        private XElement GetProjectFileVersionElement(XDocument projectFileXml)
+		private XElement GetPackageRepositoryUrlElement(XDocument projectFileXml)
+		{
+			return _projectFileParser.GetPackageRepositoryUrlElement(projectFileXml) ??
+				   _projectFileParser.CreatePackageRepositoryUrlElement(projectFileXml);
+		}
+
+		private XElement GetPackageRepositoryTypeElement(XDocument projectFileXml)
+		{
+			return _projectFileParser.GetPackageRepositoryTypeElement(projectFileXml) ??
+				   _projectFileParser.CreatePackageRepositoryTypeElement(projectFileXml);
+		}
+
+		private XElement GetProjectFileVersionElement(XDocument projectFileXml)
         {
             return _projectFileParser.GetVersionElement(projectFileXml) ??
                     _projectFileParser.CreateVersionElement(projectFileXml);

@@ -12,5 +12,11 @@ namespace FluffySpoon.Publisher.DotNet.Helpers
 
         XElement GetDescriptionElement(XDocument projectFile);
         XElement CreateDescriptionElement(XDocument projectFile);
-    }
+
+		XElement GetPackageRepositoryUrlElement(XDocument projectFile);
+		XElement CreatePackageRepositoryUrlElement(XDocument projectFile);
+
+		XElement GetPackageRepositoryTypeElement(XDocument projectFile);
+		XElement CreatePackageRepositoryTypeElement(XDocument projectFile);
+	}
 }
