@@ -28,6 +28,11 @@ namespace FluffySpoon.Publisher.DotNet
 				Arguments = "run build",
 				WorkingDirectory = targetDirectory
 			});
+			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath)
+			{
+				Arguments = "run test",
+				WorkingDirectory = targetDirectory
+			});
 		}
 
 		private static string GetNpmPath()
