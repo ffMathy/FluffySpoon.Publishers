@@ -10,6 +10,9 @@ namespace FluffySpoon.Publisher
 			using (var process = Process.Start(startInformation))
 			{
 				process.WaitForExit();
+
+				if(process.ExitCode != 0)
+					throw new CommandLineException("An external tool (" + startInformation.FileName + ") returned a non-zero exit code: " + process.ExitCode);
 			}
 		}
 	}
