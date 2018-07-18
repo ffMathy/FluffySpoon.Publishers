@@ -44,3 +44,36 @@ class Program
     }
 }
 ```
+
+You can also see a command-line runnable version of this example [here](https://github.com/ffMathy/FluffySpoon.Publishers/blob/master/src/FluffySpoon.Publisher.Sample/Program.cs).
+
+## Running in AppVeyor
+Below is an example of running the [sample code](https://github.com/ffMathy/FluffySpoon.Publishers/blob/master/src/FluffySpoon.Publisher.Sample/Program.cs) on an AppVeyor build server using environment variables.
+
+### AppVeyor.yml
+```yml
+version: 1.0.{build}
+image: Visual Studio 2017
+environment:
+  NuGetKey:
+    secure: 14GsJ75nn9jwVPMQXN7qN8xrwhyAY8TwIvvsQ+P1yzahdtfl83J8cyN+aA9WhtSY
+  ProjectNamePrefix: FluffySpoon.
+  GitHubUsername: ffMathy
+  GitHubPassword:
+    secure: 6RzxJuCM4hx6ZUex2kEJ/g==
+  NpmAuthToken:
+    secure: dg3EnwKFzX5E40SPkoPK53pW2D2W5sjCGV4xhORTCoe50OEASg8Xk9mI12SBVadI
+  GitHubPersonalAccessToken:
+    secure: ECBBXkriJnyuksnl3PYf7PQ/WLyRZLXf9qgLyIlOIeh4e8EnYCX5gkgmyyO1/HR+
+install:
+- ps: |
+    Install-Product node '' x64
+    npm install typescript -g
+build_script:
+- cmd: |
+    cd src
+    dotnet restore
+    dotnet build
+    cd FluffySpoon.Publisher.Sample
+    dotnet run
+```
