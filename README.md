@@ -1,5 +1,5 @@
 # FluffySpoon.Publishers
-Publishes the FluffySpoon packages to the respective repositories.
+Publishes NuGet and NPM packages to the respective repositories.
 
 ## Usage
 You can also see a command-line runnable version of the following example [here](https://github.com/ffMathy/FluffySpoon.Publishers/blob/master/src/FluffySpoon.Publisher.Sample/Program.cs).
