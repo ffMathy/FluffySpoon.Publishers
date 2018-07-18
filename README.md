@@ -2,13 +2,16 @@
 Publishes the FluffySpoon packages to the respective repositories.
 
 ## Usage
-The following example will:
-- Find all repositories in https://github.com/ffMathy that start with `FluffySpoon.`
+You can also see a command-line runnable version of the following example [here](https://github.com/ffMathy/FluffySpoon.Publishers/blob/master/src/FluffySpoon.Publisher.Sample/Program.cs).
+
+The code below will:
+- Find all repositories in https://github.com/ffMathy that start with `FluffySpoon.`.
 - For each repository:
-    - Scan for C# projects and compile them
-    - Scan for NodeJS projects and build them
-- For each C# project, publish it to NuGet
-- For each NodeJS project, publish it to NPM
+    - Determine the version of the package. The version used will be `1.0.<number of commits in repository>`.
+    - Scan for C# projects and compile them using `dotnet build`.
+    - Scan for NodeJS projects and build them using `npm run test` first and then `npm run build`.
+- For each C# project, publish it to NuGet.
+- For each NodeJS project, publish it to NPM.
 
 ```csharp
 class Program
@@ -44,8 +47,6 @@ class Program
     }
 }
 ```
-
-You can also see a command-line runnable version of this example [here](https://github.com/ffMathy/FluffySpoon.Publishers/blob/master/src/FluffySpoon.Publisher.Sample/Program.cs).
 
 ## Running in AppVeyor
 Below is an example of running the [sample code](https://github.com/ffMathy/FluffySpoon.Publishers/blob/master/src/FluffySpoon.Publisher.Sample/Program.cs) on an AppVeyor build server using environment variables.
