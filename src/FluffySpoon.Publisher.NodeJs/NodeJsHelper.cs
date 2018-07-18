@@ -18,16 +18,6 @@ namespace FluffySpoon.Publisher.DotNet
 				Arguments = "upgrade",
 				WorkingDirectory = targetDirectory
 			});
-
-			var installPeersPath = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				"npm",
-				"npm-install-peers.cmd");
-			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(installPeersPath)
-			{
-				Arguments = "",
-				WorkingDirectory = targetDirectory
-			});
 		}
 
 		public static void Build(string targetDirectory)
