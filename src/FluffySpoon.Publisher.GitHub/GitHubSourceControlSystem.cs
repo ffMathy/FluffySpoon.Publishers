@@ -52,6 +52,7 @@ namespace FluffySpoon.Publisher.GitHub
 			repository.ContributeUrl = githubClientRepository.CloneUrl;
 			repository.Summary = githubClientRepository.Description;
             repository.GitHubClientRepository = githubClientRepository;
+			repository.UpdatedAt = githubClientRepository.PushedAt.Value.UtcDateTime;
 
             return repository;
         }

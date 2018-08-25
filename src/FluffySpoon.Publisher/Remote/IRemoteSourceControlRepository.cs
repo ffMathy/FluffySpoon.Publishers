@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace FluffySpoon.Publisher.Remote
 {
@@ -8,6 +9,8 @@ namespace FluffySpoon.Publisher.Remote
         string PublicUrl { get; }
 		string ContributeUrl { get; }
 		string Summary { get; }
+
+		DateTime UpdatedAt { get; }
 
         IRemoteSourceControlSystem System { get; }
 

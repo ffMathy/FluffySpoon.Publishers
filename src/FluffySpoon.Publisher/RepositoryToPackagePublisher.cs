@@ -37,6 +37,7 @@ namespace FluffySpoon.Publisher
 					var allRepositories = await sourceControlSystem.GetCurrentUserRepositoriesAsync();
 					var fluffySpoonRepositories = allRepositories
 					  .Where(x => x.Name.StartsWith(_repositoryFilter.ProjectPrefix))
+					  .OrderByDescending(x => x.UpdatedAt)
 					  .ToArray();
 					await RefreshAllPackagesFromRepositoriesAsync(fluffySpoonRepositories);
 				}
