@@ -5,8 +5,8 @@ Publishes NuGet and NPM packages to the respective repositories.
 You can also see a command-line runnable version of the following example [here](https://github.com/ffMathy/FluffySpoon.Publishers/blob/master/src/FluffySpoon.Publisher.Sample/Program.cs).
 
 The code below will:
-- Find all repositories in https://github.com/ffMathy that start with `FluffySpoon.`.
-- For each repository:
+- Find all repositories in https://github.com/ffMathy that start with `FluffySpoon.` and have been modified within the past 30 days.
+- For each repository, sorted by update date descending:
     - Determine the version of the package. The version used will be `1.0.<number of commits in repository>`.
     - Scan for C# projects and compile them using `dotnet build`.
     - Scan for NodeJS projects and build them using `npm run test` first and then `npm run build`.
