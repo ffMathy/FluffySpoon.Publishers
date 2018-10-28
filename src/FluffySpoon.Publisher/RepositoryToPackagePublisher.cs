@@ -112,12 +112,10 @@ namespace FluffySpoon.Publisher
 			{
 				Console.WriteLine("Refreshing package " + package.PublishName);
 
-				refreshTasks.Add(RefreshPackageAsync(
+				await RefreshPackageAsync(
 				  package,
-				  repository));
+				  repository);
 			}
-
-			await Task.WhenAll(refreshTasks);
 		}
 
 		private async Task RefreshPackageAsync(
@@ -129,9 +127,7 @@ namespace FluffySpoon.Publisher
 				var processor = package.Processor;
 
 				if (!remotePackageSystem.CanPublishPackage(package))
-				{
 					continue;
-				}
 
 				try
 				{
