@@ -106,8 +106,6 @@ namespace FluffySpoon.Publisher
 		  string folderPath)
 		{
 			var packages = await processor.ScanForPackagesInDirectoryAsync(folderPath);
-
-			var refreshTasks = new List<Task>();
 			foreach (var package in packages)
 			{
 				Console.WriteLine("Refreshing package " + package.PublishName);

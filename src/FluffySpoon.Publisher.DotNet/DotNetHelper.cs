@@ -13,6 +13,15 @@ namespace FluffySpoon.Publisher.DotNet
       });
     }
 
+    public static void Test(string targetDirectory)
+    {
+      CommandLineHelper.LaunchAndWait(new ProcessStartInfo("dotnet.exe")
+      {
+        Arguments = "test",
+        WorkingDirectory = targetDirectory
+      });
+    }
+
     public static void Build(string targetDirectory)
     {
       CommandLineHelper.LaunchAndWait(new ProcessStartInfo("dotnet.exe")
