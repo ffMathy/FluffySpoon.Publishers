@@ -39,18 +39,18 @@ namespace FluffySpoon.Publisher.DotNet
             DotNetHelper.Build(nugetPackage.FolderPath);
 
 			var folderDirectory = new DirectoryInfo(nugetPackage.FolderPath);
+			var targetTestDirectoryPath = folderDirectory.Name + ".Tests";
 			var testDirectory = folderDirectory
 				.Parent
-				.GetDirectories(
-					folderDirectory.Name + ".Tests")
-				.SingleOrDefault();
-			if(testDirectory.Exists)
+				.GetDirectories()
+				.SingleOrDefault(x => x.Name == targetTestDirectoryPath);
+			if(testDirectory != null)
 			{
 				Console.WriteLine("Test directory for package " + nugetPackage.PublishName + " found at " + testDirectory.FullName + ".");
 				DotNetHelper.Test(testDirectory.FullName);
 			} else
 			{
-				Console.WriteLine("No test directory for package " + nugetPackage.PublishName + " found at " + testDirectory.FullName + ".");
+				Console.WriteLine("No test directory for package " + nugetPackage.PublishName + " found.");
 			}
         }
 
