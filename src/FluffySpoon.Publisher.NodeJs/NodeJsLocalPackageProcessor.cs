@@ -32,6 +32,7 @@ namespace FluffySpoon.Publisher.DotNet
 
             NodeJsHelper.RestorePackages(package.FolderPath);
             NodeJsHelper.Build(nugetPackage.FolderPath);
+            NodeJsHelper.Test(nugetPackage.FolderPath);
         }
 
         private async Task UpdateProjectFileAsync(
@@ -46,12 +47,12 @@ namespace FluffySpoon.Publisher.DotNet
 			var system = repository.System;
 			var revision = await system.GetRevisionOfRepository(repository);
 			Console.WriteLine("Updating project revision " + revision + " of package.json for package " + package.PublishName);
-			
+
 			if (!Version.TryParse(packageJson.version, out Version existingVersion))
 				existingVersion = new Version(1, 0, 0, 0);
 
 			packageJson.version = package.Version = $"{existingVersion.Major}.{existingVersion.Minor}.{revision}";
-			
+
 			File.WriteAllText(package.PackageJsonFilePath, JsonConvert.SerializeObject(packageJson));
         }
 

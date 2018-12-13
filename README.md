@@ -8,8 +8,14 @@ The code below will:
 - Find all repositories in https://github.com/ffMathy that start with `FluffySpoon.` and have been modified within the past 30 days.
 - For each repository, sorted by update date descending:
     - Determine the version of the package. The version used will be `1.0.<number of commits in repository>`.
-    - Scan for C# projects and compile them using `dotnet build`.
-    - Scan for NodeJS projects and build them using `npm run test` first and then `npm run build`.
+    - For each C# project found in the `src` folder of the root of the repository:
+		- Build `src/<ProjectName>` using `dotnet build`.
+		- Test `src/<ProjectName>.Tests` if present using `dotnet test`.
+		- Publish to NuGet if tests pass or no tests were present.
+    - For each NodeJS project found in the `src` folder of the root of the repository:
+		- Build the root directory using `npm run build`.
+		- Test the root directory using `npm run test`.
+		- Publish to NPM.
 - For each C# project, publish it to NuGet.
 - For each NodeJS project, publish it to NPM.
 

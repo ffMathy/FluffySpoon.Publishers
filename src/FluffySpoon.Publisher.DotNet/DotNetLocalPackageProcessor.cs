@@ -35,8 +35,23 @@ namespace FluffySpoon.Publisher.DotNet
               nugetPackage,
               repository);
 
-            DotNetHelper.RestorePackages(package.FolderPath);
+            DotNetHelper.RestorePackages(nugetPackage.FolderPath);
             DotNetHelper.Build(nugetPackage.FolderPath);
+
+			var folderDirectory = new DirectoryInfo(nugetPackage.FolderPath);
+			var targetTestDirectoryPath = folderDirectory.Name + ".Tests";
+			var testDirectory = folderDirectory
+				.Parent
+				.GetDirectories()
+				.SingleOrDefault(x => x.Name == targetTestDirectoryPath);
+			if(testDirectory != null)
+			{
+				Console.WriteLine("Test directory for package " + nugetPackage.PublishName + " found at " + testDirectory.FullName + ".");
+				DotNetHelper.Test(testDirectory.FullName);
+			} else
+			{
+				Console.WriteLine("No test directory for package " + nugetPackage.PublishName + " found.");
+			}
         }
 
         private async Task UpdateProjectFileAsync(
@@ -45,8 +60,8 @@ namespace FluffySpoon.Publisher.DotNet
         {
             var projectFileXml = XDocument.Load(nugetPackage.ProjectFilePath);
             await BumpProjectFileVersionAsync(
-                nugetPackage, 
-                repository, 
+                nugetPackage,
+                repository,
                 projectFileXml);
 
             var projectUrlElement = GetPackageProjectUrlElement(projectFileXml);
@@ -63,7 +78,7 @@ namespace FluffySpoon.Publisher.DotNet
 
         private async Task BumpProjectFileVersionAsync(
             ILocalPackage package,
-            IRemoteSourceControlRepository repository, 
+            IRemoteSourceControlRepository repository,
             XDocument projectFileXml)
         {
             var system = repository.System;

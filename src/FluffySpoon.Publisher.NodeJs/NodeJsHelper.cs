@@ -22,13 +22,16 @@ namespace FluffySpoon.Publisher.DotNet
 
 		public static void Build(string targetDirectory)
 		{
-			string npmPath = GetNpmPath();
-			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath)
+			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(GetNpmPath())
 			{
 				Arguments = "run build",
 				WorkingDirectory = targetDirectory
 			});
-			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(npmPath)
+		}
+
+		public static void Test(string targetDirectory)
+		{
+			CommandLineHelper.LaunchAndWait(new ProcessStartInfo(GetNpmPath())
 			{
 				Arguments = "run test",
 				WorkingDirectory = targetDirectory
