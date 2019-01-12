@@ -33,7 +33,7 @@ namespace FluffySpoon
 
         private static void Setup(ServiceCollection services, string username, Credentials credentials)
         {
-            RegistrationExtensions.AddSourceControlSystem<GitHubSourceControlSystem>();
+			services.AddTransient<IGitHubSourceControlSystem>(p => p.GetRequiredService<GitHubSourceControlSystem>());
 
             services.AddTransient(provider => new GitHubSourceControlSystem(
                 username,

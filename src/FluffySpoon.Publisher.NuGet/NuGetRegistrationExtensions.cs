@@ -1,4 +1,6 @@
-﻿using FluffySpoon.Publisher.NuGet;
+﻿using FluffySpoon.Publisher.DotNet;
+using FluffySpoon.Publisher.NuGet;
+using FluffySpoon.Publisher.Remote;
 using Microsoft.Extensions.DependencyInjection;
 
 // ReSharper disable once CheckNamespace
@@ -12,8 +14,19 @@ namespace FluffySpoon
         {
             services.AddTransient<NuGetRemotePackageSystem>();
             services.AddTransient<INuGetSettings>(provider => new NuGetSettings(apiKey));
-
-            RegistrationExtensions.AddPackageSystem<NuGetRemotePackageSystem>();
+			
+			services.AddTransient<IRemotePackageSystem, NuGetRemotePackageSystem>();
         }
+
+		public static void AddDotNetNuGetSourceLinkProvider(
+			this ServiceCollection services,
+			string sourceLinkPackageName,
+			string sourceLinkPackageVersion = null) 
+		{
+			services.AddTransient<IDotNetLocalPackagePreprocessor>(p => 
+				new NuGetSourceLinkDotNetLocalPackagePreprocessor(
+					sourceLinkPackageName,
+					sourceLinkPackageVersion));
+		}
     }
 }

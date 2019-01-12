@@ -15,17 +15,21 @@ namespace FluffySpoon.Publisher.Sample
 			var npmKey = AskFor("NPM auth token", null, "NpmAuthToken");
 
 			var services = new ServiceCollection();
-			services.AddRepositoryToPackagePublisher(
-				projectPrefix);
+
+			services.AddRepositoryToPackagePublisher(projectPrefix);
+
 			services.AddGitHubProviderForAccessToken(
 				githubCredentials.username,
 				githubCredentials.accessToken);
-			services.AddNuGetProvider(
-				nugetKey);
+
+			services.AddNuGetProvider(nugetKey);
 			services.AddDotNetProvider();
+			services.AddDotNetNuGetSourceLinkProvider(
+				"Microsoft.SourceLink.GitHub",
+				"1.0.0-beta2-18618-05");
+
 			services.AddNodeJsProvider();
-			services.AddNpmProvider(
-				npmKey);
+			services.AddNpmProvider(npmKey);
 
 			var provider = services.BuildServiceProvider();
 

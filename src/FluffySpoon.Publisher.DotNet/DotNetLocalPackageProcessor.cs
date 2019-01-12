@@ -15,22 +15,29 @@ namespace FluffySpoon.Publisher.DotNet
         private readonly ISolutionFileParser _solutionFileParser;
         private readonly IProjectFileParser _projectFileParser;
         private readonly ISettings _repositoryFilter;
+		private readonly IEnumerable<IDotNetLocalPackagePreprocessor> _dotNetLocalPackagePreprocessors;
 
-        public DotNetLocalPackageProcessor(
+		public DotNetLocalPackageProcessor(
           ISolutionFileParser solutionFileParser,
           IProjectFileParser projectFileParser,
-          ISettings repositoryFilter)
+          ISettings repositoryFilter,
+		  IEnumerable<IDotNetLocalPackagePreprocessor> localPackagePreprocessors)
         {
             _solutionFileParser = solutionFileParser;
             _projectFileParser = projectFileParser;
             _repositoryFilter = repositoryFilter;
-        }
+			_dotNetLocalPackagePreprocessors = localPackagePreprocessors;
+		}
 
         public async Task BuildPackageAsync(
             ILocalPackage package,
             IRemoteSourceControlRepository repository)
         {
             var nugetPackage = (IDotNetLocalPackage)package;
+			foreach(var preprocessor in _dotNetLocalPackagePreprocessors) {
+				await preprocessor.PreprocessPackageAsync(nugetPackage);
+			}
+
             await UpdateProjectFileAsync(
               nugetPackage,
               repository);
@@ -95,9 +102,6 @@ namespace FluffySpoon.Publisher.DotNet
 
             versionElement.Value = package.Version = $"{existingVersion.Major}.{existingVersion.Minor}.{revision}";
 			repositoryUrlElement.Value = repository.ContributeUrl;
-
-			//TODO: support other types as well when they arrive.
-			repositoryTypeElement.Value = "git";
         }
 
         private XElement GetDescriptionElement(XDocument projectFileXml)

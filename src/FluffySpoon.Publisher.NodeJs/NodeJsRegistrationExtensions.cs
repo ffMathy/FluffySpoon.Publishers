@@ -1,5 +1,6 @@
 ﻿using FluffySpoon.Publisher;
 using FluffySpoon.Publisher.DotNet;
+using FluffySpoon.Publisher.Local;
 using Microsoft.Extensions.DependencyInjection;
 
 // ReSharper disable once CheckNamespace
@@ -9,7 +10,7 @@ namespace FluffySpoon
   {
     public static void AddNodeJsProvider(this ServiceCollection services)
     {
-      RegistrationExtensions.AddPackageProcessor<NodeJsLocalPackageProcessor>();
+	  services.AddTransient<ILocalPackageProcessor, NodeJsLocalPackageProcessor>();
 
       services.AddTransient<NodeJsLocalPackageProcessor>();
     }

@@ -1,4 +1,5 @@
 ﻿using FluffySpoon.Publisher.NuGet;
+using FluffySpoon.Publisher.Remote;
 using Microsoft.Extensions.DependencyInjection;
 
 // ReSharper disable once CheckNamespace
@@ -13,7 +14,7 @@ namespace FluffySpoon
             services.AddTransient<NpmRemotePackageSystem>();
             services.AddTransient<INpmSettings>(provider => new NpmSettings(authToken));
 
-            RegistrationExtensions.AddPackageSystem<NpmRemotePackageSystem>();
+			services.AddTransient<IRemotePackageSystem, NpmRemotePackageSystem>();
         }
     }
 }
