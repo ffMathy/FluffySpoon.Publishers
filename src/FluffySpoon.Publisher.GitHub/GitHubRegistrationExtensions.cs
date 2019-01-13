@@ -1,4 +1,5 @@
 ﻿using FluffySpoon.Publisher.GitHub;
+using FluffySpoon.Publisher.Remote;
 using Microsoft.Extensions.DependencyInjection;
 using Octokit;
 using Octokit.Internal;
@@ -33,7 +34,7 @@ namespace FluffySpoon
 
         private static void Setup(ServiceCollection services, string username, Credentials credentials)
         {
-			services.AddTransient<IGitHubSourceControlSystem>(p => p.GetRequiredService<GitHubSourceControlSystem>());
+			services.AddTransient<IRemoteSourceControlSystem>(p => p.GetRequiredService<GitHubSourceControlSystem>());
 
             services.AddTransient(provider => new GitHubSourceControlSystem(
                 username,
