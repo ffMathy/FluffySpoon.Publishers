@@ -100,7 +100,7 @@ namespace FluffySpoon.Publisher.DotNet
 			if (!Version.TryParse(versionElement.Value, out Version existingVersion))
                 existingVersion = new Version(1, 0, 0, 0);
 
-            versionElement.Value = package.Version = $"{existingVersion.Major}.{existingVersion.Minor}.{revision}";
+            versionElement.Value = package.Version = $"{existingVersion.Major}.{existingVersion.Minor+revision}.{existingVersion.Build}";
 			repositoryUrlElement.Value = repository.ContributeUrl;
         }
 
