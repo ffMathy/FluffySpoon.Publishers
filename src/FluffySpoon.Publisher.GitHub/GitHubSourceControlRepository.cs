@@ -50,7 +50,7 @@ namespace FluffySpoon.Publisher.GitHub
 			if (package.PublishUrl == null)
 				return;
 
-			var descriptionLine = package.PublishName + ": " + package.PublishUrl;
+			var descriptionLine = "**" + package.PublishName + "**" + Environment.NewLine + package.PublishUrl;
 			var existingRelease = allReleases.SingleOrDefault(x => x.TagName == versionSlug);
 			if (existingRelease != null)
 			{
@@ -58,7 +58,7 @@ namespace FluffySpoon.Publisher.GitHub
 					return;
 
 				await this._client.Repository.Release.Edit(Owner, Name, existingRelease.Id, new ReleaseUpdate() {
-					Body = existingRelease.Body + Environment.NewLine + descriptionLine
+					Body = existingRelease.Body + Environment.NewLine + Environment.NewLine + descriptionLine
 				});
 			}
 			else
