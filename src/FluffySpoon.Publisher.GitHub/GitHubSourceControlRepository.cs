@@ -37,6 +37,11 @@ namespace FluffySpoon.Publisher.GitHub
 		public async Task RegisterPackageReleaseAsync(ILocalPackage package)
 		{
 			var versionSlug = "v" + package.Version;
+
+			var latestRelease = await this._client.Repository.Release.GetLatest(Owner, Name);
+			if(latestRelease.Name == versionSlug)
+				return;
+
 			await this._client.Repository.Release.Create(Owner, Name, new NewRelease(versionSlug) {
 				Name = versionSlug,
 				Body = $"Published automatically by https://github.com/ffMathy/FluffySpoon.Publishers." + 
