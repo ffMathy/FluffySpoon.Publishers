@@ -50,6 +50,10 @@ namespace FluffySpoon.Publisher.GitHub
 			var name = package.PublishName + "-" + versionSlug;
 
 			var allReleases = await this._client.Repository.Release.GetAll(Owner, Name);
+
+			foreach(var release in allReleases.Where(x => x.TagName != versionSlug))
+				await this._client.Repository.Release.Delete(Owner, Name, release.Id);
+
 			if(allReleases.Any(x => x.Name == name))
 				return;
 
