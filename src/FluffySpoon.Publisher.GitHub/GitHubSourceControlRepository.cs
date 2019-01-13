@@ -38,7 +38,6 @@ namespace FluffySpoon.Publisher.GitHub
 		public async Task RegisterPackageReleaseAsync(ILocalPackage package)
 		{
 			var versionSlug = "v" + package.Version;
-			var name = package.PublishName + "-" + versionSlug;
 
 			var allReleases = await this._client.Repository.Release.GetAll(Owner, Name);
 
@@ -48,20 +47,32 @@ namespace FluffySpoon.Publisher.GitHub
 			if (package.Version == null)
 				return;
 
-			if(package.PublishName == null)
+			if (package.PublishName == null)
 				return;
 
-			if(package.PublishUrl == null)
+			if (package.PublishUrl == null)
 				return;
 
-			if(allReleases.Any(x => x.Name == name))
-				return;
+			var descriptionLine = package.PublishName + ": " + package.PublishUrl;
+			var existingRelease = allReleases.SingleOrDefault(x => x.TagName == versionSlug);
+			if (existingRelease != null)
+			{
+				if(existingRelease.Body.Contains(descriptionLine))
+					return;
 
-			await this._client.Repository.Release.Create(Owner, Name, new NewRelease(versionSlug) {
-				Name = name,
-				Body = $"Published automatically by https://github.com/ffMathy/FluffySpoon.Publishers." + 
-					$"{Environment.NewLine}Repository link: {package.PublishUrl}"
-			});
+				await this._client.Repository.Release.Edit(Owner, Name, existingRelease.Id, new ReleaseUpdate() {
+					Body = existingRelease.Body + Environment.NewLine + descriptionLine
+				});
+			}
+			else
+			{
+				await this._client.Repository.Release.Create(Owner, Name, new NewRelease(versionSlug)
+				{
+					Name = versionSlug,
+					Body = $"Published automatically by https://github.com/ffMathy/FluffySpoon.Publishers." +
+						Environment.NewLine + Environment.NewLine + descriptionLine
+				});
+			}
 		}
 	}
 }
