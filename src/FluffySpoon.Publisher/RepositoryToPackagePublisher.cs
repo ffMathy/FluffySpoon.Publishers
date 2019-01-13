@@ -142,13 +142,14 @@ namespace FluffySpoon.Publisher
 					}
 
 					await remotePackageSystem.UpsertPackageAsync(package);
-					await repository.RegisterPackageReleaseAsync(package);
 				}
 				catch (CommandLineException ex)
 				{
 					Console.WriteLine("Could not refresh the package " + package.PublishName + ". " + ex);
 				}
 			}
+
+			await repository.RegisterPackageReleaseAsync(package);
 		}
 	}
 }
