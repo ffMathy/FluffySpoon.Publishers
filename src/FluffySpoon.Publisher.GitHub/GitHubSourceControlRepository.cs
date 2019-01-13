@@ -36,6 +36,15 @@ namespace FluffySpoon.Publisher.GitHub
 
 		public async Task RegisterPackageReleaseAsync(ILocalPackage package)
 		{
+			if(package.Version == null)
+				return;
+
+			if(package.PublishName == null)
+				return;
+
+			if(package.PublishUrl == null)
+				return;
+
 			var versionSlug = "v" + package.Version;
 
 			var latestRelease = await this._client.Repository.Release.GetLatest(Owner, Name);
