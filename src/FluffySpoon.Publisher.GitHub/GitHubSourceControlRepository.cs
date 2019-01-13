@@ -41,9 +41,6 @@ namespace FluffySpoon.Publisher.GitHub
 
 			var allReleases = await this._client.Repository.Release.GetAll(Owner, Name);
 
-			foreach (var release in allReleases.Where(x => x.TagName != versionSlug))
-				await this._client.Repository.Release.Delete(Owner, Name, release.Id);
-
 			if (package.Version == null)
 				return;
 
