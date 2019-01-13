@@ -102,9 +102,9 @@ namespace FluffySpoon.Publisher.DotNet
 
             versionElement.Value = package.Version = $"{existingVersion.Major}.{existingVersion.Minor+revision}.{existingVersion.Build}";
 			repositoryUrlElement.Value = repository.ContributeUrl;
-        }
+		}
 
-        private XElement GetDescriptionElement(XDocument projectFileXml)
+		private XElement GetDescriptionElement(XDocument projectFileXml)
         {
             return _projectFileParser.GetDescriptionElement(projectFileXml) ??
                    _projectFileParser.CreateDescriptionElement(projectFileXml);

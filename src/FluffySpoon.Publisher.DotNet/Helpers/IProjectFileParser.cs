@@ -2,7 +2,7 @@
 
 namespace FluffySpoon.Publisher.DotNet.Helpers
 {
-    interface IProjectFileParser
+    public interface IProjectFileParser
     {
         XElement GetVersionElement(XDocument projectFile);
         XElement CreateVersionElement(XDocument projectFile);
@@ -18,5 +18,7 @@ namespace FluffySpoon.Publisher.DotNet.Helpers
 
 		XElement GetPackageRepositoryTypeElement(XDocument projectFile);
 		XElement CreatePackageRepositoryTypeElement(XDocument projectFile);
+
+		XElement GetOrCreateElement(XDocument projectFile, string property);
 	}
 }

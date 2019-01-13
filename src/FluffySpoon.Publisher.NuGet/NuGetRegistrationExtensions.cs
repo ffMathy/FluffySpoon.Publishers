@@ -1,4 +1,5 @@
 ﻿using FluffySpoon.Publisher.DotNet;
+using FluffySpoon.Publisher.DotNet.Helpers;
 using FluffySpoon.Publisher.NuGet;
 using FluffySpoon.Publisher.Remote;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,7 @@ namespace FluffySpoon
 		{
 			services.AddTransient<IDotNetLocalPackagePreprocessor>(p => 
 				new NuGetSourceLinkDotNetLocalPackagePreprocessor(
+					p.GetRequiredService<IProjectFileParser>(),
 					sourceLinkPackageName,
 					sourceLinkPackageVersion));
 		}

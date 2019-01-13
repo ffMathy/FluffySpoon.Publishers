@@ -84,5 +84,11 @@ namespace FluffySpoon.Publisher.DotNet.Helpers
               .Elements()
               .Where(x => x.Name.LocalName == "PropertyGroup");
         }
+
+		public XElement GetOrCreateElement(XDocument projectFile, string property)
+		{
+			return GetElement(projectFile, property) ??
+				CreateElement(projectFile, property);
+		}
 	}
 }
