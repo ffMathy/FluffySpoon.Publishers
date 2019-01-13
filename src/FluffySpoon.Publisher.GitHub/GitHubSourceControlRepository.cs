@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluffySpoon.Publisher.Remote;
 using System;
 using FluffySpoon.Publisher.Local;
+using System.Linq;
 
 namespace FluffySpoon.Publisher.GitHub
 {
@@ -46,13 +47,14 @@ namespace FluffySpoon.Publisher.GitHub
 				return;
 
 			var versionSlug = "v" + package.Version;
+			var name = package.PublishName + "-" + versionSlug;
 
-			var latestRelease = await this._client.Repository.Release.GetLatest(Owner, Name);
-			if(latestRelease.Name == versionSlug)
+			var allReleases = await this._client.Repository.Release.GetAll(Owner, Name);
+			if(allReleases.Any(x => x.Name == name))
 				return;
 
 			await this._client.Repository.Release.Create(Owner, Name, new NewRelease(versionSlug) {
-				Name = versionSlug,
+				Name = name,
 				Body = $"Published automatically by https://github.com/ffMathy/FluffySpoon.Publishers." + 
 					$"{Environment.NewLine}Repository link: {package.PublishUrl}"
 			});
