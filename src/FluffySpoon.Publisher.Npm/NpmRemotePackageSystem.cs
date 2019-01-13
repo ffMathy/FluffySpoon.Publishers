@@ -41,6 +41,8 @@ namespace FluffySpoon.Publisher.NuGet
             await NpmHelper.PublishAsync(
                 package.FolderPath, 
                 _npmSettings.AuthToken);
-        }
+
+			package.PublishUrl = $"https://www.npmjs.com/package/{package.PublishName}/v/{package.Version}";
+		}
     }
 }

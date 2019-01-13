@@ -60,6 +60,8 @@ namespace FluffySpoon.Publisher.NuGet
             await NuGetHelper.PublishAsync(
                 packageFile.FullName, 
                 _nuGetSettings.ApiKey);
-        }
+
+			package.PublishUrl = $"https://www.nuget.org/packages/{package.PublishName}/{package.Version}";
+		}
     }
 }

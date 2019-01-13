@@ -7,6 +7,7 @@ namespace FluffySpoon.Publisher.Local
 		string PublishName { get; }
 		string FolderPath { get; }
 		string Version { get; set; }
+		string PublishUrl { get; set; }
 
 		ILocalPackageProcessor Processor { get; }
 	}

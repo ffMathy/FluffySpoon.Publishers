@@ -9,6 +9,7 @@ namespace FluffySpoon.Publisher.DotNet
 		public string FolderPath { get; set; }
 		public string ProjectFilePath { get; set; }
 		public string Version { get; set; }
+		public string PublishUrl { get; set; }
 
 		public ILocalPackageProcessor Processor { get; set; }
 	}

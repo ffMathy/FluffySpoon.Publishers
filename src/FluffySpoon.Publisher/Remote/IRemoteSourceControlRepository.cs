@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FluffySpoon.Publisher.Local;
 
 namespace FluffySpoon.Publisher.Remote
 {
@@ -15,5 +16,7 @@ namespace FluffySpoon.Publisher.Remote
         IRemoteSourceControlSystem System { get; }
 
         Task DownloadToDirectoryAsync(string folderPath);
-    }
+
+		Task RegisterPackageReleaseAsync(ILocalPackage package);
+	}
 }

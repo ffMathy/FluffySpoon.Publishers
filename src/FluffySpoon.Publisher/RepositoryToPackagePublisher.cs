@@ -142,6 +142,7 @@ namespace FluffySpoon.Publisher
 					}
 
 					await remotePackageSystem.UpsertPackageAsync(package);
+					await repository.RegisterPackageReleaseAsync(package);
 				}
 				catch (CommandLineException ex)
 				{

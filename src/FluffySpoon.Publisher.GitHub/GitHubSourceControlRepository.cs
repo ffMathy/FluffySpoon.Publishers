@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FluffySpoon.Publisher.Remote;
 using System;
+using FluffySpoon.Publisher.Local;
 
 namespace FluffySpoon.Publisher.GitHub
 {
@@ -31,6 +32,16 @@ namespace FluffySpoon.Publisher.GitHub
 		{
 			var repository = await _client.Repository.Get(Owner, Name);
 			GitHelper.Clone(targetPath, repository);
+		}
+
+		public async Task RegisterPackageReleaseAsync(ILocalPackage package)
+		{
+			var versionSlug = "v" + package.Version;
+			await this._client.Repository.Release.Create(Owner, Name, new NewRelease(versionSlug) {
+				Name = versionSlug,
+				Body = $"Published automatically by https://github.com/ffMathy/FluffySpoon.Publishers." + 
+					$"{Environment.NewLine}Repository link: {package.PublishUrl}"
+			});
 		}
 	}
 }
