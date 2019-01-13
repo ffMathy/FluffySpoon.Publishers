@@ -30,6 +30,8 @@ namespace FluffySpoon.Publisher
 
 		public async Task RefreshAllPackagesFromAllRepositoriesAsync()
 		{
+			Console.WriteLine("Fetching packages from " + _sourceControlSystems.Count() + " source control systems.");
+
 			try
 			{
 				foreach (var sourceControlSystem in _sourceControlSystems)
