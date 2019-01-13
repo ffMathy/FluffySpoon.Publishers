@@ -37,7 +37,15 @@ namespace FluffySpoon.Publisher.GitHub
 
 		public async Task RegisterPackageReleaseAsync(ILocalPackage package)
 		{
-			if(package.Version == null)
+			var versionSlug = "v" + package.Version;
+			var name = package.PublishName + "-" + versionSlug;
+
+			var allReleases = await this._client.Repository.Release.GetAll(Owner, Name);
+
+			foreach (var release in allReleases.Where(x => x.TagName != versionSlug))
+				await this._client.Repository.Release.Delete(Owner, Name, release.Id);
+
+			if (package.Version == null)
 				return;
 
 			if(package.PublishName == null)
@@ -45,14 +53,6 @@ namespace FluffySpoon.Publisher.GitHub
 
 			if(package.PublishUrl == null)
 				return;
-
-			var versionSlug = "v" + package.Version;
-			var name = package.PublishName + "-" + versionSlug;
-
-			var allReleases = await this._client.Repository.Release.GetAll(Owner, Name);
-
-			foreach(var release in allReleases.Where(x => x.TagName != versionSlug))
-				await this._client.Repository.Release.Delete(Owner, Name, release.Id);
 
 			if(allReleases.Any(x => x.Name == name))
 				return;
