@@ -9,7 +9,7 @@ namespace FluffySpoon
 {
 	public static class DotNetRegistrationExtensions
 	{
-		public static void AddDotNetProvider(this ServiceCollection services)
+		public static void AddDotNetProvider(this IServiceCollection services)
 		{
 			services.AddTransient<ILocalPackageProcessor, DotNetLocalPackageProcessor>();
 
