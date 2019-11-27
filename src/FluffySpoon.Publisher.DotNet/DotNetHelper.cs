@@ -26,7 +26,7 @@ namespace FluffySpoon.Publisher.DotNet
     {
       CommandLineHelper.LaunchAndWait(new ProcessStartInfo("dotnet.exe")
       {
-        Arguments = "pack --output \"" + targetDirectory + "\" --include-symbols -p:SymbolPackageFormat=snupkg",
+        Arguments = "pack --output \"" + targetDirectory + "\" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg",
         WorkingDirectory = targetDirectory
       });
     }
