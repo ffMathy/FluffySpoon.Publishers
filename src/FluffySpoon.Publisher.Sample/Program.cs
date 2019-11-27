@@ -26,7 +26,7 @@ namespace FluffySpoon.Publisher.Sample
 			services.AddDotNetProvider();
 			services.AddDotNetNuGetSourceLinkProvider(
 				"Microsoft.SourceLink.GitHub",
-				"1.0.0-beta2-18618-05");
+				"1.0.0");
 
 			services.AddNodeJsProvider();
 			services.AddNpmProvider(npmKey);
