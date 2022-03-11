@@ -9,7 +9,7 @@ namespace FluffySpoon.Publisher
     public static string GetFluffySpoonWorkingDirectory()
     {
       var folderPath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        Environment.CurrentDirectory,
         "FluffySpoon");
       return folderPath;
     }
