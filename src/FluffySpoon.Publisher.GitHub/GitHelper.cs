@@ -8,14 +8,8 @@ namespace FluffySpoon.Publisher.GitHub
   {
     public static void Clone(string targetPath, Repository repository)
     {
-      var programFilesPath = @"C:\Program Files";
-      var gitPath = Path.Combine(
-        programFilesPath,
-        "Git",
-        "bin",
-        "git.exe");
       Directory.CreateDirectory(targetPath);
-      CommandLineHelper.LaunchAndWait(new ProcessStartInfo(gitPath)
+      CommandLineHelper.LaunchAndWait(new ProcessStartInfo("git")
       {
         Arguments = "clone " + repository.CloneUrl,
         WorkingDirectory = Path.GetDirectoryName(targetPath)
