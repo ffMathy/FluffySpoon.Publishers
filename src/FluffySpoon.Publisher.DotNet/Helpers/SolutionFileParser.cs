@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -8,6 +9,8 @@ class SolutionFileParser : ISolutionFileParser
 {
   public IReadOnlyCollection<SolutionFileProject> GetProjectsFromSolutionFile(string solutionFile)
   {
+    Console.WriteLine("Getting projects for: " + solutionFile);
+    
     var projects = new List<SolutionFileProject>();
       
     var guidRegex = "\\{[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}\\}";
@@ -17,6 +20,8 @@ class SolutionFileParser : ISolutionFileParser
       var match = projectRegularExpression.Match(line);
       if (match.Groups.Count < 3)
         continue;
+      
+      Console.WriteLine("Found project: " + line);
 
       projects.Add(new SolutionFileProject()
       {
