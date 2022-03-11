@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace FluffySpoon.Publisher
@@ -7,9 +8,8 @@ namespace FluffySpoon.Publisher
   {
     public static string GetFluffySpoonWorkingDirectory()
     {
-      var drive = DriveInfo.GetDrives().First(x => x.DriveType == DriveType.Fixed && x.IsReady);
       var folderPath = Path.Combine(
-        drive.RootDirectory.FullName,
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "FluffySpoon");
       return folderPath;
     }
