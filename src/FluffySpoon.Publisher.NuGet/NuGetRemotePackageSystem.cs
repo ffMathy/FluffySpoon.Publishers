@@ -7,61 +7,60 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace FluffySpoon.Publisher.NuGet
+namespace FluffySpoon.Publisher.NuGet;
+
+class NuGetRemotePackageSystem : IRemotePackageSystem
 {
-    class NuGetRemotePackageSystem : IRemotePackageSystem
+    private readonly ISettings _repositoryFilter;
+    private readonly INuGetSettings _nuGetSettings;
+
+    public NuGetRemotePackageSystem(
+        INuGetSettings nuGetSettings,
+        ISettings repositoryFilter)
     {
-        private readonly ISettings _repositoryFilter;
-        private readonly INuGetSettings _nuGetSettings;
+        _nuGetSettings = nuGetSettings;
+        _repositoryFilter = repositoryFilter;
+    }
 
-        public NuGetRemotePackageSystem(
-            INuGetSettings nuGetSettings,
-            ISettings repositoryFilter)
-        {
-            _nuGetSettings = nuGetSettings;
-            _repositoryFilter = repositoryFilter;
-        }
+    public bool CanPublishPackage(ILocalPackage package)
+    {
+        return package is IDotNetLocalPackage &&
+               package.PublishName.StartsWith(_repositoryFilter.ProjectPrefix) &&
+               !package.PublishName.EndsWith(".Sample") &&
+               !package.PublishName.EndsWith(".Tests");
+    }
 
-        public bool CanPublishPackage(ILocalPackage package)
+    public async Task<bool?> DoesPackageWithVersionExistAsync(ILocalPackage package)
+    {
+        using (var client = new HttpClient())
         {
-            return package is IDotNetLocalPackage &&
-              package.PublishName.StartsWith(_repositoryFilter.ProjectPrefix) &&
-              !package.PublishName.EndsWith(".Sample") &&
-              !package.PublishName.EndsWith(".Tests");
-        }
-
-        public async Task<bool?> DoesPackageWithVersionExistAsync(ILocalPackage package)
-        {
-            using (var client = new HttpClient())
+            var response = await client.GetAsync($"https://api.nuget.org/packages/{package.PublishName.ToLowerInvariant()}.{package.Version}.nupkg");
+            if (response.StatusCode != HttpStatusCode.NotFound && response.IsSuccessStatusCode)
             {
-                var response = await client.GetAsync($"https://api.nuget.org/packages/{package.PublishName.ToLowerInvariant()}.{package.Version}.nupkg");
-                if (response.StatusCode != HttpStatusCode.NotFound && response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
+                return true;
             }
-
-            return false;
         }
 
-        public async Task UpsertPackageAsync(ILocalPackage package)
-        {
-            Console.WriteLine("Upserting package " + package.PublishName + " version " + package.Version + " to remote package repository.");
+        return false;
+    }
 
-            var packageFile = new FileInfo(
-              Path.Combine(
+    public async Task UpsertPackageAsync(ILocalPackage package)
+    {
+        Console.WriteLine("Upserting package " + package.PublishName + " version " + package.Version + " to remote package repository.");
+
+        var packageFile = new FileInfo(
+            Path.Combine(
                 package.FolderPath,
                 package.PublishName + "." + package.Version + ".nupkg"));
-            if (!packageFile.Exists)
-            {
-                throw new InvalidOperationException("Can't find compiled package at " + packageFile);
-            }
+        if (!packageFile.Exists)
+        {
+            throw new InvalidOperationException("Can't find compiled package at " + packageFile);
+        }
 
-            await NuGetHelper.PublishAsync(
-                packageFile.FullName, 
-                _nuGetSettings.ApiKey);
+        await NuGetHelper.PublishAsync(
+            packageFile.FullName, 
+            _nuGetSettings.ApiKey);
 
-			package.PublishUrl = $"https://www.nuget.org/packages/{package.PublishName}/{package.Version}";
-		}
+        package.PublishUrl = $"https://www.nuget.org/packages/{package.PublishName}/{package.Version}";
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace FluffySpoon.Publisher.NuGet
+﻿namespace FluffySpoon.Publisher.Npm;
+
+interface INpmSettings
 {
-    interface INpmSettings
-    {
-        string AuthToken { get; }
-    }
+    string AuthToken { get; }
 }

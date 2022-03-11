@@ -1,12 +1,11 @@
 ﻿using FluffySpoon.Publisher.Remote;
 
-namespace FluffySpoon.Publisher.GitHub
-{
-    internal interface IGitHubSourceControlRepository : IRemoteSourceControlRepository
-    {
-        string Owner { get; set; }
-        new string Name { get; set; }
+namespace FluffySpoon.Publisher.GitHub;
 
-        new IRemoteSourceControlSystem System { get; set; }
-    }
+internal interface IGitHubSourceControlRepository : IRemoteSourceControlRepository
+{
+    string Owner { get; set; }
+    new string Name { get; set; }
+
+    new IRemoteSourceControlSystem System { get; set; }
 }

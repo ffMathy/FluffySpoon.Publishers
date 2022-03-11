@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace FluffySpoon.Publisher
+namespace FluffySpoon.Publisher;
+
+[Serializable]
+internal class CommandLineException : Exception
 {
-	[Serializable]
-	internal class CommandLineException : Exception
+	public CommandLineException()
 	{
-		public CommandLineException()
-		{
-		}
+	}
 
-		public CommandLineException(string message) : base(message)
-		{
-		}
+	public CommandLineException(string message) : base(message)
+	{
+	}
 
-		public CommandLineException(string message, Exception innerException) : base(message, innerException)
-		{
-		}
+	public CommandLineException(string message, Exception innerException) : base(message, innerException)
+	{
+	}
 
-		protected CommandLineException(SerializationInfo info, StreamingContext context) : base(info, context)
-		{
-		}
+	protected CommandLineException(SerializationInfo info, StreamingContext context) : base(info, context)
+	{
 	}
 }

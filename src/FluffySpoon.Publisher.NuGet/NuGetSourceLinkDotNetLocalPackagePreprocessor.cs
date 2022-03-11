@@ -8,66 +8,65 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace FluffySpoon.Publisher.NuGet
+namespace FluffySpoon.Publisher.NuGet;
+
+class NuGetSourceLinkDotNetLocalPackagePreprocessor : IDotNetLocalPackagePreprocessor
 {
-	class NuGetSourceLinkDotNetLocalPackagePreprocessor : IDotNetLocalPackagePreprocessor
+	private readonly IProjectFileParser _projectFileParser;
+
+	private readonly string _packageName;
+	private readonly string _packageVersion;
+
+	public NuGetSourceLinkDotNetLocalPackagePreprocessor(
+		IProjectFileParser projectFileParser,
+		string packageName,
+		string packageVersion)
 	{
-		private readonly IProjectFileParser _projectFileParser;
+		_projectFileParser = projectFileParser;
+		_packageName = packageName;
+		_packageVersion = packageVersion;
+	}
 
-		private readonly string _packageName;
-		private readonly string _packageVersion;
+	public Task PreprocessPackageAsync(IDotNetLocalPackage package)
+	{
+		AddSourceLinkPackage(package.FolderPath);
+		AddSourceLinkProjectProperties(package);
 
-		public NuGetSourceLinkDotNetLocalPackagePreprocessor(
-			IProjectFileParser projectFileParser,
-			string packageName,
-			string packageVersion)
+		return Task.CompletedTask;
+	}
+
+	private void AddSourceLinkProjectProperties(IDotNetLocalPackage package)
+	{
+		var projectFileXml = XDocument.Load(package.ProjectFilePath);
+
+		var publishRepositoryUrlProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "PublishRepositoryUrl");
+		publishRepositoryUrlProperty.Value = "true";
+
+		var embedUntrackedSourcesProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "EmbedUntrackedSources");
+		embedUntrackedSourcesProperty.Value = "true";
+
+		var includeSymbolsProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "IncludeSymbols");
+		includeSymbolsProperty.Value = "true";
+
+		var symbolPackageFormatProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "SymbolPackageFormat");
+		symbolPackageFormatProperty.Value = "snupkg";
+
+		using (var stream = File.OpenWrite(package.ProjectFilePath))
 		{
-			_projectFileParser = projectFileParser;
-			_packageName = packageName;
-			_packageVersion = packageVersion;
+			projectFileXml.Save(stream);
 		}
+	}
 
-		public Task PreprocessPackageAsync(IDotNetLocalPackage package)
+	private void AddSourceLinkPackage(string targetDirectory)
+	{
+		var arguments = $"add package {_packageName}";
+		if(_packageVersion != null)
+			arguments += $" --version {_packageVersion}";
+
+		CommandLineHelper.LaunchAndWait(new ProcessStartInfo("dotnet.exe")
 		{
-			AddSourceLinkPackage(package.FolderPath);
-			AddSourceLinkProjectProperties(package);
-
-			return Task.CompletedTask;
-		}
-
-		private void AddSourceLinkProjectProperties(IDotNetLocalPackage package)
-		{
-			var projectFileXml = XDocument.Load(package.ProjectFilePath);
-
-			var publishRepositoryUrlProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "PublishRepositoryUrl");
-			publishRepositoryUrlProperty.Value = "true";
-
-			var embedUntrackedSourcesProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "EmbedUntrackedSources");
-			embedUntrackedSourcesProperty.Value = "true";
-
-			var includeSymbolsProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "IncludeSymbols");
-			includeSymbolsProperty.Value = "true";
-
-			var symbolPackageFormatProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "SymbolPackageFormat");
-			symbolPackageFormatProperty.Value = "snupkg";
-
-			using (var stream = File.OpenWrite(package.ProjectFilePath))
-			{
-				projectFileXml.Save(stream);
-			}
-		}
-
-		private void AddSourceLinkPackage(string targetDirectory)
-		{
-			var arguments = $"add package {_packageName}";
-			if(_packageVersion != null)
-				arguments += $" --version {_packageVersion}";
-
-			CommandLineHelper.LaunchAndWait(new ProcessStartInfo("dotnet.exe")
-			{
-				Arguments = arguments,
-				WorkingDirectory = targetDirectory
-			});
-		}
+			Arguments = arguments,
+			WorkingDirectory = targetDirectory
+		});
 	}
 }

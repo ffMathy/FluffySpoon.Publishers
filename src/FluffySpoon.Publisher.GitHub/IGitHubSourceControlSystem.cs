@@ -1,8 +1,7 @@
 ﻿using FluffySpoon.Publisher.Remote;
 
-namespace FluffySpoon.Publisher.GitHub
+namespace FluffySpoon.Publisher.GitHub;
+
+interface IGitHubSourceControlSystem: IRemoteSourceControlSystem
 {
-  interface IGitHubSourceControlSystem: IRemoteSourceControlSystem
-  {
-  }
 }

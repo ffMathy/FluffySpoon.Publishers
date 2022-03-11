@@ -6,16 +6,15 @@ using System.Collections.Generic;
 using FluffySpoon.Publisher;
 
 // ReSharper disable once CheckNamespace
-namespace FluffySpoon
+namespace FluffySpoon;
+
+public static class RegistrationExtensions
 {
-    public static class RegistrationExtensions
+    public static void AddRepositoryToPackagePublisher(
+        this ServiceCollection services,
+        string repositoryPrefix)
     {
-        public static void AddRepositoryToPackagePublisher(
-            this ServiceCollection services,
-            string repositoryPrefix)
-        {
-            services.AddTransient<IRepositoryToPackagePublisher, RepositoryToPackagePublisher>();
-            services.AddTransient<ISettings>(provider => new Settings(repositoryPrefix));
-        }
+        services.AddTransient<IRepositoryToPackagePublisher, RepositoryToPackagePublisher>();
+        services.AddTransient<ISettings>(provider => new Settings(repositoryPrefix));
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace FluffySpoon.Publisher.NuGet
+﻿namespace FluffySpoon.Publisher.NuGet;
+
+interface INuGetSettings
 {
-    interface INuGetSettings
-    {
-        string ApiKey { get; }
-    }
+    string ApiKey { get; }
 }

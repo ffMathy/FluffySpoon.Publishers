@@ -2,18 +2,17 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace FluffySpoon.Publisher.GitHub
+namespace FluffySpoon.Publisher.GitHub;
+
+static class GitHelper
 {
-  static class GitHelper
+  public static void Clone(string targetPath, Repository repository)
   {
-    public static void Clone(string targetPath, Repository repository)
+    Directory.CreateDirectory(targetPath);
+    CommandLineHelper.LaunchAndWait(new ProcessStartInfo("git")
     {
-      Directory.CreateDirectory(targetPath);
-      CommandLineHelper.LaunchAndWait(new ProcessStartInfo("git")
-      {
-        Arguments = "clone " + repository.CloneUrl,
-        WorkingDirectory = Path.GetDirectoryName(targetPath)
-      });
-    }
+      Arguments = "clone " + repository.CloneUrl,
+      WorkingDirectory = Path.GetDirectoryName(targetPath)
+    });
   }
 }

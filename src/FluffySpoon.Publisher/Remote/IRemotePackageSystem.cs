@@ -1,14 +1,13 @@
 ﻿using System.Threading.Tasks;
 using FluffySpoon.Publisher.Local;
 
-namespace FluffySpoon.Publisher.Remote
+namespace FluffySpoon.Publisher.Remote;
+
+public interface IRemotePackageSystem
 {
-  public interface IRemotePackageSystem
-  {
-    bool CanPublishPackage(ILocalPackage package);
+  bool CanPublishPackage(ILocalPackage package);
 
-    Task<bool?> DoesPackageWithVersionExistAsync(ILocalPackage package);
+  Task<bool?> DoesPackageWithVersionExistAsync(ILocalPackage package);
 
-    Task UpsertPackageAsync(ILocalPackage package);
-  }
+  Task UpsertPackageAsync(ILocalPackage package);
 }

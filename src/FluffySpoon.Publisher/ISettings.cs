@@ -1,7 +1,6 @@
-﻿namespace FluffySpoon.Publisher
+﻿namespace FluffySpoon.Publisher;
+
+public interface ISettings
 {
-    public interface ISettings
-    {
-        string ProjectPrefix { get; }
-    }
+    string ProjectPrefix { get; }
 }

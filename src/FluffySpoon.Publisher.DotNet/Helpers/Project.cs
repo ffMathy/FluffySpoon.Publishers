@@ -1,8 +1,7 @@
-﻿namespace FluffySpoon.Publisher.DotNet.Helpers
+﻿namespace FluffySpoon.Publisher.DotNet.Helpers;
+
+class SolutionFileProject
 {
-  class SolutionFileProject
-  {
-    public string Name { get; set; }
-    public string FilePath { get; set; }
-  }
+  public string Name { get; set; }
+  public string FilePath { get; set; }
 }

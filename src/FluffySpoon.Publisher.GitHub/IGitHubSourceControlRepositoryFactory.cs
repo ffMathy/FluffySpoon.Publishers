@@ -1,7 +1,6 @@
-﻿namespace FluffySpoon.Publisher.GitHub
+﻿namespace FluffySpoon.Publisher.GitHub;
+
+interface IGitHubSourceControlRepositoryFactory
 {
-  interface IGitHubSourceControlRepositoryFactory
-  {
-    GitHubSourceControlRepository Create();
-  }
+  GitHubSourceControlRepository Create();
 }

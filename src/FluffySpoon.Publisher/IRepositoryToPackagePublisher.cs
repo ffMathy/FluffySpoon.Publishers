@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace FluffySpoon.Publisher
+namespace FluffySpoon.Publisher;
+
+public interface IRepositoryToPackagePublisher
 {
-  public interface IRepositoryToPackagePublisher
-  {
-    Task RefreshAllPackagesFromAllRepositoriesAsync();
-  }
+  Task RefreshAllPackagesFromAllRepositoriesAsync();
 }

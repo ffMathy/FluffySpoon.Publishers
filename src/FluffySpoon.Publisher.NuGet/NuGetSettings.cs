@@ -1,12 +1,11 @@
-﻿namespace FluffySpoon.Publisher.NuGet
-{
-    class NuGetSettings : INuGetSettings
-    {
-        public string ApiKey { get; }
+﻿namespace FluffySpoon.Publisher.NuGet;
 
-        public NuGetSettings(string apiKey)
-        {
-            ApiKey = apiKey;
-        }
+class NuGetSettings : INuGetSettings
+{
+    public string ApiKey { get; }
+
+    public NuGetSettings(string apiKey)
+    {
+        ApiKey = apiKey;
     }
 }

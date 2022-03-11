@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FluffySpoon.Publisher.DotNet
+namespace FluffySpoon.Publisher.DotNet;
+
+public interface IDotNetLocalPackagePreprocessor
 {
-  public interface IDotNetLocalPackagePreprocessor
-  {
-    Task PreprocessPackageAsync(IDotNetLocalPackage package);
-  }
+  Task PreprocessPackageAsync(IDotNetLocalPackage package);
 }

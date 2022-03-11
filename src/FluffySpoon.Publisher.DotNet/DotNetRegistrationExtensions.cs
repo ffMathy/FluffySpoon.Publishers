@@ -5,18 +5,17 @@ using FluffySpoon.Publisher.DotNet.Helpers;
 using FluffySpoon.Publisher.Local;
 
 // ReSharper disable once CheckNamespace
-namespace FluffySpoon
+namespace FluffySpoon;
+
+public static class DotNetRegistrationExtensions
 {
-	public static class DotNetRegistrationExtensions
+	public static void AddDotNetProvider(this IServiceCollection services)
 	{
-		public static void AddDotNetProvider(this IServiceCollection services)
-		{
-			services.AddTransient<ILocalPackageProcessor, DotNetLocalPackageProcessor>();
+		services.AddTransient<ILocalPackageProcessor, DotNetLocalPackageProcessor>();
 
-			services.AddTransient<IProjectFileParser, ProjectFileParser>();
-			services.AddTransient<ISolutionFileParser, SolutionFileParser>();
+		services.AddTransient<IProjectFileParser, ProjectFileParser>();
+		services.AddTransient<ISolutionFileParser, SolutionFileParser>();
 
-			services.AddTransient<DotNetLocalPackageProcessor>();
-		}
+		services.AddTransient<DotNetLocalPackageProcessor>();
 	}
 }

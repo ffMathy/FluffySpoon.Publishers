@@ -1,9 +1,8 @@
 ﻿using FluffySpoon.Publisher.Local;
 
-namespace FluffySpoon.Publisher.DotNet
+namespace FluffySpoon.Publisher.NodeJs;
+
+public interface INodeJsLocalPackage: ILocalPackage
 {
-  public interface INodeJsLocalPackage: ILocalPackage
-  {
-    string PackageJsonFilePath { get; }
-  }
+  string PackageJsonFilePath { get; }
 }
