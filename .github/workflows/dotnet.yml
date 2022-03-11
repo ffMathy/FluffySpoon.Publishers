@@ -16,13 +16,14 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 6.0.x
         
     - name: Build
       env:
         ProjectNamePrefix: FluffySpoon.
         GitHubUsername: ffMathy
-        NuGetKey: ${{ secrets.NuGetKey}}
+        GitHubPassword: ${{ secrets.GitHubPassword }}
+        NuGetKey: ${{ secrets.NuGetKey }}
         NpmAuthToken: ${{ secrets.NpmAuthToken }}
         GitHubPersonalAccessToken: ${{ secrets.GitHubPersonalAccessToken }}
       run: |
