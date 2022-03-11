@@ -22,7 +22,6 @@ jobs:
       env:
         ProjectNamePrefix: FluffySpoon.
         GitHubUsername: ffMathy
-        GitHubPassword: ${{ secrets.GitHubPassword }}
         NuGetKey: ${{ secrets.NuGetKey }}
         NpmAuthToken: ${{ secrets.NpmAuthToken }}
         GitHubPersonalAccessToken: ${{ secrets.GitHubPersonalAccessToken }}
