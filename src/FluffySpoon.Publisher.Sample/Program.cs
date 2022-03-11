@@ -39,13 +39,12 @@ namespace FluffySpoon.Publisher.Sample
 			Console.WriteLine("All done!");
 		}
 
-		private static (string username, string password, string accessToken) AskForGitHubCredentials()
+		private static (string username, string accessToken) AskForGitHubCredentials()
 		{
 			var githubUsername = AskFor("GitHub username", "ffMathy", "GitHubUsername");
-			var githubPassword = AskFor("GitHub password", null, "GitHubPassword");
 		    var githubAccessToken = AskFor("GitHub access token", null, "GitHubPersonalAccessToken");
 
-			return (githubUsername, githubPassword, githubAccessToken);
+			return (githubUsername, githubAccessToken);
 		}
 
 		private static string AskFor(string phrase, string defaultValue, string environmentVariableKey)
