@@ -60,10 +60,10 @@ namespace FluffySpoon.Publisher.DotNet
 		{
 			var sourceDirectory = new DirectoryInfo(
 			  Path.Combine(
-				AppContext.BaseDirectory,
+				Environment.CurrentDirectory,
 				relativePath));
 
-			var packageJsonFilePath = Path.Combine(AppContext.BaseDirectory, relativePath, "package.json");
+			var packageJsonFilePath = Path.Combine(Environment.CurrentDirectory, relativePath, "package.json");
 			if (!File.Exists(packageJsonFilePath))
 				return Task.FromResult<IReadOnlyCollection<ILocalPackage>>(new HashSet<ILocalPackage>());
 

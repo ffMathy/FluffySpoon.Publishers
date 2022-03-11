@@ -138,7 +138,7 @@ namespace FluffySpoon.Publisher.DotNet
         {
             var sourceDirectory = new DirectoryInfo(
               Path.Combine(
-                AppContext.BaseDirectory,
+                Environment.CurrentDirectory,
                 relativePath,
                 "src"));
             if (!sourceDirectory.Exists)
