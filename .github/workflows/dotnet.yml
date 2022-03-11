@@ -1,0 +1,30 @@
+name: .NET
+
+on:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+        
+    - name: Build
+      env:
+        ProjectNamePrefix: FluffySpoon.
+        GitHubUsername: ffMathy
+        NuGetKey: ${{ secrets.NuGetKey}}
+        NpmAuthToken: ${{ secrets.NpmAuthToken }}
+        GitHubPersonalAccessToken: ${{ secrets.GitHubPersonalAccessToken }}
+      run: |
+        cd src
+        dotnet restore
+        dotnet build
+        cd FluffySpoon.Publisher.Sample
+        dotnet run
