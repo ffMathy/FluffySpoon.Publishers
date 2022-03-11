@@ -54,6 +54,46 @@ class Program
 }
 ```
 
+## Running in GitHub Actions
+Below is an example of running the [sample code](https://github.com/ffMathy/FluffySpoon.Publishers/blob/master/src/FluffySpoon.Publisher.Sample/Program.cs) on an GitHub Actions using environment variables.
+
+### dotnet.yml
+```yml
+name: .NET
+
+on:
+  push:
+  schedule:
+    - cron: '0 * * * *'
+    
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: Build
+      env:
+        ProjectNamePrefix: FluffySpoon.
+        GitHubUsername: ffMathy
+        NuGetKey: ${{ secrets.NuGetKey }}
+        NpmAuthToken: ${{ secrets.NpmAuthToken }}
+        GitHubPersonalAccessToken: ${{ secrets.GitHubPersonalAccessToken }}
+      run: |
+        cd src
+        dotnet restore
+        dotnet build
+        cd FluffySpoon.Publisher.Sample
+        dotnet run
+```
+
 ## Running in AppVeyor
 Below is an example of running the [sample code](https://github.com/ffMathy/FluffySpoon.Publishers/blob/master/src/FluffySpoon.Publisher.Sample/Program.cs) on an AppVeyor build server using environment variables.
 
@@ -66,8 +106,6 @@ environment:
     secure: 14GsJ75nn9jwVPMQXN7qN8xrwhyAY8TwIvvsQ+P1yzahdtfl83J8cyN+aA9WhtSY
   ProjectNamePrefix: FluffySpoon.
   GitHubUsername: ffMathy
-  GitHubPassword:
-    secure: 6RzxJuCM4hx6ZUex2kEJ/g==
   NpmAuthToken:
     secure: dg3EnwKFzX5E40SPkoPK53pW2D2W5sjCGV4xhORTCoe50OEASg8Xk9mI12SBVadI
   GitHubPersonalAccessToken:
