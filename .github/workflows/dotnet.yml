@@ -1,7 +1,10 @@
 name: .NET
 
 on:
-
+  push:
+  schedule:
+    - cron: '0 * * * *'
+    
 jobs:
   build:
 
