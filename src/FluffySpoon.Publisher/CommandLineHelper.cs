@@ -10,6 +10,8 @@ public static class CommandLineHelper
 		startInformation.RedirectStandardError = true;
 		startInformation.RedirectStandardOutput = true;
 		
+		Console.WriteLine("Executing: " + startInformation.FileName + " " + startInformation.Arguments);
+		
 		using var process = Process.Start(startInformation);
 		process?.WaitForExit();
 

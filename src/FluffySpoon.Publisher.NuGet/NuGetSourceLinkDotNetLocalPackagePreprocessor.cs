@@ -15,12 +15,12 @@ class NuGetSourceLinkDotNetLocalPackagePreprocessor : IDotNetLocalPackagePreproc
 	private readonly IProjectFileParser _projectFileParser;
 
 	private readonly string _packageName;
-	private readonly string _packageVersion;
+	private readonly string? _packageVersion;
 
 	public NuGetSourceLinkDotNetLocalPackagePreprocessor(
 		IProjectFileParser projectFileParser,
 		string packageName,
-		string packageVersion)
+		string? packageVersion)
 	{
 		_projectFileParser = projectFileParser;
 		_packageName = packageName;

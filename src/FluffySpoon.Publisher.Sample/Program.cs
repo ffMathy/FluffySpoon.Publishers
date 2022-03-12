@@ -26,7 +26,7 @@ class Program
 		services.AddDotNetProvider();
 		services.AddDotNetNuGetSourceLinkProvider(
 			"Microsoft.SourceLink.GitHub",
-			"1.0.0");
+			"1.1.1");
 
 		services.AddNodeJsProvider();
 		services.AddNpmProvider(npmKey);
