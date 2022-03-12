@@ -63,7 +63,7 @@ class NuGetSourceLinkDotNetLocalPackagePreprocessor : IDotNetLocalPackagePreproc
 		if(_packageVersion != null)
 			arguments += $" --version {_packageVersion}";
 
-		CommandLineHelper.LaunchAndWait(new ProcessStartInfo("dotnet.exe")
+		CommandLineHelper.LaunchAndWait(new ProcessStartInfo("dotnet")
 		{
 			Arguments = arguments,
 			WorkingDirectory = targetDirectory

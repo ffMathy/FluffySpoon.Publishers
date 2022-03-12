@@ -151,10 +151,6 @@ class DotNetLocalPackageProcessor : ILocalPackageProcessor
 				.StartsWith(_repositoryFilter.ProjectPrefix));
 		if (solutionFile == null)
 			return Task.FromResult<IReadOnlyCollection<ILocalPackage>>(new HashSet<ILocalPackage>());
-		
-		var f = Directory.GetFiles(sourceDirectory.FullName, "*", SearchOption.AllDirectories);
-		foreach (var file in f)
-			Console.WriteLine(file);
 
 		var projects = _solutionFileParser.GetProjectsFromSolutionFile(solutionFile.FullName);
 		var result = projects
