@@ -32,13 +32,11 @@ class NuGetRemotePackageSystem : IRemotePackageSystem
 
     public async Task<bool?> DoesPackageWithVersionExistAsync(ILocalPackage package)
     {
-        using (var client = new HttpClient())
+        using var client = new HttpClient();
+        var response = await client.GetAsync($"https://api.nuget.org/packages/{package.PublishName.ToLowerInvariant()}.{package.Version}.nupkg");
+        if (response.StatusCode != HttpStatusCode.NotFound && response.IsSuccessStatusCode)
         {
-            var response = await client.GetAsync($"https://api.nuget.org/packages/{package.PublishName.ToLowerInvariant()}.{package.Version}.nupkg");
-            if (response.StatusCode != HttpStatusCode.NotFound && response.IsSuccessStatusCode)
-            {
-                return true;
-            }
+            return true;
         }
 
         return false;

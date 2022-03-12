@@ -26,7 +26,7 @@ static class DotNetHelper
   {
     CommandLineHelper.LaunchAndWait(new ProcessStartInfo("dotnet")
     {
-      Arguments = "pack --output \"" + targetDirectory + "\" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg",
+      Arguments = "pack --output \"" + targetDirectory + "\" -p:IncludeSymbols=true -p:SymbolPackageFormat=symbols.nupkg",
       WorkingDirectory = targetDirectory
     });
   }

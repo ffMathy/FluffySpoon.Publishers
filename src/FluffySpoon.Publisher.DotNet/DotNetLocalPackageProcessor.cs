@@ -77,10 +77,8 @@ class DotNetLocalPackageProcessor : ILocalPackageProcessor
 		var descriptionElement = GetDescriptionElement(projectFileXml);
 		descriptionElement.Value = repository.Summary ?? string.Empty;
 
-		using (var stream = File.OpenWrite(nugetPackage.ProjectFilePath))
-		{
-			projectFileXml.Save(stream);
-		}
+		using var stream = File.OpenWrite(nugetPackage.ProjectFilePath);
+		projectFileXml.Save(stream);
 	}
 
 	private async Task BumpProjectFileVersionAsync(

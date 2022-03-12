@@ -49,12 +49,10 @@ class NuGetSourceLinkDotNetLocalPackagePreprocessor : IDotNetLocalPackagePreproc
 		includeSymbolsProperty.Value = "true";
 
 		var symbolPackageFormatProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "SymbolPackageFormat");
-		symbolPackageFormatProperty.Value = "snupkg";
+		symbolPackageFormatProperty.Value = "symbols.nupkg";
 
-		using (var stream = File.OpenWrite(package.ProjectFilePath))
-		{
-			projectFileXml.Save(stream);
-		}
+		using var stream = File.OpenWrite(package.ProjectFilePath);
+		projectFileXml.Save(stream);
 	}
 
 	private void AddSourceLinkPackage(string targetDirectory)
