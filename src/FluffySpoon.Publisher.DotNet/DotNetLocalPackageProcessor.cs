@@ -71,7 +71,7 @@ class DotNetLocalPackageProcessor : ILocalPackageProcessor
 			repository,
 			projectFileXml);
 		
-		Console.WriteLine("Final project output: " + projectFileXml);
+		Console.WriteLine("Final project output:\n" + projectFileXml);
 
 		await using var stream = File.OpenWrite(nugetPackage.ProjectFilePath);
 		projectFileXml.Save(stream);
@@ -105,7 +105,7 @@ class DotNetLocalPackageProcessor : ILocalPackageProcessor
 		packageReadmeFileElement.Value = "README.md";
 
 		var readmeIncludeElement = _projectFileParser.CreateItemGroupElement(projectFileXml, "None");
-		readmeIncludeElement.SetAttributeValue("Include", "README.md");
+		readmeIncludeElement.SetAttributeValue("Include", "../../README.md");
 		readmeIncludeElement.SetAttributeValue("Pack", "true");
 		readmeIncludeElement.SetAttributeValue("PackagePath", "\\");
 	}
