@@ -43,7 +43,7 @@ static class NodeJsHelper
 		var basePath = Path.Combine(
 			Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
 			"nodejs");
-		var npmPath = Path.Combine(basePath, "npm.cmd");
+		var npmPath = Path.Combine(basePath, "npm");
 		return npmPath;
 	}
 }
