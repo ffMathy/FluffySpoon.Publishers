@@ -66,22 +66,18 @@ class DotNetLocalPackageProcessor : ILocalPackageProcessor
 		IRemoteSourceControlRepository repository)
 	{
 		var projectFileXml = XDocument.Load(nugetPackage.ProjectFilePath);
-		await BumpProjectFileVersionAsync(
+		await PrepareProjectFileForPushingAsync(
 			nugetPackage,
 			repository,
 			projectFileXml);
+		
+		Console.WriteLine("Final project output: " + projectFileXml);
 
-		var projectUrlElement = GetPackageProjectUrlElement(projectFileXml);
-		projectUrlElement.Value = repository.PublicUrl ?? string.Empty;
-
-		var descriptionElement = GetDescriptionElement(projectFileXml);
-		descriptionElement.Value = repository.Summary ?? string.Empty;
-
-		using var stream = File.OpenWrite(nugetPackage.ProjectFilePath);
+		await using var stream = File.OpenWrite(nugetPackage.ProjectFilePath);
 		projectFileXml.Save(stream);
 	}
 
-	private async Task BumpProjectFileVersionAsync(
+	private async Task PrepareProjectFileForPushingAsync(
 		ILocalPackage package,
 		IRemoteSourceControlRepository repository,
 		XDocument projectFileXml)
@@ -91,6 +87,8 @@ class DotNetLocalPackageProcessor : ILocalPackageProcessor
 		var revision = await system.GetRevisionOfRepository(repository);
 		Console.WriteLine("Updating project revision " + revision + " of project file for package " + package.PublishName);
 
+		var projectUrlElement = GetPackageProjectUrlElement(projectFileXml);
+		var descriptionElement = GetDescriptionElement(projectFileXml);
 		var versionElement = GetProjectFileVersionElement(projectFileXml);
 		var repositoryUrlElement = GetPackageRepositoryUrlElement(projectFileXml);
 		var repositoryTypeElement = GetPackageRepositoryTypeElement(projectFileXml);
@@ -99,6 +97,8 @@ class DotNetLocalPackageProcessor : ILocalPackageProcessor
 		if (!Version.TryParse(versionElement.Value, out Version? existingVersion))
 			existingVersion = new Version(1, 0, 0, 0);
 
+		projectUrlElement.Value = repository.PublicUrl ?? string.Empty;
+		descriptionElement.Value = repository.Summary ?? string.Empty;
 		versionElement.Value = package.Version = $"{existingVersion.Major}.{existingVersion.Minor+revision}.{existingVersion.Build}";
 		repositoryUrlElement.Value = repository.ContributeUrl;
 		repositoryTypeElement.Value = "git";
