@@ -26,7 +26,7 @@ static class DotNetHelper
   {
     CommandLineHelper.LaunchAndWait(new ProcessStartInfo("dotnet")
     {
-      Arguments = "pack --output \"" + targetDirectory + "\"",
+      Arguments = "pack --output \"" + targetDirectory + "\" -c Release --include-source --include-symbols",
       WorkingDirectory = targetDirectory
     });
   }
