@@ -25,9 +25,12 @@ class SolutionFileParser : ISolutionFileParser
 
       projects.Add(new SolutionFileProject()
       {
-        FilePath = Path.Combine(
-          Path.GetDirectoryName(solutionFile), 
-          match.Groups[2].Value),
+        FilePath = Path
+          .Combine(
+            Path.GetDirectoryName(solutionFile), 
+            match.Groups[2].Value)
+          .Replace('\\', Path.DirectorySeparatorChar)
+          .Replace('/', Path.DirectorySeparatorChar),
         Name = match.Groups[1].Value
       });
     }
