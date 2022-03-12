@@ -101,7 +101,7 @@ class DotNetLocalPackageProcessor : ILocalPackageProcessor
 
 		versionElement.Value = package.Version = $"{existingVersion.Major}.{existingVersion.Minor+revision}.{existingVersion.Build}";
 		repositoryUrlElement.Value = repository.ContributeUrl;
-		repositoryTypeElement.Value = "git";
+		// repositoryTypeElement.Value = "git";
 		packageReadmeFileElement.Value = "README.md";
 	}
 
