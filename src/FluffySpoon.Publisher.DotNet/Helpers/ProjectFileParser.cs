@@ -6,9 +6,23 @@ namespace FluffySpoon.Publisher.DotNet.Helpers;
 
 class ProjectFileParser : IProjectFileParser
 {
-	private static XElement CreateElement(XDocument projectFile, string name)
+	private static XElement CreatePropertyGroupElement(XDocument projectFile, string name)
 	{
 		var firstGroup = GetPropertyGroups(projectFile).First();
+		var element = new XElement(
+			XName.Get(
+				name,
+				projectFile
+					.Root
+					.GetDefaultNamespace()
+					.NamespaceName));
+		firstGroup.Add(element);
+		return element;
+	}
+	
+	public XElement CreateItemGroupElement(XDocument projectFile, string name)
+	{
+		var firstGroup = GetItemGroups(projectFile).First();
 		var element = new XElement(
 			XName.Get(
 				name,
@@ -22,69 +36,77 @@ class ProjectFileParser : IProjectFileParser
 
 	public XElement CreateVersionElement(XDocument projectFile)
 	{
-		return CreateElement(projectFile, "Version");
+		return CreatePropertyGroupElement(projectFile, "Version");
 	}
 
-	public XElement GetPackageProjectUrlElement(XDocument projectFile)
+	public XElement? GetPackageProjectUrlElement(XDocument projectFile)
 	{
-		return GetElement(projectFile, "PackageProjectUrl");
+		return GetPropertyGroupElement(projectFile, "PackageProjectUrl");
 	}
 
 	public XElement CreatePackageProjectUrlElement(XDocument projectFile)
 	{
-		return CreateElement(projectFile, "PackageProjectUrl");
+		return CreatePropertyGroupElement(projectFile, "PackageProjectUrl");
 	}
 
-	public XElement GetDescriptionElement(XDocument projectFile)
+	public XElement? GetDescriptionElement(XDocument projectFile)
 	{
-		return GetElement(projectFile, "Description");
+		return GetPropertyGroupElement(projectFile, "Description");
 	}
 
 	public XElement CreateDescriptionElement(XDocument projectFile)
 	{
-		return CreateElement(projectFile, "Description");
+		return CreatePropertyGroupElement(projectFile, "Description");
 	}
 
-	public XElement GetPackageRepositoryTypeElement(XDocument projectFile)
+	public XElement? GetPackageRepositoryTypeElement(XDocument projectFile)
 	{
-		return GetElement(projectFile, "RepositoryType");
+		return GetPropertyGroupElement(projectFile, "RepositoryType");
 	}
 
 	public XElement CreatePackageRepositoryTypeElement(XDocument projectFile)
 	{
-		return CreateElement(projectFile, "RepositoryType");
+		return CreatePropertyGroupElement(projectFile, "RepositoryType");
 	}
 
 	public XElement? GetPackageReadmeFileElement(XDocument projectFile)
 	{
-		return GetElement(projectFile, "PackageReadmeFile");
+		return GetPropertyGroupElement(projectFile, "PackageReadmeFile");
 	}
 
 	public XElement CreatePackageReadmeFileElement(XDocument projectFile)
 	{
-		return CreateElement(projectFile, "PackageReadmeFile");
+		return CreatePropertyGroupElement(projectFile, "PackageReadmeFile");
 	}
 
-	public XElement GetPackageRepositoryUrlElement(XDocument projectFile)
+	public XElement? GetPackageRepositoryUrlElement(XDocument projectFile)
 	{
-		return GetElement(projectFile, "RepositoryUrl");
+		return GetPropertyGroupElement(projectFile, "RepositoryUrl");
 	}
 
 	public XElement CreatePackageRepositoryUrlElement(XDocument projectFile)
 	{
-		return CreateElement(projectFile, "RepositoryUrl");
+		return CreatePropertyGroupElement(projectFile, "RepositoryUrl");
 	}
 
-	private static XElement GetElement(XDocument projectFile, string name)
+	private static XElement? GetPropertyGroupElement(XDocument projectFile, string name)
 	{
 		return GetPropertyGroups(projectFile)
 			.SelectMany(x => x.Elements())
 			.SingleOrDefault(x => x.Name.LocalName == name);
 	}
 
-	public XElement GetVersionElement(XDocument projectFile)
+	public XElement? GetVersionElement(XDocument projectFile)
 	{
-		return GetElement(projectFile, "Version");
+		return GetPropertyGroupElement(projectFile, "Version");
+	}
+
+	private static IEnumerable<XElement> GetItemGroups(XDocument projectFile)
+	{
+		return projectFile
+			.Root
+			.Elements()
+			.Where(x => x.Name.LocalName == "ItemGroup");
 	}
 
 	private static IEnumerable<XElement> GetPropertyGroups(XDocument projectFile)
@@ -95,9 +117,9 @@ class ProjectFileParser : IProjectFileParser
 			.Where(x => x.Name.LocalName == "PropertyGroup");
 	}
 
-	public XElement GetOrCreateElement(XDocument projectFile, string property)
+	public XElement GetOrCreatePropertyGroupElement(XDocument projectFile, string property)
 	{
-		return GetElement(projectFile, property) ??
-		       CreateElement(projectFile, property);
+		return GetPropertyGroupElement(projectFile, property) ??
+		       CreatePropertyGroupElement(projectFile, property);
 	}
 }

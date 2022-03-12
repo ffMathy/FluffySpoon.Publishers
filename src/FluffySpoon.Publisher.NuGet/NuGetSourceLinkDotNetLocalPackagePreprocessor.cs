@@ -39,16 +39,16 @@ class NuGetSourceLinkDotNetLocalPackagePreprocessor : IDotNetLocalPackagePreproc
 	{
 		var projectFileXml = XDocument.Load(package.ProjectFilePath);
 
-		var publishRepositoryUrlProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "PublishRepositoryUrl");
+		var publishRepositoryUrlProperty = _projectFileParser.GetOrCreatePropertyGroupElement(projectFileXml, "PublishRepositoryUrl");
 		publishRepositoryUrlProperty.Value = "true";
 
-		var embedUntrackedSourcesProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "EmbedUntrackedSources");
+		var embedUntrackedSourcesProperty = _projectFileParser.GetOrCreatePropertyGroupElement(projectFileXml, "EmbedUntrackedSources");
 		embedUntrackedSourcesProperty.Value = "true";
 
-		var includeSymbolsProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "IncludeSymbols");
+		var includeSymbolsProperty = _projectFileParser.GetOrCreatePropertyGroupElement(projectFileXml, "IncludeSymbols");
 		includeSymbolsProperty.Value = "true";
 
-		var symbolPackageFormatProperty = _projectFileParser.GetOrCreateElement(projectFileXml, "SymbolPackageFormat");
+		var symbolPackageFormatProperty = _projectFileParser.GetOrCreatePropertyGroupElement(projectFileXml, "SymbolPackageFormat");
 		symbolPackageFormatProperty.Value = "symbols.nupkg";
 
 		using var stream = File.OpenWrite(package.ProjectFilePath);

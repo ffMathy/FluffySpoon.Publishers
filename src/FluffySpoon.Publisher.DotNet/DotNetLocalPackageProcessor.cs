@@ -101,8 +101,13 @@ class DotNetLocalPackageProcessor : ILocalPackageProcessor
 
 		versionElement.Value = package.Version = $"{existingVersion.Major}.{existingVersion.Minor+revision}.{existingVersion.Build}";
 		repositoryUrlElement.Value = repository.ContributeUrl;
-		// repositoryTypeElement.Value = "git";
+		repositoryTypeElement.Value = "git";
 		packageReadmeFileElement.Value = "README.md";
+
+		var readmeIncludeElement = _projectFileParser.CreateItemGroupElement(projectFileXml, "None");
+		readmeIncludeElement.SetAttributeValue("Include", "README.md");
+		readmeIncludeElement.SetAttributeValue("Pack", "true");
+		readmeIncludeElement.SetAttributeValue("PackagePath", "\\");
 	}
 
 	private XElement GetDescriptionElement(XDocument projectFileXml)
