@@ -56,9 +56,13 @@ class NuGetRemotePackageSystem : IRemotePackageSystem
             basePath + ".nupkg",
             _nuGetSettings.ApiKey);
 
-        await NuGetHelper.PublishAsync(
-            basePath + ".symbols.nupkg",
-            _nuGetSettings.ApiKey);
+        var symbolsPackagePath = basePath + ".symbols.nupkg";
+        if (File.Exists(symbolsPackagePath))
+        {
+            await NuGetHelper.PublishAsync(
+                symbolsPackagePath,
+                _nuGetSettings.ApiKey);
+        }
 
         package.PublishUrl = $"https://www.nuget.org/packages/{package.PublishName}/{package.Version}";
     }
