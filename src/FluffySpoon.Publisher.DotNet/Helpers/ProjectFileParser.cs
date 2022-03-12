@@ -55,6 +55,16 @@ class ProjectFileParser : IProjectFileParser
 		return CreateElement(projectFile, "RepositoryType");
 	}
 
+	public XElement? GetPackageReadmeFileElement(XDocument projectFile)
+	{
+		return GetElement(projectFile, "PackageReadmeFile");
+	}
+
+	public XElement CreatePackageReadmeFileElement(XDocument projectFile)
+	{
+		return CreateElement(projectFile, "PackageReadmeFile");
+	}
+
 	public XElement GetPackageRepositoryUrlElement(XDocument projectFile)
 	{
 		return GetElement(projectFile, "RepositoryUrl");

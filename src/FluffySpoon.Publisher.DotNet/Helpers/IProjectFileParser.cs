@@ -18,6 +18,9 @@ public interface IProjectFileParser
 
 	XElement? GetPackageRepositoryTypeElement(XDocument projectFile);
 	XElement CreatePackageRepositoryTypeElement(XDocument projectFile);
+	
+	XElement? GetPackageReadmeFileElement(XDocument projectFile);
+	XElement CreatePackageReadmeFileElement(XDocument projectFile);
 
 	XElement GetOrCreateElement(XDocument projectFile, string property);
 }

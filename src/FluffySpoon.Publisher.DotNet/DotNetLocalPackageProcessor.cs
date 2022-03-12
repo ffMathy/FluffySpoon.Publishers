@@ -94,12 +94,15 @@ class DotNetLocalPackageProcessor : ILocalPackageProcessor
 		var versionElement = GetProjectFileVersionElement(projectFileXml);
 		var repositoryUrlElement = GetPackageRepositoryUrlElement(projectFileXml);
 		var repositoryTypeElement = GetPackageRepositoryTypeElement(projectFileXml);
+		var packageReadmeFileElement = GetPackageReadmeFileElement(projectFileXml);
 
-		if (!Version.TryParse(versionElement.Value, out Version existingVersion))
+		if (!Version.TryParse(versionElement.Value, out Version? existingVersion))
 			existingVersion = new Version(1, 0, 0, 0);
 
 		versionElement.Value = package.Version = $"{existingVersion.Major}.{existingVersion.Minor+revision}.{existingVersion.Build}";
 		repositoryUrlElement.Value = repository.ContributeUrl;
+		repositoryTypeElement.Value = "git";
+		packageReadmeFileElement.Value = "README.md";
 	}
 
 	private XElement GetDescriptionElement(XDocument projectFileXml)
@@ -124,6 +127,12 @@ class DotNetLocalPackageProcessor : ILocalPackageProcessor
 	{
 		return _projectFileParser.GetPackageRepositoryTypeElement(projectFileXml) ??
 		       _projectFileParser.CreatePackageRepositoryTypeElement(projectFileXml);
+	}
+
+	private XElement GetPackageReadmeFileElement(XDocument projectFileXml)
+	{
+		return _projectFileParser.GetPackageReadmeFileElement(projectFileXml) ??
+		       _projectFileParser.CreatePackageReadmeFileElement(projectFileXml);
 	}
 
 	private XElement GetProjectFileVersionElement(XDocument projectFileXml)
