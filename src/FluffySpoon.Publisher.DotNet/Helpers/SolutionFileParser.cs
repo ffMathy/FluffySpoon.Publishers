@@ -21,16 +21,20 @@ class SolutionFileParser : ISolutionFileParser
       if (match.Groups.Count < 3)
         continue;
       
+      var filePath = Path
+        .Combine(
+          Path.GetDirectoryName(solutionFile), 
+          match.Groups[2].Value)
+        .Replace('\\', Path.DirectorySeparatorChar)
+        .Replace('/', Path.DirectorySeparatorChar);
+      if (!filePath.EndsWith(".csproj"))
+        continue;
+      
       Console.WriteLine("Found project: " + line);
 
       projects.Add(new SolutionFileProject()
       {
-        FilePath = Path
-          .Combine(
-            Path.GetDirectoryName(solutionFile), 
-            match.Groups[2].Value)
-          .Replace('\\', Path.DirectorySeparatorChar)
-          .Replace('/', Path.DirectorySeparatorChar),
+        FilePath = filePath,
         Name = match.Groups[1].Value
       });
     }
