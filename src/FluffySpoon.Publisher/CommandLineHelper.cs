@@ -13,16 +13,19 @@ public static class CommandLineHelper
 		Console.WriteLine("Executing: " + startInformation.FileName + " " + startInformation.Arguments);
 		
 		using var process = Process.Start(startInformation);
-		process?.WaitForExit();
+		if (process == null)
+			throw new InvalidOperationException("Could not get process.");
+		
+		process.WaitForExit();
 
-		if(process?.ExitCode != 0)
-			throw new CommandLineException("An external tool (" + startInformation.FileName + ") returned a non-zero exit code: " + process?.ExitCode);
+		if(process.ExitCode != 0)
+			throw new CommandLineException("An external tool (" + startInformation.FileName + ") returned a non-zero exit code: " + process.ExitCode);
 
-		var standardOutput = process?.StandardOutput.ReadToEnd();
+		var standardOutput = process.StandardOutput.ReadToEnd();
 		if(!string.IsNullOrWhiteSpace(standardOutput))
 			Console.WriteLine(standardOutput);
 
-		var standardError = process?.StandardError.ReadToEnd();
+		var standardError = process.StandardError.ReadToEnd();
 		if(!string.IsNullOrWhiteSpace(standardError))
 			Console.WriteLine(standardError);
 	}
