@@ -48,17 +48,16 @@ class NuGetRemotePackageSystem : IRemotePackageSystem
     {
         Console.WriteLine("Upserting package " + package.PublishName + " version " + package.Version + " to remote package repository.");
 
-        var packageFile = new FileInfo(
-            Path.Combine(
-                package.FolderPath,
-                package.PublishName + "." + package.Version + ".nupkg"));
-        if (!packageFile.Exists)
-        {
-            throw new InvalidOperationException("Can't find compiled package at " + packageFile);
-        }
+        var basePath = Path.Combine(
+            package.FolderPath,
+            package.PublishName + "." + package.Version);
+        
+        await NuGetHelper.PublishAsync(
+            basePath + ".nupkg",
+            _nuGetSettings.ApiKey);
 
         await NuGetHelper.PublishAsync(
-            packageFile.FullName, 
+            basePath + ".symbols.nupkg",
             _nuGetSettings.ApiKey);
 
         package.PublishUrl = $"https://www.nuget.org/packages/{package.PublishName}/{package.Version}";
