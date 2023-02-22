@@ -13,10 +13,6 @@ jobs:
     timeout-minutes: 30
 
     steps:
-    - uses: n1hility/cancel-previous-runs@178b93a12fb2731212e48c2cc5b7e37b937fd339
-      with: 
-        token: ${{ secrets.GITHUB_TOKEN }}
-        
     - uses: actions/checkout@v2
     
     - name: Setup .NET
