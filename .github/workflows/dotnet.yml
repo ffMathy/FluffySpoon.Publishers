@@ -27,6 +27,10 @@ jobs:
         NuGetKey: ${{ secrets.NuGetKey }}
         NpmAuthToken: ${{ secrets.NpmAuthToken }}
         GitHubPersonalAccessToken: ${{ secrets.GitHubPersonalAccessToken }}
+        
+        # specific to some projects
+        NgrokOptions__AuthToken: ${{ secrets.NgrokOptionsAuthToken }}
+        
       run: |
         cd src
         dotnet restore
