@@ -18,9 +18,6 @@ public static class CommandLineHelper
 		
 		process.WaitForExit();
 
-		if(process.ExitCode != 0)
-			throw new CommandLineException("An external tool (" + startInformation.FileName + ") returned a non-zero exit code: " + process.ExitCode);
-
 		var standardOutput = process.StandardOutput.ReadToEnd();
 		if(!string.IsNullOrWhiteSpace(standardOutput))
 			Console.WriteLine(standardOutput);
@@ -28,5 +25,8 @@ public static class CommandLineHelper
 		var standardError = process.StandardError.ReadToEnd();
 		if(!string.IsNullOrWhiteSpace(standardError))
 			Console.WriteLine(standardError);
+
+		if(process.ExitCode != 0)
+			throw new CommandLineException("An external tool (" + startInformation.FileName + ") returned a non-zero exit code: " + process.ExitCode);
 	}
 }
