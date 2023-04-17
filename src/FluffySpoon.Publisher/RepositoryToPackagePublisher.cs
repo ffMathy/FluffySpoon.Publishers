@@ -46,7 +46,7 @@ class RepositoryToPackagePublisher : IRepositoryToPackagePublisher
 		}
 		catch (Exception ex)
 		{
-			await Console.Error.WriteLineAsync(ex.ToString());
+			Console.Error.WriteLine(ex.ToString());
 		}
 	}
 
@@ -107,12 +107,14 @@ class RepositoryToPackagePublisher : IRepositoryToPackagePublisher
 		string folderPath)
 	{
 		var packages = await processor.ScanForPackagesInDirectoryAsync(folderPath);
-		var packageTasks = packages.Select(package =>
+		foreach (var package in packages)
 		{
 			Console.WriteLine("Refreshing package " + package.PublishName);
-			return RefreshPackageAsync(package, repository);
-		});
-		await Task.WhenAll(packageTasks);
+
+			await RefreshPackageAsync(
+				package,
+				repository);
+		}
 	}
 
 	private async Task RefreshPackageAsync(
