@@ -1,0 +1,16 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 30
+  ignore:
+  - dependency-name: Octokit
+    versions:
+    - 0.48.0
+    - 0.49.0
+  - dependency-name: newtonsoft.json
+    versions:
+    - 12.0.3
