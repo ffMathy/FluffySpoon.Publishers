@@ -10,7 +10,7 @@ public static class CommandLineHelper
 		startInformation.RedirectStandardError = true;
 		startInformation.RedirectStandardOutput = true;
 		
-		Console.WriteLine("Executing: " + startInformation.FileName + " " + startInformation.Arguments);
+		Console.WriteLine("Executing: " + startInformation.FileName + " " + startInformation.Arguments + " from working directory " + Environment.CurrentDirectory);
 		
 		using var process = Process.Start(startInformation);
 		if (process == null)
