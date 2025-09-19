@@ -54,3 +54,4 @@ jobs:
         dotnet build
         cd FluffySpoon.Publisher.Sample
         dotnet run
+
